@@ -1,0 +1,7 @@
+from django.db import models
+
+class Institution(Alternative):
+    display_name = models.charField
+    complete_name = models.charField
+
+class Compagny(Institution):
