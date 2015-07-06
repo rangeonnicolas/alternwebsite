@@ -1,7 +1,8 @@
 from django.db import models
 
 class Institution(Alternative):
-    display_name = models.charField
-    complete_name = models.charField
+    display_name = models.CharField(max_length= 100)
+    complete_name = models.CharField(max_length= 200)
+    #website
 
 class Compagny(Institution):
