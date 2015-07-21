@@ -1,5 +1,5 @@
 __author__ = 'developpeur'
 
 
-class Alternative:
+class Alternative(Object):
     pass
