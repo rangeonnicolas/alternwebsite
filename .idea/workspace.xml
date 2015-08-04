@@ -2,42 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a2a0b0-6a52-4517-bd36-a67ce5c0cfea" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/.Rhistory" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-light-italic-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-light-italic-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-light-italic-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-semibold-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-semibold-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-semibold-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/img/mfg_logo_r.jpg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/mfglabsiconset-webfont.eot" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/mfglabsiconset-webfont.ttf" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/mfglabsiconset-webfont.woff" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/img/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/README.md" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/dessin.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-light-italic-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-semibold-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/gibson-webfont.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/sauv/hand_index (copie).svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/hand_index.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/sauv/hand_thumb (copie).svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/hand_thumb.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/hand_thumbdown.svg" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/index.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/licenses.txt" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/css/main.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/templates/maquette.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfg.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/mfglabs-iconset-master/css/mfglabs_iconset.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/maquette/static/maquette/th/font/mfglabsiconset-webfont.svg" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/home.html" afterPath="$PROJECT_DIR$/templates/home.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/altws/settings.py" afterPath="$PROJECT_DIR$/altws/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/altws/urls.py" afterPath="$PROJECT_DIR$/altws/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/altws/views.py" afterPath="$PROJECT_DIR$/altws/views.py" />
     </list>
     <ignored path="altws.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -76,8 +42,18 @@
       <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/altws/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.5" vertical-offset="394" max-vertical-offset="1440">
-              <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
+            <state vertical-scroll-proportion="-8.90625" vertical-offset="0" max-vertical-offset="1440">
+              <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="home.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.20477815" vertical-offset="0" max-vertical-offset="586">
+              <caret line="8" column="95" selection-start-line="8" selection-start-column="95" selection-end-line="8" selection-end-column="95" />
               <folding />
             </state>
           </provider>
@@ -93,10 +69,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="maquette.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="maquette.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/maquette.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33271718" vertical-offset="4380" max-vertical-offset="7125">
+            <state vertical-scroll-proportion="-3.2142856" vertical-offset="4380" max-vertical-offset="7125">
               <caret line="304" column="147" selection-start-line="304" selection-start-column="147" selection-end-line="304" selection-end-column="147" />
               <folding>
                 <element signature="n#style#0;n#h2#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -137,15 +113,16 @@
       <list>
         <option value="$PROJECT_DIR$/altws/views.py" />
         <option value="$PROJECT_DIR$/altws/urls.py" />
-        <option value="$PROJECT_DIR$/altws/settings.py" />
         <option value="$PROJECT_DIR$/templates/maquette.html" />
+        <option value="$PROJECT_DIR$/altws/settings.py" />
+        <option value="$PROJECT_DIR$/templates/home.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="41" />
     <option name="y" value="39" />
-    <option name="width" value="1236" />
+    <option name="width" value="1144" />
     <option name="height" value="729" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -214,84 +191,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="th" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="altws" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="static" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="maquette" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="th" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="font" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -464,7 +363,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="41" y="39" width="1236" height="729" extended-state="4" />
+    <frame x="41" y="39" width="1144" height="729" extended-state="4" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -472,7 +371,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19917695" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21549422" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -527,17 +426,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/altws/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.5" vertical-offset="394" max-vertical-offset="1440">
-          <caret line="38" column="26" selection-start-line="38" selection-start-column="26" selection-end-line="38" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/maquette.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33271718" vertical-offset="4380" max-vertical-offset="7125">
+        <state vertical-scroll-proportion="-3.2142856" vertical-offset="4380" max-vertical-offset="7125">
           <caret line="304" column="147" selection-start-line="304" selection-start-column="147" selection-end-line="304" selection-end-column="147" />
           <folding>
             <element signature="n#style#0;n#h2#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -564,6 +455,22 @@
             <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#li#0;n#ul#0;n#section#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#3;n#li#0;n#ul#0;n#section#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/altws/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-8.90625" vertical-offset="0" max-vertical-offset="1440">
+          <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20477815" vertical-offset="0" max-vertical-offset="586">
+          <caret line="8" column="95" selection-start-line="8" selection-start-column="95" selection-end-line="8" selection-end-column="95" />
+          <folding />
         </state>
       </provider>
     </entry>
