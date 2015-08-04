@@ -1,1 +1,5 @@
-__author__ = 'developpeur'
+from django.shortcuts import render
+
+def home(request):
+
+    return render(request, 'home.html', locals())

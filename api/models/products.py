@@ -24,3 +24,4 @@ class BiensDeConsommation(Product):
     pass
 
 class WebService(Product):
+    pass
