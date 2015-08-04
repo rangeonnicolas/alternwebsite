@@ -36,7 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api','api2'
+    'api','api2','maquette'
 )
 
 MIDDLEWARE_CLASSES = (
