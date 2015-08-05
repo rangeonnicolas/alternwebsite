@@ -24,7 +24,8 @@ body {
 	/*font-family: "Courier New", Courier, "Liberation Mono", monospace;*/
 	/*font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;*/
 
-	font-size: 0.9em;
+	font-size: 0
+	0.9em;
 	background-color: #F8F8F8;
 	color: #878787; 
 	margin: 0;
@@ -34,10 +35,28 @@ body {
 {
     body
     {
-        color: red;
-        background-color: black;
         font-size: 1em;
     }
+}
+
+header {
+    background-color: white;
+    border-bottom: solid 1px #f0f0f0;
+    font-size:2em;
+    padding:10px;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:2;
+}
+.temp1 {
+    color: #b2393f;
+}
+.temp2 {
+	color: #323f7b;
+}
+.temp3 {
+	color: #39942F;
 }
 
 h1, h2 {
