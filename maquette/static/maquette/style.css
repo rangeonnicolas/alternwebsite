@@ -30,6 +30,16 @@ body {
 	margin: 0;
 }
 
+@media handheld
+{
+    body
+    {
+        color: red;
+        background-color: black;
+        font-size: 1em;
+    }
+}
+
 h1, h2 {
 	#font-family: "Myriad Pro";
 }

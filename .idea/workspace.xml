@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e1a2a0b0-6a52-4517-bd36-a67ce5c0cfea" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/maquette.html" afterPath="$PROJECT_DIR$/templates/maquette.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/maquette/static/maquette/style.css" afterPath="$PROJECT_DIR$/maquette/static/maquette/style.css" />
     </list>
     <ignored path="altws.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,10 +68,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="maquette.html" pinned="false" current-in-tab="true">
+      <file leaf-file-name="maquette.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/maquette.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.05050505" vertical-offset="0" max-vertical-offset="7140">
+            <state vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="7140">
               <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#h2#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -103,6 +102,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/maquette/static/maquette/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.30903327" vertical-offset="225" max-vertical-offset="6330">
+              <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="Git.Settings">
@@ -116,6 +125,7 @@
         <option value="$PROJECT_DIR$/templates/home.html" />
         <option value="$PROJECT_DIR$/altws/settings.py" />
         <option value="$PROJECT_DIR$/templates/maquette.html" />
+        <option value="$PROJECT_DIR$/maquette/static/maquette/style.css" />
       </list>
     </option>
   </component>
@@ -504,7 +514,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/maquette.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.05050505" vertical-offset="0" max-vertical-offset="7140">
+        <state vertical-scroll-proportion="-1.25" vertical-offset="0" max-vertical-offset="7140">
           <caret line="2" column="6" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
           <folding>
             <element signature="n#style#0;n#h2#0;n#section#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -531,6 +541,14 @@
             <element signature="n#style#0;n#div#0;n#div#1;n#div#3;n#li#0;n#ul#0;n#section#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#div#0;n#div#1;n#div#3;n#li#0;n#ul#0;n#section#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/maquette/static/maquette/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30903327" vertical-offset="225" max-vertical-offset="6330">
+          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
+          <folding />
         </state>
       </provider>
     </entry>
