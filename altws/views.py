@@ -35,9 +35,9 @@ def home(request):
             try:
                smtpObj = smtplib.SMTP('localhost')
                smtpObj.sendmail(sender, receivers, message)
-               print "Successfully sent email"
+               print("Successfully sent email")
             except smtplib.SMTPException:
-               print "Error: unable to send email"
+               print("Error: unable to send email")
 
 
 
