@@ -27,7 +27,7 @@ def home(request):
             sender = 'ubuntu@openalternativa.com'
             receivers = ['nicapps23@gmail.com']
 
-            
+
             message = """
             il est tres exactement :
             """ + str(datetime.datetime.now())
