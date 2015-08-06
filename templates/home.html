@@ -3,9 +3,24 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>OpenAlternativa</title>
+    {% load staticfiles %}
+    <link href="{% static "maquette/style.css" %}" rel="stylesheet" type="text/css">
 </head>
 <body>
     <h1>OpenAlternativa</h1>
 Bientôt, ce site va carrément envoyer du rêve. Bon, mais pas encore maintenant... Mais bientôt!
+
+
+
+
+    {% if ok %}That's done! Thank you!{% endif %}
+
+    <form action="{% url "altws.views.home" %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+
+
 </body>
 </html>
