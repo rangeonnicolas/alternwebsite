@@ -59,6 +59,10 @@ header {
 	color: #39942F;
 }
 
+p {
+    text-align: justify;
+    line-height: 1.4em;
+}
 
 h1, h2 {
 	#font-family: "Myriad Pro";
@@ -447,10 +451,10 @@ label:hover{
 
 
 
-#id_email__ {
-    background-color:red;
-}
-label[for=id_email__]
+
+label[for=id_email]
 {
-   background-color:blue;
+   background-color:white;
+   color:inherit;
+   border:none;
 }

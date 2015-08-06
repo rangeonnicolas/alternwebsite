@@ -7,19 +7,54 @@
     <link href="{% static "maquette/style.css" %}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>OpenAlternativa</h1>
-Bientôt, ce site va carrément envoyer du rêve. Bon, mais pas encore maintenant... Mais bientôt!
+
+        <header>
+            <img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt="" style="width:1em;;height:1em;z-index:1;left:0em;top:0em;opacity:0.7;vertical-align:middle;position:relative"></img>
+            <span style="vertical-align:top"><span class="temp1">Open</span><span class="temp2">A</span><span class="temp2">lternativ</span><span class="temp3">a.!</span>
+            </span>
 
 
+        </header>
+
+        <div class="content" style='position:absolute;top:3em;width:100%'>
+            <section class="contentSection">
+				<h2 style="margin:20px">OpenAlternativa</h2>
+                <div class="mainImpact softBox colorOnHover">
+
+                        <p>OpenAlternativa is a collaborative database of consumption alternatives.
+                            As we all know, consumption habit can have som impacts on Climate, Health, Working conditions, etc.
+                            Get (or post) pieces of information about these impacts, and find (or add) alternatives to
+                            your way of consuming!
+                            Each information in this database may be linked to an information source (investigative journalism, scientific papers,
+                            newspapers, etc.)
+                        </p>
+
+                        <p>OpenAlternativa will be available soon. If you are interested in the project, and/or if you want to
+                            contribute to it, please enter your email here!
+                        </p>
+
+                        <div style="border: solid 1px; padding:10px; border-radius:3px">
+
+                            {% if ok %}<p>That's done! Thank you!</p>
+                            {% else %}
+                            <form action="{% url "altws.views.home" %}" method="post">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <input type="submit" value="Submit" />
+                            </form>
+
+                        {% endif %}
+
+                        </div>
+
+                        <p>Bientôt, ce site va carrément envoyer du rêve. Bon, mais pas encore maintenant... Mais bientôt!
+</p>
+                </div>
+            </section>
+
+        </div>
 
 
-    {% if ok %}That's done! Thank you!{% endif %}
-
-    <form action="{% url "altws.views.home" %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>
 
 
 </body>
