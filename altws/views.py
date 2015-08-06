@@ -28,9 +28,7 @@ def home(request):
             receivers = ['nicapps23@gmail.com']
 
 
-            message = """
-            il est tres exactement :
-            """ + str(datetime.datetime.now())
+            message = "[00001] Nouveau mail: " + form.cleaned_data['email'] + " " + str(datetime.datetime.now())
 
             try:
                smtpObj = smtplib.SMTP('localhost')
