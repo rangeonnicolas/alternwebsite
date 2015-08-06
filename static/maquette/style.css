@@ -1,0 +1,435 @@
+/*
+http://paletton.com/#uid=72N150klNmG63T1exvbtWd5Jn3k
+http://paletton.com/#uid=72N0X0klNmG63T1exvbtWd5Jn3k
+http://paletton.com/#uid=72N1T0klNmG63T1exvbtWd5Jn3k
+*/
+
+body {
+	/*font-family:    "Trebuchet MS",Helvetica,Arial,sans-serif; */
+	font-family: Georgia, "DejaVu Serif", Norasi, serif;
+
+	/* polices a empattements */
+	/*font-family: "Times New Roman", Times, "Liberation Serif", FreeSerif, serif;*/
+	/*font-family: Georgia, "DejaVu Serif", Norasi, serif;*/
+
+	/* polices SANS empattement */
+	/*font-family: Arial, Helvetica, "Liberation Sans", FreeSans, sans-serif;*/
+	/*font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;*/
+	/*font-family: "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", "Luxi Sans", sans-serif;*/
+	/*font-family: Tahoma, Geneva, Kalimati, sans-serif;*/
+	/*font-family: Verdana, "DejaVu Sans", "Bitstream Vera Sans", Geneva, sans-serif;*/
+	/*font-family: Impact, "Arial Black", sans-serif;*/
+
+	/* chasse fixe*/
+	/*font-family: "Courier New", Courier, "Liberation Mono", monospace;*/
+	/*font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;*/
+
+	font-size: 0
+	0.9em;
+	background-color: #F8F8F8;
+	color: #878787; 
+	margin: 0;
+}
+
+@media handheld
+{
+    body
+    {
+        font-size: 1em;
+    }
+}
+
+header {
+    background-color: white;
+    border-bottom: solid 1px #f0f0f0;
+    font-size:2em;
+    padding:10px;
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:2;
+}
+.temp1 {
+    color: #b2393f;
+}
+.temp2 {
+	color: #323f7b;
+}
+.temp3 {
+	color: #39942F;
+}
+
+h1, h2 {
+	#font-family: "Myriad Pro";
+}
+
+/*table {
+	border-collapse: collapse;
+} 
+
+td {
+	margin:0;
+	padding:0;
+	font-size: inherit;
+	#border: 1px solid red;
+}*/
+
+difv {
+	border: solid 1px;
+	margin:-1px;
+	border-color: yellow;
+}
+
+.wordWrap {
+	word-wrap: break-word;
+}
+
+
+.buttons {
+	display: none;
+	position:absolute;
+	top:0px;
+	right:0px;
+	margin:0.5em;
+	text-align:right;
+}
+.colorOnHoverContainer:hover .buttons {
+	display:inherit;
+}
+
+.buttonsAlternative {
+	display: none;
+	position:absolute;
+	right:0px;
+	margin-right:7px;
+}
+.alternative:hover .buttonsAlternative {
+	display:inline-block;
+}
+
+.contentSection {
+	margin:20px auto 20px auto;
+	width:80%;
+	min-width: 400px;
+	background-color: white;
+   	padding: 15px; 
+	#box-shadow: 2px 2px 2px #021600; 
+	border: solid 1px;
+	border-color: #ECECEC;
+}
+
+.box { 
+	border: solid 1px;
+	border-radius: 7px;
+	padding: 7px;
+	margin: 7px;
+}
+
+.softBox { 
+	border: solid 0px;
+	border-top-width: 1px;
+	border-bottom-width: 1px;
+	padding: 7px;
+	margin: -1px;
+}
+
+.impactVia {
+	display:inline;	
+}
+
+.colorOnHoverContainer {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 0.5em 1em;
+	margin-left: 1px;
+	margin-right:  1px;
+}
+
+.colorOnHoverContainer:hover {
+	background-color: #F8F8F8;
+	color: rgba(128,128,128,1);
+	#border-radius:3px;
+	border-color: #ececec;
+	border-left:solid 1px #ececec; 
+	border-right:solid 1px #ececec;
+}
+
+.colorOnHover:hover tr{
+	#color: white;
+}
+
+.colorOnHover:hover {
+	#border-color:black;
+}
+
+/*.discreteContent {
+	color:  rgba(0,0,0,0);
+	border-color: inherit;
+}
+.discreteContent:hover {
+	color: inherit;
+}*/
+
+
+.inlineBlockMiddle  {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.inlineBlockTop  {
+	display: inline-block;
+	vertical-align: top;
+}
+
+.inlineMiddle  {
+	display: inline;
+	vertical-align: middle;
+}
+
+.inlineTop  {
+	display: inline;
+	vertical-align: top;
+}
+
+.alternative {
+	border-style: solid;
+	border-width: 1px 2px;
+	padding: 0px 7px;
+	margin-bottom: -1px;
+	margin-left: 2px;
+	#margin-right: 1em;
+	position:relative;
+	width:auto;
+	border-color: #E0E0E0;
+}
+.alternative:hover {
+	background-color: #f0f0f0;
+	border-color: rgba(128,128,128,1);
+	z-index: 30;
+}
+
+.mainImpact, .alternativeToMainImpact, .specificImpact {
+}
+
+.alternativeToMainImpact {
+	position:relative;
+	border-color: #E0E0E0;
+}
+
+.alternativeToMainImpact:hover {
+	border-color: rgba(128,128,128,1);
+}
+
+.mainImpact, .specificImpact{
+	height: auto;
+	padding: 0;
+	overflow: hidden;
+	vertical-align: top;
+	margin-right: 1.5em;
+	margin-left: 1.5em; 
+}
+/*.mainImpact:hover, .specificImpact:hover{
+	height: auto;
+}
+*/
+.mainImpactContent, .alternativeToMainImpactContent, .specificImpactContent {
+	display: inline-block;
+	min-width: 400px;
+}
+
+
+
+/*.respMinWidth {
+	#min-width: auto;
+	#width: auto;
+	display: inline;
+	vertical-align: top;
+}
+*/
+
+
+/*.alternativeToMainImpact{
+	overflow: hidden;
+	padding: 0px;
+	margin: 0px;
+	display: inline-block;
+}*/
+/*.alternativeToMainImpact{
+	overflow: hidden;
+	height: 0px;
+	padding: 0px;
+	margin: 0px;
+}*/
+.mainImpact:hover .alternativeToMainImpact{
+	height:auto;
+	margin: 7px;
+}
+
+.impact{}
+.impactContestation {
+	margin-left: 50px;
+}
+
+
+
+.medaillon.color1 {
+	background-color: #B2393F;
+	border-color: #66070B;	
+}
+
+.medaillonWithText {
+	font-family: "Myriad Pro";
+	#font-family: Georgia, "DejaVu Serif", Norasi, serif;
+	font-weight: bold;
+	font-size: 2em;
+	text-align: center;
+	line-height: 1em;
+	#text-shadow: 1px 1px #000000;
+}
+
+.puce {
+	margin-top: 0.5em;
+}
+
+/*.plusOrMinus {
+	#vertical-align: top; 
+	#display: inline-block;
+}*/
+
+/*.plusOrMinus .ttop{
+	font-size:0.6em; 
+	line-height: 1.1em;
+}
+.plusOrMinus .tbottom{
+	font-size:1.2em; 
+	line-height: 1.2em;
+}*/
+
+/*	.plus {
+		background-color: #B2393F;
+		border-color: #66070B;
+		#box-shadow: 2px 2px 2px #66070B ;
+	}
+
+	.minus {
+		background-color: #323F7B;
+		border-color: #0D1747;
+		#box-shadow: 2px 2px 2px #0D1747 ;
+	}
+*/
+
+.medaillon {
+	#height: 1em;
+	#width: 1em;	
+	#color: white;
+	#border-radius: 7px;
+	#border: solid 1px;
+	margin-top: -8px; /* la bordure doit etre confondue avec la bordure de l'élément parent*/
+	margin-left: -8px;
+}
+
+.logoAlternative {
+	font-size: 2em;
+	vertical-align: top; 
+	display: inline-block;
+	font-weight: bold;
+	#color: white;
+	height: 1.5em;
+	width: 1.5em;
+	text-align: center;
+	#background-color: purple;
+	opacity:0.5;
+	padding: 0.4em;
+}
+.alternativeToMainImpact:hover .logoAlternative {
+	opacity:0.8;
+}
+
+.logoAlternativeImage {
+	height: 100%;
+	width: 100%;
+}
+/*.logoAlternativeImage {
+	height: 3em;
+	width: 3em;
+	padding: 7px;
+	border-radius: 7px;
+	border: solid 1px;
+	vertical-align: top;
+}*/
+
+
+.logoPlusOrMinusImage {
+	height: 100%;
+	width: 100%;
+}
+
+.add {
+	font-family: "comic sans ms";
+	font-size: 3em;
+	color: white;
+	font-weight: bold;
+	height:1em;
+	width:1em;
+	border-radius:2em ;
+	text-align: center;
+	line-height: 1em;
+	background-color: black;
+}
+
+label {
+	border: solid 1px black;
+	opacity:0.9;
+	font-weight: bold;
+	color: white;
+	border-radius: 0.4em;
+	padding: 0px 0.2em  ;
+	font-family:    "Trebuchet MS",Helvetica,Arial,sans-serif;
+}
+label:hover{
+	opacity: 1;
+}
+
+	.smallLabel {
+		font-size: 1em;	
+	}
+
+		.year {
+			background-color: #39942F;
+			opacity:0.5;
+		}
+
+		.impactCateg {
+			background-color: #b2393f;
+		}
+
+		.uncertainSource {
+			background-color: #B5913A;
+			opacity:0.5;
+		}
+
+		.via {
+			background-color: #323f7b;
+		}
+
+		.objectLink {
+			background-color: #AAAAAA;
+			border:none;
+		}
+
+
+
+
+#svg2 {
+	fill:green;
+}
+
+.test {
+	font-size: 5em;
+	source: url("th/hand_index.svg");
+	background-color: blue;
+}
+
+#svg1 {
+	fill:green;
+}
