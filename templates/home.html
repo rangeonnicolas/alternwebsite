@@ -5,6 +5,7 @@
     <title>OpenAlternativa</title>
     {% load staticfiles %}
     <link href="{% static "maquette/style.css" %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "maquette/th/mfg.css" %}">
 </head>
 <body>
 
@@ -18,19 +19,70 @@
 
         <div class="content" style='position:absolute;top:3em;width:100%'>
             <section class="contentSection">
-				<h2 style="margin:20px">OpenAlternativa</h2>
-                <div class="mainImpact softBox colorOnHover">
 
-                        <p>OpenAlternativa is a collaborative database of consumption alternatives.
-                            As we all know, consumption habit can have som impacts on Climate, Health, Working conditions, etc.
-                            Get (or post) pieces of information about these impacts, and find (or add) alternatives to
-                            your way of consuming!
-                            Each information in this database may be linked to an information source (investigative journalism, scientific papers,
-                            newspapers, etc.)
+                <h2 style="margin:20px">
+                    <a id="a0" onclick="closePar('par0','a0');">
+                        <i class="icon-chevron_down"></i>
+                    </a>
+                     &nbsp;Openalternativa
+                </h2>
+
+
+                <div id="par0" class="mainImpact softBox colorOnHover">
+                        <p>OpenAlternativa is a non-profit collaborative database proposing alternatives for a more ecological
+                            and ethical way of consumption.
+                        </p>
+                </div>
+
+				<h2 style="margin:20px">
+                    <a id="a1" onclick="openPar('par1','a1');">
+                        <i class="icon-chevron_right"></i>
+                    </a>
+                      &nbsp;What do we do ?
+                </h2>
+
+                <div id='par1' class="mainImpact softBox colorOnHover" style="display:None">
+
+
+
+                        <p>
+                            If we vote once every few years for a political government, every day, the way each one of us
+                            spends his or her money determines the way the world functions. As we all know, consumption
+                            habits can have impacts on issues such as Climate Justice, Sustainable Development, Health,
+                            Labor Conditions or Financial Ethics. Well... you know this. OpenAlternativa also gives you
+                            the alternative solution!
                         </p>
 
-                        <p>OpenAlternativa will be available soon. If you are interested in the project, and/or if you want to
-                            contribute to it, please enter your email here!
+                </div>
+                <h2 style="margin:20px">
+                    <a id="a2" onclick="openPar('par2','a2');">
+                        <i class="icon-chevron_right"></i>
+                    </a>
+                     &nbsp;Get involved !
+                </h2>
+                <div id='par2' class="mainImpact softBox colorOnHover" style="display:None">
+
+                    <p>
+                        Go, surf on the web and find information about how the products we use in our everyday life impact
+                        the world both in an environmental and a social way. Find and add ecological and ethical alternatives
+                        to your and our way of consuming!
+                    </p>
+
+                    <p>
+                        Every information in this database should be linked to an information source (NGO reports,
+                        investigative journalism, scientific papers, newspapers, etc.) <!--for which the community will be
+                        able to evaluate the credibility.-->
+
+                    </p>
+
+
+                </div>
+                <h2 style="margin:20px">Interested ?</h2>
+                <div class="mainImpact softBox colorOnHover">
+
+
+                        <p>OpenAlternativa will be available soon. If you are interested in the project, and/or if you
+                            want to contribute to it, please enter your email here and we'll get in touch!
                         </p>
 
                         <div style="border: solid 1px; padding:10px; border-radius:3px">
@@ -49,13 +101,27 @@
 
                         <p>Bientôt, ce site va carrément envoyer du rêve. Bon, mais pas encore maintenant... Mais bientôt!
 </p>
+
                 </div>
             </section>
 
         </div>
 
 
-
+                    <script>
+                        function openPar(id,id2){
+                            document.getElementById(id).style.display = 'inherit' ;
+                            var b = document.getElementById(id2);
+                            b.innerHTML = '<i class="icon-chevron_down"></i>' ;
+                            b.onclick=function(){closePar(id,id2);} ;
+                        }
+                        function closePar(id,id2){
+                            document.getElementById(id).style.display = 'None' ;
+                            var b = document.getElementById(id2);
+                            b.innerHTML = '<i class="icon-chevron_right"></i>' ;
+                            b.onclick=function(){openPar(id,id2);} ;
+                        }
+                    </script>
 
 </body>
 </html>
