@@ -2,6 +2,17 @@ from django.db import models
 
 class Entity(models.Model):
     pass
+    # def __str__(self):
+    #     a = ""
+    #     try:
+    #         #for cla in Entity.__subclasses__():
+    #         try:
+    #             a = self.tostr()
+    #         except:
+    #             pass
+    #     except:
+    #         return("Une entité")
+    #     return(a)
     #relations = models.ManyToManyField(Entity, through='Relation')
 
 #class Compagny(Entity):
@@ -36,6 +47,8 @@ class Relation(models.Model):
 
 class Product(Entity):
     name = models.CharField(max_length=255, unique= True)
+    # def tostr(self):
+    #     return( str(self.name) )
 
 class Behaviour(models.Model):
     #BEHAVIOUR_TYPE = (

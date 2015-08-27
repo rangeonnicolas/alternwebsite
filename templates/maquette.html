@@ -194,14 +194,17 @@
                             <div>
                                 {{ prod.name }}
                             </div>
+
+                            {% for relation in prod.relations_from.all %}
+
                             <div class="alternativeToMainImpact box">
-                                    <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
+                                <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
                                 <div class="alternativeToMainImpactContent">
                                     <div class="colorOnHoverContainer" style="position:relative">
                                         <span style="display:block;margin-bottom:15px">
                                             Aurait eu un impact négatif sur:
-                                            <br><label class="impactCateg smallLabel">Ecologie</label> via ses
-                                            <br><label class="via smallLabel">Financements</label> :
+                                            <br><label class="impactCateg smallLabel">Ecologie</label> car
+                                            <br>{{ prod.name }} {{relation.name.name}} {{relation.to_rel.product.name}} :
                                         </span>
                                         <div class="alternative">
                                             <span><label class="year smallLabel">2012</label> : CIC finance : association AntiHamsters</a>
@@ -281,6 +284,8 @@
                                 </div>
                             </div>
 
+                            {% endfor %}
+<!--
                             <div class="alternativeToMainImpact box">
                                     <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
                                 <div class="alternativeToMainImpactContent">
@@ -365,7 +370,7 @@
                                 </div>
                             </div>
 
-
+-->
 
                         </li>
                     {% endfor %}
