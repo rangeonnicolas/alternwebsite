@@ -1,7 +1,17 @@
 from django.db import models
 
 class Entity(models.Model):
-    pass
+    def __str__(self):
+        name = ""
+        rightClass = ""
+        for cla in ["product","bank","compagny","newspaper","author"]:
+            try :
+                sub = eval("self."+cla)
+                name = sub.name
+                rightClass = cla
+            except :
+                pass
+        return(str(self.pk) +' - ' +str(name) + '  ( ' + rightClass + ' )')
     # def __str__(self):
     #     a = ""
     #     try:
@@ -15,28 +25,61 @@ class Entity(models.Model):
     #     return(a)
     #relations = models.ManyToManyField(Entity, through='Relation')
 
-#class Compagny(Entity):
-#    raisonSociale = models.CharField(max_length=255)
+class Compagny(Entity):
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+class Bank(Entity):    #Une banque est une compagny, mais alors il faudrait creer la classe IndustrialCompagny et faire extant ces 2 de COmpagny. Voir dans evernote les precautio,ns avant de renommer une classe
+    name = models.CharField(max_length=255)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 #class Labo(Entity):
 #    ville = models.CharField(max_length=255)
 
+class Language(models.Model):
+    englishName =  models.CharField(max_length=255, unique= True)
+    localName = models.CharField(max_length=255, unique= True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.englishName))
+
+class Newspaper(Entity):
+    name =  models.CharField(max_length=255, unique= True)
+    url =  models.URLField(unique= True)
+    languages = models.ManyToManyField(Language)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+class Author(Entity):
+    name = models.CharField(max_length=255, unique= True)
+    lastname  = models.CharField(max_length=255, unique= True, null=True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
 
 class Source(models.Model):
     title = models.CharField(max_length=5000)
     url = models.URLField(unique= True)
     date = models.DateField()
+    authors = models.ManyToManyField(Author)
+    newspaper = models.ForeignKey(Newspaper,null=True)
+
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.title))
+
 
 
 class RelationType(models.Model):
     PROPAGATION_CHOICES = (
+        ('U','unset'),
         ('P','propagates'),
-        ('R','restricts'),
-        ('U','unset')
+        ('R','restricts')
+
     )
     name = models.CharField(max_length=255)
     propagation_type = models.CharField(max_length=1, choices= PROPAGATION_CHOICES, default= 'U')
-
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 class Relation(models.Model):
 
