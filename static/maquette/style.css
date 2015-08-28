@@ -70,6 +70,40 @@ h1, h2 {
 	#font-family: "Myriad Pro";
 }
 
+.navBar {
+    z-index:10;
+    position: relative;
+    border-right: 1px solid black;
+    top: 58px;
+    width: 300px;
+    height: 100%;
+
+    background-color: #202030;
+    background-image: linear-gradient(to bottom, #202030, #08080b);
+
+    padding-top: 10px;
+    font-family: "Lucida Grande";
+
+    overflow:auto;
+}
+.compl {
+    height: 100%;
+}
+.navButtonCont {
+
+}
+.navBarButton {
+    font-size: 1em;
+    font-weight: bold;
+    #background-color: #323f7b;
+    padding: 19px 35px 19px 40px;
+    color: #eeeeee;
+}
+.navBarButton:hover {
+    border-left: 4px solid  #eeeeee;
+    padding-left: 36px;
+}
+
 /*table {
 	border-collapse: collapse;
 } 
