@@ -48,6 +48,25 @@ class RelationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Relation
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+
+class NewspaperSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Newspaper
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+
+class CompagnySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Compagny
+
+class BankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bank
 #
 # class Serializer(serializers.ModelSerializer):
 #     class Meta:

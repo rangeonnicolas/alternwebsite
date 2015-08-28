@@ -41,6 +41,20 @@ urlpatterns = [
   	url(r'^impactcateg/$', views.ImpactCategList.as_view()),
     url(r'^impactcateg/(?P<pk>[0-9]+)/$', views.ImpactCategDetail.as_view()),
 
+  	url(r'^author/$', views.AuthorList.as_view()),
+    url(r'^author/(?P<pk>[0-9]+)/$', views.AuthorDetail.as_view()),
+
+  	url(r'^newspaper/$', views.NewspaperList.as_view()),
+    url(r'^newspaper/(?P<pk>[0-9]+)/$', views.NewspaperDetail.as_view()),
+
+  	url(r'^language/$', views.LanguageList.as_view()),
+    url(r'^language/(?P<pk>[0-9]+)/$', views.LanguageDetail.as_view()),
+
+  	url(r'^compagny/$', views.CompagnyList.as_view()),
+    url(r'^compagny/(?P<pk>[0-9]+)/$', views.CompagnyDetail.as_view()),
+
+  	url(r'^bank/$', views.BankList.as_view()),
+    url(r'^bank/(?P<pk>[0-9]+)/$', views.BankDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

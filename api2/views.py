@@ -114,3 +114,45 @@ class ImpactCategDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = ImpactCateg.objects.all()
     serializer_class = ImpactCategSerializer
 
+class AuthorList(generics.ListCreateAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+
+class NewspaperList(generics.ListCreateAPIView):
+    queryset = Newspaper.objects.all()
+    serializer_class = NewspaperSerializer
+
+class NewspaperDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Newspaper.objects.all()
+    serializer_class = NewspaperSerializer
+
+class LanguageList(generics.ListCreateAPIView):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+class LanguageDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Language.objects.all()
+    serializer_class = LanguageSerializer
+
+
+class CompagnyList(generics.ListCreateAPIView):
+    queryset = Compagny.objects.all()
+    serializer_class = CompagnySerializer
+
+class CompagnyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Compagny.objects.all()
+    serializer_class = CompagnySerializer
+
+
+class BankList(generics.ListCreateAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
+
+class BankDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Bank.objects.all()
+    serializer_class = BankSerializer
