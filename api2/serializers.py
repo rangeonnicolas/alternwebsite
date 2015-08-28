@@ -36,10 +36,12 @@ class RelationTypeSerializer(serializers.ModelSerializer):
 class BehaviourSerializer(serializers.ModelSerializer):
     class Meta:
         model = Behaviour
+
 class ImpactCategSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImpactCateg
 class HabitSerializer(serializers.ModelSerializer):
+    #toPrint = serializers.StringRelatedField(read_only= True)
     class Meta:
         model = Habit
 
@@ -47,12 +49,23 @@ class HabitSerializer(serializers.ModelSerializer):
 class RelationSerializer(serializers.ModelSerializer):
     #name = RelationTypeSerializer()
     sources = serializers.SlugRelatedField(many= True, queryset=Source.objects.all(), slug_field='title', label="Sources that proove this relation")
-    from_rel = serializers.SlugRelatedField(queryset=Entity.objects.all(), slug_field='toPrint', label = "There is a relation from this object:")
-    to_rel   = serializers.SlugRelatedField(queryset=Entity.objects.all(), slug_field='toPrint', label = "to this object:")
     relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
     class Meta:
         model = Relation
         fields = ["from_rel","relationType","to_rel","sources"]
+
+class RelationReadSerializer(serializers.ModelSerializer):
+    #name = RelationTypeSerializer()
+    sources = serializers.SlugRelatedField(many= True, queryset=Source.objects.all(), slug_field='title', label="Sources that proove this relation")
+    from_rel = serializers.StringRelatedField(label = "There is a relation from this object:")
+    to_rel   = serializers.StringRelatedField(label = "to this object:")
+    relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
+    class Meta:
+        model = Relation
+        fields = ["from_rel","relationType","to_rel","sources"]
+
+
+
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,13 +81,40 @@ class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Language
 
-class CompagnySerializer(serializers.ModelSerializer):
+class CompanySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Compagny
+        model = Company
 
 class BankSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bank
+
+class AlternativeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Alternative
+class AlternativeReadSerializer(serializers.ModelSerializer):
+    from_rel = serializers.StringRelatedField(label="Insthead of having this behaviour:")
+    to_rel = serializers.StringRelatedField(label="better choose this alternative")
+    class Meta:
+        model = Alternative
+
+class ConsumeAProductSerializer(serializers.ModelSerializer):
+    product = serializers.SlugRelatedField(queryset=Product.objects.all(), slug_field="name")
+    class Meta:
+        model = ConsumeAProduct
+
+class HasImpactOnSerializer(serializers.ModelSerializer):
+    impactCateg = serializers.SlugRelatedField(queryset=ImpactCateg.objects.all(), slug_field="name", label="has an impact on")
+    #behavior    = serializers.StringRelatedField(label="This behavior :")
+    class Meta:
+        model = HasImpactOn
+        fields = ["behavior","impactCateg"]
+class HasImpactOnReadSerializer(serializers.ModelSerializer):
+    impactCateg = serializers.SlugRelatedField(queryset=ImpactCateg.objects.all(), slug_field="name", label="has an impact on")
+    behavior    = serializers.StringRelatedField(label="This behavior :")
+    class Meta:
+        model = HasImpactOn
+        fields = ["behavior","impactCateg"]
 #
 # class Serializer(serializers.ModelSerializer):
 #     class Meta:

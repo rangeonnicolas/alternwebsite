@@ -25,14 +25,15 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-# class HasImpactOnList(generics.ListCreateAPIView):
-#     queryset = HasImpactOn.objects.all()
-#     serializer_class = HasImpactOnSerializer
-#
-# class HasImpactOnDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = HasImpactOn.objects.all()
-#     serializer_class = HasImpactOnSerializer
-
+class HasImpactOnList(generics.ListCreateAPIView):
+    queryset = HasImpactOn.objects.all()
+    serializer_class = HasImpactOnSerializer
+class HasImpactOnDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = HasImpactOn.objects.all()
+    serializer_class = HasImpactOnSerializer
+class HasImpactOnReadList(generics.ListAPIView):
+    queryset = HasImpactOn.objects.all()
+    serializer_class = HasImpactOnReadSerializer
 
 class EntityList(generics.ListCreateAPIView):
     queryset = Entity.objects.all()
@@ -64,10 +65,15 @@ class RelationTypeDetail(generics.RetrieveUpdateDestroyAPIView):
 class RelationList(generics.ListCreateAPIView):
     queryset = Relation.objects.all()
     serializer_class = RelationSerializer
-
 class RelationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Relation.objects.all()
     serializer_class = RelationSerializer
+class RelationReadList(generics.ListAPIView):
+    queryset = Relation.objects.all()
+    serializer_class = RelationReadSerializer
+#class RelationReadDetail(generics.RetrieveUpdateDestroyAPIView):
+#    queryset = Relation.objects.all()
+#    serializer_class = RelationSerializer
 
 
 class BehaviourList(generics.ListCreateAPIView):
@@ -88,22 +94,24 @@ class HabitDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = HabitSerializer
 
 
-# class ConsumeAProductList(generics.ListCreateAPIView):
-#     queryset = ConsumeAProduct.objects.all()
-#     serializer_class = ConsumeAProductSerializer
-#
-# class ConsumeAProductDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = ConsumeAProduct.objects.all()
-#     serializer_class = ConsumeAProductSerializer
-#
-#
-# class AlternativeList(generics.ListCreateAPIView):
-#     queryset = Alternative.objects.all()
-#     serializer_class = AlternativeSerializer
-#
-# class AlternativeDetail(generics.RetrieveUpdateDestroyAPIView):
-#     queryset = Alternative.objects.all()
-#     serializer_class = AlternativeSerializer
+class ConsumeAProductList(generics.ListCreateAPIView):
+    queryset = ConsumeAProduct.objects.all()
+    serializer_class = ConsumeAProductSerializer
+
+class ConsumeAProductDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = ConsumeAProduct.objects.all()
+    serializer_class = ConsumeAProductSerializer
+
+
+class AlternativeList(generics.ListCreateAPIView):
+    queryset = Alternative.objects.all()
+    serializer_class = AlternativeSerializer
+class AlternativeDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Alternative.objects.all()
+    serializer_class = AlternativeSerializer
+class AlternativeReadList(generics.ListAPIView):
+    queryset = Alternative.objects.all()
+    serializer_class = AlternativeReadSerializer
 
 
 class ImpactCategList(generics.ListCreateAPIView):
@@ -140,13 +148,13 @@ class LanguageDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = LanguageSerializer
 
 
-class CompagnyList(generics.ListCreateAPIView):
-    queryset = Compagny.objects.all()
-    serializer_class = CompagnySerializer
+class CompanyList(generics.ListCreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
 
-class CompagnyDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Compagny.objects.all()
-    serializer_class = CompagnySerializer
+class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
 
 
 class BankList(generics.ListCreateAPIView):

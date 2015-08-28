@@ -1,19 +1,16 @@
 from django.db import models
 
 class Entity(models.Model):
-    toPrint = models.CharField(max_length=1000)
+    #toPrint = models.CharField(max_length=1000)
 
-    def __init__(self,*k):
-        super(Entity, self).__init__(*k)
-        self.toPrint = self.__unicode__()
-
-    def __unicode__(self):
-        return(str(2)+str(1))
+    #def __init__(self,*k):
+    #    super(Entity, self).__init__(*k)
+    #    self.toPrint = self.__unicode__()
 
     def __str__(self):
         name = ""
         rightClass = ""
-        for cla in ["product","bank","compagny","newspaper","author"]:
+        for cla in ["product","bank","company","newspaper","author"]:
             try :
                 sub = eval("self."+cla)
                 name = sub.name
@@ -24,7 +21,7 @@ class Entity(models.Model):
     def __unicode__(self):
         name = ""
         rightClass = ""
-        for cla in ["product","bank","compagny","newspaper","author"]:
+        for cla in ["product","bank","company","newspaper","author"]:
             try :
                 sub = eval("self."+cla)
                 name = sub.name
@@ -45,14 +42,14 @@ class Entity(models.Model):
     #     return(a)
     #relations = models.ManyToManyField(Entity, through='Relation')
 
-class Compagny(Entity):
+class Company(Entity):
     name = models.CharField(max_length=255)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
-class Bank(Entity):    #Une banque est une compagny, mais alors il faudrait creer la classe IndustrialCompagny et faire extant ces 2 de COmpagny. Voir dans evernote les precautio,ns avant de renommer une classe
+class Bank(Entity):    #Une banque est une compagy, mais alors il faudrait creer la classe IndustrialCompagy et faire extant ces 2 de COmpany. Voir dans evernote les precautio,ns avant de renommer une classe
     name = models.CharField(max_length=255)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
@@ -148,15 +145,53 @@ class Behaviour(models.Model):
     #    ('consume_product'),
     #    ('consume_at')
     #)
-    pass
+    #toPrint = models.CharField(max_length=1000, default=" ")
+
+    #def __init__(self,*k):
+    #    models.Model.__init__()
+    #    self.toPrint = self.__unicode__(*k)
+
+    def __unicode__(self):
+        name = ""
+        rightClass = ""
+        for cla in ["consumeaproduct","habit"]:
+            try :
+                sub = eval("self."+cla)
+                if cla == "consumeaproduct":
+                    name = sub.product.name
+                elif cla == "habit":
+                    name = sub.name
+                rightClass = cla
+            except :
+                pass
+        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
+    def __str__(self):
+        name = ""
+        rightClass = ""
+        for cla in ["consumeaproduct","habit"]:
+            try :
+                sub = eval("self."+cla)
+                if cla == "consumeaproduct":
+                    name = sub.product.name
+                elif cla == "habit":
+                    name = sub.name
+                rightClass = cla
+            except :
+                pass
+        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
+
+
+
 
 #class ConsumeAt(Behaviour):
-#    compagny =
+#    company =
 
 class Habit(Behaviour):
     name = models.CharField(max_length=1000, unique= True)
+
 class ConsumeAProduct(Behaviour):
     product = models.ForeignKey(Product)
+
 
 
 class Alternative(models.Model):
@@ -170,7 +205,10 @@ class Alternative(models.Model):
 
 class ImpactCateg(models.Model):
     name = models.CharField(max_length=255, unique= True)
-
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 
 class HasImpactOn(models.Model):
