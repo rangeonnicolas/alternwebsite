@@ -1,6 +1,15 @@
 from django.db import models
 
 class Entity(models.Model):
+    toPrint = models.CharField(max_length=1000)
+
+    def __init__(self,*k):
+        super(Entity, self).__init__(*k)
+        self.toPrint = self.__unicode__()
+
+    def __unicode__(self):
+        return(str(2)+str(1))
+
     def __str__(self):
         name = ""
         rightClass = ""
@@ -11,7 +20,18 @@ class Entity(models.Model):
                 rightClass = cla
             except :
                 pass
-        return(str(self.pk) +' - ' +str(name) + '  ( ' + rightClass + ' )')
+        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
+    def __unicode__(self):
+        name = ""
+        rightClass = ""
+        for cla in ["product","bank","compagny","newspaper","author"]:
+            try :
+                sub = eval("self."+cla)
+                name = sub.name
+                rightClass = cla
+            except :
+                pass
+        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
     # def __str__(self):
     #     a = ""
     #     try:
@@ -21,7 +41,7 @@ class Entity(models.Model):
     #         except:
     #             pass
     #     except:
-    #         return("Une entité")
+    #         return("Une entite")
     #     return(a)
     #relations = models.ManyToManyField(Entity, through='Relation')
 
@@ -29,10 +49,14 @@ class Compagny(Entity):
     name = models.CharField(max_length=255)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 class Bank(Entity):    #Une banque est une compagny, mais alors il faudrait creer la classe IndustrialCompagny et faire extant ces 2 de COmpagny. Voir dans evernote les precautio,ns avant de renommer une classe
     name = models.CharField(max_length=255)
     def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 #class Labo(Entity):
@@ -43,6 +67,8 @@ class Language(models.Model):
     localName = models.CharField(max_length=255, unique= True)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.englishName))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.englishName))
 
 class Newspaper(Entity):
     name =  models.CharField(max_length=255, unique= True)
@@ -50,12 +76,26 @@ class Newspaper(Entity):
     languages = models.ManyToManyField(Language)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+# class Author(Entity):
+#     name = models.CharField(max_length=255, unique= True)
+#     lastname  = models.CharField(max_length=255, unique= True, null=True)
+#     def __str__(self):
+#         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
+#     def __unicode__(self):
+#         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
 
 class Author(Entity):
-    name = models.CharField(max_length=255, unique= True)
-    lastname  = models.CharField(max_length=255, unique= True, null=True)
+    name = models.CharField(max_length=255)
+    lastname  = models.CharField(max_length=255, null=True)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
+    class Meta:
+        unique_together = ('name', 'lastname')
 
 class Source(models.Model):
     title = models.CharField(max_length=5000)
@@ -66,7 +106,8 @@ class Source(models.Model):
 
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.title))
-
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.title))
 
 
 class RelationType(models.Model):
@@ -80,13 +121,21 @@ class RelationType(models.Model):
     propagation_type = models.CharField(max_length=1, choices= PROPAGATION_CHOICES, default= 'U')
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 class Relation(models.Model):
 
     from_rel = models.ForeignKey(Entity, related_name="relations_from")
     to_rel = models.ForeignKey(Entity, related_name="relations_to")
-    name = models.ForeignKey(RelationType)
+    relationType = models.ForeignKey(RelationType)
     sources = models.ManyToManyField(Source)
+    # toPrint = models.CharField(max_length=1000)
+    # def __init__(self,*kk):
+    #     super(Relation, self).__init__(*kk)
+    #     self.testt = self.__unicode__()
+    # def __unicode__(self):
+    #     return(str(2)+str(1))
 
 class Product(Entity):
     name = models.CharField(max_length=255, unique= True)

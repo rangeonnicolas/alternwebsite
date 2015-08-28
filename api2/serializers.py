@@ -26,6 +26,8 @@ class EntitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Entity
 class SourceSerializer(serializers.ModelSerializer):
+    authors = serializers.SlugRelatedField(many=True, queryset=Author.objects.all(), slug_field="name")
+    newspaper = serializers.SlugRelatedField(read_only=False, queryset=Newspaper.objects.all(), slug_field='name')
     class Meta:
         model = Source
 class RelationTypeSerializer(serializers.ModelSerializer):
@@ -43,18 +45,24 @@ class HabitSerializer(serializers.ModelSerializer):
 
 
 class RelationSerializer(serializers.ModelSerializer):
-    name = RelationTypeSerializer()
-    #sources = serializers.SlugRelatedField(many= True, queryset=Source.objects.all(), slug_field='titleal   ')
+    #name = RelationTypeSerializer()
+    sources = serializers.SlugRelatedField(many= True, queryset=Source.objects.all(), slug_field='title', label="Sources that proove this relation")
+    from_rel = serializers.SlugRelatedField(queryset=Entity.objects.all(), slug_field='toPrint', label = "There is a relation from this object:")
+    to_rel   = serializers.SlugRelatedField(queryset=Entity.objects.all(), slug_field='toPrint', label = "to this object:")
+    relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
     class Meta:
         model = Relation
+        fields = ["from_rel","relationType","to_rel","sources"]
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
 
 class NewspaperSerializer(serializers.ModelSerializer):
+    languages = serializers.SlugRelatedField(many=True, queryset=Language.objects.all(), slug_field="englishName")
     class Meta:
         model = Newspaper
+
 
 class LanguageSerializer(serializers.ModelSerializer):
     class Meta:
