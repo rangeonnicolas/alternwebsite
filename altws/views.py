@@ -50,6 +50,41 @@ def home(request):
 
     return render(request, 'home.html', locals())
 
+from api2.models import *
 def maquette(request):
 
+    a=Product.objects.all()
+    print(a)
+
+    products = Product.objects.all()
+
     return render(request,"maquette.html", locals())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

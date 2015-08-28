@@ -7,13 +7,12 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api2', '0001_initial'),
+        ('api2', '0005_auto_20150828_0837'),
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='relation',
-            name='to_rel',
-            field=models.ForeignKey(related_name='relations_to', to='api2.Entity'),
+            name='toPrint',
         ),
     ]

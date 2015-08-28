@@ -1,17 +1,7 @@
-<<<<<<< HEAD
-/altws/__pycache__
-.idea/**
-.idea/
-.idea
-**/__pycache__/**
-**/__pycache__
-**/__pycache__/
-maquette/__pycache__/**
-=======
 
 .idea/
 */__pycache__
-api/__pychache__/
+api/__pychache__
 
 *.pyc
 *.pyo
@@ -43,4 +33,3 @@ local_settings.py
 # django_flatblocks.egg-info
 # dist
 # build
->>>>>>> 3cfcea8909a669187ff965ec4867fa893831d338
