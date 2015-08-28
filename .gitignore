@@ -1,4 +1,8 @@
-altws/__pycache__
+/altws/__pycache__
+.idea/**
 .idea/
-.*?/__pycache__
-maquette/__pycache__/
+.idea
+**/__pycache__/**
+**/__pycache__
+**/__pycache__/
+maquette/__pycache__/**

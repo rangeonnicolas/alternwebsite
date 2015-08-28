@@ -27,7 +27,7 @@ body {
 	font-size: 0
 	0.9em;
 	background-color: #F8F8F8;
-	color: #878787; 
+	color: #606060;
 	margin: 0;
 }
 
@@ -57,6 +57,13 @@ header {
 }
 .temp3 {
 	color: #39942F;
+}
+
+p {
+    text-align: justify;
+    line-height: 1.6em;
+    margin-top : 25px;
+    margin-bottom : 25px;
 }
 
 h1, h2 {
@@ -432,4 +439,24 @@ label:hover{
 
 #svg1 {
 	fill:green;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+label[for=id_email]
+{
+   background-color:white;
+   color:inherit;
+   border:none;
 }
