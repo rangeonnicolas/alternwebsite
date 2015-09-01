@@ -7,8 +7,8 @@
 **/__pycache__/
 maquette/__pycache__/**
 
-*.sqlite3
 
+./db.sqlite3
 
 .idea/
 */__pycache__

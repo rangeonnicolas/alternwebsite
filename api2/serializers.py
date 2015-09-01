@@ -93,7 +93,7 @@ class AlternativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alternative
 class AlternativeReadSerializer(serializers.ModelSerializer):
-    from_rel = serializers.StringRelatedField(label="Insthead of having this behaviour:")
+    from_rel = serializers.StringRelatedField(label="Instead of having this behaviour:")
     to_rel = serializers.StringRelatedField(label="better choose this alternative")
     class Meta:
         model = Alternative

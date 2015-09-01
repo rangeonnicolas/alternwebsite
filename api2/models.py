@@ -123,14 +123,18 @@ class RelationType(models.Model):
 
 class Relation(models.Model):
 
-    from_rel = models.ForeignKey(Entity, related_name="relations_from")
-    to_rel = models.ForeignKey(Entity, related_name="relations_to")
-    relationType = models.ForeignKey(RelationType)
+    from_rel = models.ForeignKey(Entity, related_name="relations_from",verbose_name="This object")
+    to_rel = models.ForeignKey(Entity, related_name="relations_to",verbose_name="with this object")
+    relationType = models.ForeignKey(RelationType,verbose_name="has this relation")
     sources = models.ManyToManyField(Source)
     def __str__(self):
         return(self.__unicode__())
+    # def __unicode__(self):
+    #     return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
     def __unicode__(self):
         return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
+    def simplePrint(self):
+        return( str(self.from_rel) + ' ' + str(self.relationType.name) + ' ' + str(self.to_rel) )
 
 class Product(Entity):
     name = models.CharField(max_length=255, unique= True)
@@ -138,7 +142,7 @@ class Product(Entity):
     #     return( str(self.name) )
 
 class Behaviour(models.Model):
-    #BEHAVIOUR_TYPE = (
+    #BEHAVIOUR_TYPE = (from_re
     #    ('habit'),
     #    ('consume_product'),
     #    ('consume_at')
@@ -188,7 +192,7 @@ class Habit(Behaviour):
     name = models.CharField(max_length=1000, unique= True)
 
 class ConsumeAProduct(Behaviour):
-    product = models.OneToOneField(Product)
+    product = models.OneToOneField(Product,verbose_name="Consume ...")
 
 
 
@@ -205,18 +209,19 @@ class ImpactCateg(models.Model):
 
 
 class HasImpactOn(models.Model):
-    behavior = models.ForeignKey(Behaviour, related_name="has_impact_on")
-    becauseOf = models.ForeignKey(Relation, related_name="has_impact_on")
-    impactCateg = models.ForeignKey(ImpactCateg)
+    behavior = models.ForeignKey(Behaviour, related_name="has_impact_on",verbose_name="This behaviour")
+    becauseOf = models.ForeignKey(Relation, related_name="has_impact_on",verbose_name="because of")
+    impactCateg = models.ForeignKey(ImpactCateg,verbose_name="has this impact")
     #todo: contrainte uniquetogether des 2 champs
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
-        return('[ '+str(self.behavior)+' ]  HAS AN IMPACT ON  [ '+str(self.impactCateg.name)+' ]')
+        return('[ '+str(self.behavior)+' ]   HAS AN IMPACT ON   [ '+str(self.impactCateg.name)+' ]  BECAUSE  [ ' +str(self.becauseOf.simplePrint())+' ]')
 
 class Alternative(models.Model):
-    from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives")
-    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of")
+    from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives",verbose_name="This impact")
+    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of",verbose_name="has this alternative")
+    source = models.ForeignKey(Source, null=True)
 
 
 
