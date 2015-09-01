@@ -127,12 +127,10 @@ class Relation(models.Model):
     to_rel = models.ForeignKey(Entity, related_name="relations_to")
     relationType = models.ForeignKey(RelationType)
     sources = models.ManyToManyField(Source)
-    # toPrint = models.CharField(max_length=1000)
-    # def __init__(self,*kk):
-    #     super(Relation, self).__init__(*kk)
-    #     self.testt = self.__unicode__()
-    # def __unicode__(self):
-    #     return(str(2)+str(1))
+    def __str__(self):
+        return(self.__unicode__())
+    def __unicode__(self):
+        return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
 
 class Product(Entity):
     name = models.CharField(max_length=255, unique= True)
@@ -190,13 +188,8 @@ class Habit(Behaviour):
     name = models.CharField(max_length=1000, unique= True)
 
 class ConsumeAProduct(Behaviour):
-    product = models.ForeignKey(Product)
+    product = models.OneToOneField(Product)
 
-
-
-class Alternative(models.Model):
-    from_rel = models.ForeignKey(Behaviour, related_name="relations_alt_from")
-    to_rel = models.ForeignKey(Behaviour, related_name="relations_alt_to")
 
 
 
@@ -213,7 +206,18 @@ class ImpactCateg(models.Model):
 
 class HasImpactOn(models.Model):
     behavior = models.ForeignKey(Behaviour, related_name="has_impact_on")
+    becauseOf = models.ForeignKey(Relation, related_name="has_impact_on")
     impactCateg = models.ForeignKey(ImpactCateg)
+    #todo: contrainte uniquetogether des 2 champs
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return('[ '+str(self.behavior)+' ]  HAS AN IMPACT ON  [ '+str(self.impactCateg.name)+' ]')
+
+class Alternative(models.Model):
+    from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives")
+    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of")
+
 
 
 
