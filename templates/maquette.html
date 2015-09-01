@@ -197,12 +197,15 @@
 
                             {% for relation in prod.relations_from.all %}
 
+                            prod.consumeaproduct.has_impact_on.all()[0].alternatives.all()
+                            prod.consumeaproduct.has_impact_on.all()[0].impactCateg
+
                             <div class="alternativeToMainImpact box">
                                 <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
                                 <div class="alternativeToMainImpactContent">
                                     <div class="colorOnHoverContainer" style="position:relative">
                                         <span style="display:block;margin-bottom:15px">
-                                            Aurait eu un impact
+                                            Aurait un impact sur :
                                             <br><label class="impactCateg smallLabel"></label> car
                                             <br>{{ prod.name }} {{relation.relationType.name}} {{relation.to_rel.product.name}} :
                                         </span>
