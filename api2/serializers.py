@@ -108,14 +108,14 @@ class HasImpactOnSerializer(serializers.ModelSerializer):
     #behavior    = serializers.StringRelatedField(label="This behavior :")
     class Meta:
         model = HasImpactOn
-        fields = ["behavior","impactCateg","becauseOf"]
+        fields = ["behavior","impactCateg","becauseOf","impact_type","sources"]
 class HasImpactOnReadSerializer(serializers.ModelSerializer):
     impactCateg = serializers.SlugRelatedField(queryset=ImpactCateg.objects.all(), slug_field="name", label="has an impact on")
     behavior    = serializers.StringRelatedField(label="This behavior :")
     becauseOf    = serializers.StringRelatedField()
     class Meta:
         model = HasImpactOn
-        fields = ["behavior","impactCateg","becauseOf"]
+        fields = ["behavior","impactCateg","becauseOf","impact_type","sources"]
 #
 # class Serializer(serializers.ModelSerializer):
 #     class Meta:

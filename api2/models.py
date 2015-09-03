@@ -209,19 +209,28 @@ class ImpactCateg(models.Model):
 
 
 class HasImpactOn(models.Model):
+    TYPE_CHOICES = (
+        ('Pos','positive'),
+        ('Neg','negative'),
+        ('Neu','neutral'),
+        ('U','unknown')
+    )
     behavior = models.ForeignKey(Behaviour, related_name="has_impact_on",verbose_name="This behaviour")
     becauseOf = models.ForeignKey(Relation, related_name="has_impact_on",verbose_name="because of")
     impactCateg = models.ForeignKey(ImpactCateg,verbose_name="has this impact")
-    #todo: contrainte uniquetogether des 2 champs
+    sources = models.ManyToManyField(Source,verbose_name="Source that prooves this impact") #todo: il peut y avoir plusieures sources
+    impact_type = models.CharField(max_length=3, choices= TYPE_CHOICES, default= 'U')
+    #todo: contrainte uniquetogether des 3 champs behavior becauseof et impactcateg
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
         return('[ '+str(self.behavior)+' ]   HAS AN IMPACT ON   [ '+str(self.impactCateg.name)+' ]  BECAUSE  [ ' +str(self.becauseOf.simplePrint())+' ]')
 
+
 class Alternative(models.Model):
     from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives",verbose_name="This impact")
     to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of",verbose_name="has this alternative")
-    source = models.ForeignKey(Source, null=True)
+    sources = models.ManyToManyField(Source) #todo: plusieures sources possibles
 
 
 

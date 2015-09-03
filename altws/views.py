@@ -53,10 +53,9 @@ def home(request):
 from api2.models import *
 def maquette(request):
 
-    a=Product.objects.all()
-    print(a)
+    # products = Product.objects.all()
 
-    products = Product.objects.all()
+    consumeaproduct = ConsumeAProduct.objects.all()
 
     return render(request,"maquette.html", locals())
 

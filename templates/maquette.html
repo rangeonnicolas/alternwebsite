@@ -184,71 +184,49 @@
 				<h2>En détail...</h2>
 
 				<ul>
-                    {% for prod in products %}
+                    {% for consprod in consumeaproduct %}
+                        {% with prod=consprod.product %}
                         <li>
-
-
-
-
 
                             <div>
                                 {{ prod.name }}
                             </div>
 
-                            {% for relation in prod.relations_from.all %}
+                            <a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>
 
-                            prod.consumeaproduct.has_impact_on.all()[0].alternatives.all()
-                            prod.consumeaproduct.has_impact_on.all()[0].impactCateg
+                            {% for hasImpactOn in consprod.has_impact_on.all %}
+
 
                             <div class="alternativeToMainImpact box">
+                                {% if hasImpactOn.impact_type == 'neg' %}
                                 <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
+                                {% elif  hasImpactOn.impact_type == 'pos' %}
+                                <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
+                                {% else %}
+                                <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_index.svg' %}"></img></div>
+                                {% endif %}
                                 <div class="alternativeToMainImpactContent">
                                     <div class="colorOnHoverContainer" style="position:relative">
                                         <span style="display:block;margin-bottom:15px">
-                                            Aurait un impact sur :
-                                            <br><label class="impactCateg smallLabel"></label> car
-                                            <br>{{ prod.name }} {{relation.relationType.name}} {{relation.to_rel.product.name}} :
+                                            Consommer {{ prod.name }} aurait un impact sur :
+                                            <label class="impactCateg smallLabel">{{ hasImpactOn.impactCateg.name }}</label><br/> car
+                                            {{ prod.name }} {{hasImpactOn.becauseOf.relationType.name}} <label class="impactCateg smallLabel">{{hasImpactOn.becauseOf.to_rel.product.name}}</label>:<br/>
                                         </span>
-                                        <div class="alternative">
-                                            <span><label class="year smallLabel">2012</label> : CIC finance : association AntiHamsters</a>
-                                            </span>
-                                            <span class="buttonsAlternative">
-                                                <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                <i class="icon-magnifying icon1x"></i>&nbsp;
-                                            </span>
-                                        </div>
-                                        <div class="alternative">
-                                            <span><label class="year smallLabel">2012</label> : CIC finance : association AntiHamsters</a>
-                                            </span>
-                                            <span class="buttonsAlternative">
-                                                <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                <i class="icon-magnifying icon1x"></i>&nbsp;
-                                            </span>
-                                        </div>
-                                        <div class="alternative" style="margin-left:2em;">
-                                            <span><label class="year smallLabel">2014</label> : Source démentie
-                                            <span class="buttonsAlternative">
-                                                <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                <i class="icon-magnifying icon1x"></i>&nbsp;
-                                            </span>										</span>
 
-                                        </div>
-                                        <div class="alternative" style="margin-left:2em;">
-                                            <span><label class="year smallLabel">2014</label> : Source démentie <label class="uncertainSource smallLabel">???</label>
-                                            </span>
-                                            <span class="buttonsAlternative">
-                                                <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                <i class="icon-magnifying icon1x"></i>&nbsp;
-                                            </span>
-                                        </div>
+                                        Sources:
+
+                                        {% for source in hasImpactOn.sources.all%}
+
                                         <div class="alternative">
-                                            <span><label class="year smallLabel">2012</label> : CIC finance : association AntiHamsters</a>
+                                            <span><label class="year smallLabel">{{source.date.year}}</label> {{source.title}}</a>
                                             </span>
                                             <span class="buttonsAlternative">
                                                 <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
                                                 <i class="icon-magnifying icon1x"></i>&nbsp;
                                             </span>
                                         </div>
+
+                                        {% endfor %}
 
 
                                                         <div class="alternativeToMainImpact box" style="margin-top:20px">
@@ -257,26 +235,36 @@
                                                                 </div>
                                                                 <div class="alternativeToMainImpactContent">
                                                                     <span style="display:block;margin-bottom:3px">Alternatives :</span>
-                                                                    <div class="alternative">
-                                                                        <span>Consommer chez:
-                                                                         Crédit Bisounours </span>
-                                                                        <span class="buttonsAlternative">
-                                                                            <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                                            <i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;
-                                                                            <i class="icon-magnifying icon1x"></i>&nbsp;(39)
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="alternative">
-                                                                        <span>Garder tout son fric dans sa poche</span>
-                                                                        <span class="buttonsAlternative">
-                                                                            <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
-                                                                            <i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;
-                                                                            <i class="icon-magnifying icon1x"></i>&nbsp;(39)
-                                                                        </span>
-                                                                    </div>
+
+                                                                    {% for alternative in hasImpactOn.alternatives.all %}
+
+                                                                        {% if alternative.to_rel.consumeaproduct %}
+
+                                                                            <div class="alternative">
+                                                                                <span>Consommer chez:
+                                                                                 {{ alternative.to_rel.consumeaproduct.product.name }} </span>
+                                                                                <span class="buttonsAlternative">
+                                                                                    <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
+                                                                                    <i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;
+                                                                                    <a href="#" onclick="alert('Bientôt il y aura une belle page qui montrera ces sources: ');"><i class="icon-magnifying icon1x"></i>&nbsp;(39)</a>
+                                                                                </span>
+                                                                            </div>
+
+                                                                        {% endif %}
+
+                                                                    {% endfor %}
+
+                                                                    <!--<div class="alternative">-->
+                                                                        <!--<span>Garder tout son fric dans sa poche</span>-->
+                                                                        <!--<span class="buttonsAlternative">-->
+                                                                            <!--<i class="icon-user icon1x"></i>&nbsp;|&nbsp;-->
+                                                                            <!--<i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;-->
+                                                                            <!--<i class="icon-magnifying icon1x"></i>&nbsp;(39)-->
+                                                                        <!--</span>-->
+                                                                    <!--</div>-->
                                                                     <div class="alternative">
                                                                         <i class="icon-chevron_down"></i> Plus ...
-                                                                        <span class="buttonsAlternative" style="position:absolute;right:0px;margin-right:7px"><i class="icon-PEN icon1x"></i> Ajouter une alternative</span>
+                                                                        <a href="/rest/alternative"><span class="buttonsAlternative" style="position:absolute;right:0px;margin-right:7px"><i class="icon-PEN icon1x"></i> Ajouter une alternative</span></a>
                                                                     </div>
                                                                 </div>
                                                         </div>
@@ -288,6 +276,8 @@
                             </div>
 
                             {% endfor %}
+
+
 <!--
                             <div class="alternativeToMainImpact box">
                                     <div class="logoAlternative medaillon"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
@@ -376,10 +366,14 @@
 -->
 
                         </li>
+                        {% endwith %}
                     {% endfor %}
 
 				</ul>
-			</section>
+                 (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
+			    <br/>mettre les sources démenties
+                <br/>tri des sources par date
+            </section>
 		</div>
 
 <!--
