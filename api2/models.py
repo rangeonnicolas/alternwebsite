@@ -42,15 +42,24 @@ class Entity(models.Model):
     #     return(a)
     #relations = models.ManyToManyField(Entity, through='Relation')
 
+class Topic(models.Model):
+    name = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return(str(self.name))
+
+
+
 class Company(Entity):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Bank(Entity):    #Une banque est une compagy, mais alors il faudrait creer la classe IndustrialCompagy et faire extant ces 2 de COmpany. Voir dans evernote les precautio,ns avant de renommer une classe
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True)
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
     def __unicode__(self):
@@ -85,8 +94,14 @@ class Newspaper(Entity):
 #         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
 
 class Author(Entity):
+    TEMP_CHOICES = (
+        ('U','unset'),
+        ('P','real people'),
+        ('O','organisation')
+    )
     name = models.CharField(max_length=255)
     lastname  = models.CharField(max_length=255, null=True)
+    type = models.CharField(max_length=1, choices= TEMP_CHOICES, default= 'U')
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
     def __unicode__(self):
@@ -100,6 +115,7 @@ class Source(models.Model):
     date = models.DateField()
     authors = models.ManyToManyField(Author)
     newspaper = models.ForeignKey(Newspaper,null=True)
+    topic = models.ManyToManyField(Topic)
 
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.title))
@@ -112,9 +128,8 @@ class RelationType(models.Model):
         ('U','unset'),
         ('P','propagates'),
         ('R','restricts')
-
     )
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255,unique=True)
     propagation_type = models.CharField(max_length=1, choices= PROPAGATION_CHOICES, default= 'U')
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.name))
@@ -234,5 +249,6 @@ class Alternative(models.Model):
 
 
 
+# todo: couper les arguments des urls car elle est limitée à 200 carac
 
 #  c.relations_from.all()[0].to_rel.labo.ville

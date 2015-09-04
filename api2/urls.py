@@ -60,6 +60,9 @@ urlpatterns = [
 
   	url(r'^bank/$', views.BankList.as_view()),
     url(r'^bank/(?P<pk>[0-9]+)/$', views.BankDetail.as_view()),
+
+    url(r'^topic/$', views.TopicList.as_view()),
+    url(r'^topic/(?P<pk>[0-9]+)/$', views.TopicDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

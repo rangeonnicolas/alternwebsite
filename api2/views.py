@@ -164,3 +164,11 @@ class BankList(generics.ListCreateAPIView):
 class BankDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Bank.objects.all()
     serializer_class = BankSerializer
+
+class TopicList(generics.ListCreateAPIView):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer
+
+class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Topic.objects.all()
+    serializer_class = TopicSerializer

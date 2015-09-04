@@ -116,6 +116,11 @@ class HasImpactOnReadSerializer(serializers.ModelSerializer):
     class Meta:
         model = HasImpactOn
         fields = ["behavior","impactCateg","becauseOf","impact_type","sources"]
+
+class TopicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Topic
+
 #
 # class Serializer(serializers.ModelSerializer):
 #     class Meta:
