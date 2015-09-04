@@ -51,6 +51,7 @@ class Topic(models.Model):
 
 
 
+
 class Company(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):

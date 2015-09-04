@@ -139,7 +139,9 @@ difv {
 }
 
 .buttonsAlternative {
-	display: none;
+	#display: none;
+	display:inline-block;
+
 	position:absolute;
 	right:0px;
 	margin-right:7px;
