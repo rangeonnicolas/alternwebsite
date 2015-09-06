@@ -121,6 +121,23 @@ class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
 
+
+class RessourceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ressource
+
+class ComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Component
+
+class PhenomenonSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Phenomenon
+
+class PolicySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Policy
+
 #
 # class Serializer(serializers.ModelSerializer):
 #     class Meta:

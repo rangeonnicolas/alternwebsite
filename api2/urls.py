@@ -61,6 +61,18 @@ urlpatterns = [
   	url(r'^bank/$', views.BankList.as_view()),
     url(r'^bank/(?P<pk>[0-9]+)/$', views.BankDetail.as_view()),
 
+  	url(r'^ressource/$', views.RessourceList.as_view()),
+    url(r'^ressource/(?P<pk>[0-9]+)/$', views.RessourceDetail.as_view()),
+
+  	url(r'^component/$', views.ComponentList.as_view()),
+    url(r'^component/(?P<pk>[0-9]+)/$', views.ComponentDetail.as_view()),
+
+  	url(r'^phenomenon/$', views.PhenomenonList.as_view()),
+    url(r'^phenomenon/(?P<pk>[0-9]+)/$', views.PhenomenonDetail.as_view()),
+
+  	url(r'^policy/$', views.PolicyList.as_view()),
+    url(r'^policy/(?P<pk>[0-9]+)/$', views.PolicyDetail.as_view()),
+
     url(r'^topic/$', views.TopicList.as_view()),
     url(r'^topic/(?P<pk>[0-9]+)/$', views.TopicDetail.as_view()),
 ]
