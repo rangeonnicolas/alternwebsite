@@ -4,13 +4,29 @@ http://paletton.com/#uid=72N0X0klNmG63T1exvbtWd5Jn3k
 http://paletton.com/#uid=72N1T0klNmG63T1exvbtWd5Jn3k
 */
 
+h2 {
+font-family:"Courier new";
+border-bottom:solid 1px ;
+border-left:solid 1px ;
+display:inline;
+padding:5px 10px;
+border-left-width:3px;
+}
+
+h1 {
+font-family:"Courier new";
+border-bottom:solid 2px black ;
+#display:inline;
+padding-bottom:10px;
+font-size:2em;
+}
 
 body {
 
-    /*font-family: Georgia, "DejaVu Serif", Norasi, serif;*/
-    /*font-family: "avenir light";*/
-     /*ccfd: font-family: Arial,​"Helvetica Neue",​Helvetica,​"sans-serif";*/
-   
+    #font-family: Georgia, "DejaVu Serif", Norasi, serif;
+    #font-family: "avenir light";
+    # ccfd: font-family: Arial,​"Helvetica Neue",​Helvetica,​"sans-serif";
+    font-family:  Arial,​"sans-serif";
 
 	/*font-family:    "Trebuchet MS",Helvetica,Arial,sans-serif; */
 
@@ -31,10 +47,10 @@ body {
 	/*font-family: "Courier New", Courier, "Liberation Mono", monospace;*/
 	/*font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;*/
 
+	font-size: 0 0.9em;
 	background-color: #F8F8F8;
 	color: #606060;
 	margin: 0;
-	font-family: Arial, "sans-serif";
 }
 
 @media handheld
@@ -43,39 +59,6 @@ body {
     {
         font-size: 1em;
     }
-}
-
-
-h2 {
-font-family:"courier new";
-/*border-bottom:solid 1px ;*/
-border-left:solid 5px ;
-border-top: solid 1px #AAAAAA;
-color: #404070;
-margin: 40px 0px 40px -35px/*todo: degueu*/;
-/*display:inline;*/
-padding:5px 15px;
-background-color: #F8F8F8;
-
-}
-
-h1 {
-    border-left: solid 5px black;
-    border-top: solid 1px black;
-	font-family: helvetica;
-	background-color: #404070;
-	color:white;
-	text-shadow:1px 1px black;
-/*font-family:"Courier new";*/
-/*border-top:solid 5px black ;/*
-/*border-left:solid 3px black ;*/
-#display:inline;
-padding: 10px;
-padding-left: 30px;
-margin:-35px;/*todo: merger les padding*/
-margin-bottom:40px;
-padding-bottom:10px;
-font-size:2em;
 }
 
 header {
@@ -111,7 +94,10 @@ h1, h2 {
 	#font-family: "Myriad Pro";
 }
 
-
+h2 {
+    margin-bottom: 40px;
+    margin-top: 0;
+}
 
 .navBar {
     z-index:10;
@@ -224,26 +210,6 @@ difv {
 	display:inline;	
 }
 
-.respEmpty {
-	border:solid 1px black;
-	display: inline-block;
-	height:2px;
-	width: 350px
-}
-
-.container {
-	text-align: center;
-}
-
-
-
-.class1 {
-	display:inline-block;
-	width:300px;
-	overflow:hidden;
-	border:solid 1px black;
-}
-
 .colorOnHoverContainer {
 	margin-top: 0;
 	margin-bottom: 0;
@@ -309,7 +275,7 @@ difv {
 	border-color: #E0E0E0;
 	position:relative;
 
-	/*display: none;*/
+	display: none;
 }
 .alternative:hover {
 	background-color: #f0f0f0;
@@ -319,7 +285,7 @@ difv {
 
 
 .alternativeToMainImpact {
-
+	position:relative;
 	border-color: #E0E0E0;
 }
 

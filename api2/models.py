@@ -10,7 +10,7 @@ class Entity(models.Model):
     def __str__(self):
         name = ""
         rightClass = ""
-        for cla in ["product","bank","company","newspaper","author"]:
+        for cla in ["product","bank","company","newspaper","author","ressource","component","policy","phenomenon"]:
             try :
                 sub = eval("self."+cla)
                 name = sub.name
@@ -21,7 +21,7 @@ class Entity(models.Model):
     def __unicode__(self):
         name = ""
         rightClass = ""
-        for cla in ["product","bank","company","newspaper","author"]:
+        for cla in ["product","bank","company","newspaper","author","ressource","component","policy","phenomenon"]:
             try :
                 sub = eval("self."+cla)
                 name = sub.name
@@ -50,6 +50,34 @@ class Topic(models.Model):
         return(str(self.name))
 
 
+
+class Ressource(Entity):
+    name = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+class Component(Entity):
+    name = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+class Phenomenon(Entity):
+    name = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+
+class Policy(Entity):
+    name = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return(str(self.pk) +' - ' +str(self.name))
+    def __unicode__(self):
+        return(str(self.pk) +' - ' +str(self.name))
 
 class Company(Entity):
     name = models.CharField(max_length=255,unique=True)

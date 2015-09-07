@@ -172,3 +172,41 @@ class TopicList(generics.ListCreateAPIView):
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
+
+
+
+
+
+class RessourceDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Ressource.objects.all()
+    serializer_class = RessourceSerializer
+
+class RessourceList(generics.ListCreateAPIView):
+    queryset = Ressource.objects.all()
+    serializer_class = RessourceSerializer
+
+class ComponentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
+
+class ComponentList(generics.ListCreateAPIView):
+    queryset = Component.objects.all()
+    serializer_class = ComponentSerializer
+
+class PhenomenonDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Phenomenon.objects.all()
+    serializer_class = PhenomenonSerializer
+
+class PhenomenonList(generics.ListCreateAPIView):
+    queryset = Phenomenon.objects.all()
+    serializer_class = PhenomenonSerializer
+
+class PolicyDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Policy.objects.all()
+    serializer_class = PolicySerializer
+
+class PolicyList(generics.ListCreateAPIView):
+    queryset = Policy.objects.all()
+    serializer_class = PolicySerializer
+
+

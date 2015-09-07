@@ -21,15 +21,27 @@
             </span>
         </header>
 		<div class="content" style='position:absolute;top:3em;width:100%'>
-			<h1>Banques</h1>
-<!--
+
+
 
 			<section class="contentSection">
-				<h2 style="margin:20px">Principaux impacts :</h2>
+				<h1>Banques</h1>
+                <p class="intro">
+                    La banque à laquelle nous prétons notre argent investit cet agent dans des projets. Quels sont ces
+                    projets? Nous ne le savons pas toujours. Parfois, nous finançons sans le savoir des projets extrêmement
+                    polluants!
+                </p>
 
-						<div class="mainImpact softBox colorOnHover">
 
-							<div class="colorOnHoverContainer" style="position:relative">
+                <h2>Principaux impacts :</h2>
+
+                <p>
+                    Voici les principaux impacts que nous pouvons avoir en plaçant notre argent en banque:
+                </p>
+
+
+
+							<div class="colorOnHoverContainer softBox colorOnHover" style="position:relative">
  									<div class="buttons">
  										<span>
 	 										Par : <i class="icon-user icon1x"></i><br>
@@ -68,7 +80,7 @@
 											<img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt=""></img>
 										</div>
 										<div class="alternativeToMainImpactContent">
-											<span style="display:block;margin-bottom:3px">Alternatives :</span>
+											<span style="display:block;margin-bottom:3px">Découvrez les alternatives!</span>
 											<div class="alternative">
 												<span>Consommer chez:
 												 Crédit Bisounours </span>
@@ -96,14 +108,14 @@
 
 							</div>
 
-						</div>
 
 
 
 
 
-						<div class="mainImpact softBox colorOnHover">
-							<div class="colorOnHoverContainer" style="position:relative">
+
+
+							<div class="colorOnHoverContainer softBox colorOnHover" style="position:relative">
  									<div class="buttons">
  										<span>
 	 										Par : <i class="icon-user icon1x"></i><br>
@@ -170,17 +182,13 @@
 
 							</div>
 
-						</div>
+
 
 <p>Mettre le bouton proposer Un principal Impact</p>
 
-			</section>
-
--->
 
 
 
- 			<section class="contentSection">
 				<h2>En détail...</h2>
 
 				<ul>
@@ -215,7 +223,7 @@
 
                                         Sources:
 
-                                        {% for source in hasImpactOn.sources.all%}
+                                        {% for source in hasImpactOn.sources.all %}
 
                                         <div class="alternative">
                                             <span><label class="year smallLabel">{{source.date.year}}</label> {{source.title}}</a>
@@ -249,8 +257,17 @@
                                                                                     <a href="#" onclick="alert('Bientôt il y aura une belle page qui montrera ces sources: ');"><i class="icon-magnifying icon1x"></i>&nbsp;(39)</a>
                                                                                 </span>
                                                                             </div>
+                                                                        {% elif alternative.to_rel.habit %}
 
-                                                                        {% endif %}
+                                                                            <div class="alternative">
+                                                                                <span>
+                                                                                 {{ alternative.to_rel.habit.name }} </span>
+                                                                                <span class="buttonsAlternative">
+                                                                                    <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
+                                                                                    <i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;
+                                                                                    <a href="#" onclick="alert('Bientôt il y aura une belle page qui montrera ces sources: ');"><i class="icon-magnifying icon1x"></i>&nbsp;(39)</a>
+                                                                                </span>
+                                                                            </div>                                               {% endif %}
 
                                                                     {% endfor %}
 
@@ -370,9 +387,14 @@
                     {% endfor %}
 
 				</ul>
+
                  (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
-			    <br/>mettre les sources démenties
+			    <br/>topic dan chacun des behaviour
+                <br/>modificaion de chaq elemn rest en cliquant essus
+                <br/>mettre les sources démenties
                 <br/>tri des sources par date
+                <br/> date des sources: date de consultation + parutuon facultatives
+                <br/> un seu ls à ressource
             </section>
 		</div>
 
