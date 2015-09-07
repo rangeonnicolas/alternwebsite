@@ -60,6 +60,15 @@ def maquette(request):
     return render(request,"maquette.html", locals())
 
 
+def maquette2(request):
+
+    # products = Product.objects.all()
+
+    consumeaproduct = ConsumeAProduct.objects.all()
+
+    return render(request,"maquette2.html", locals())
+
+
 
 
 
