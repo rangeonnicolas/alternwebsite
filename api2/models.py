@@ -140,10 +140,12 @@ class Author(Entity):
 class Source(models.Model):
     title = models.CharField(max_length=5000)
     url = models.URLField(unique= True)
-    date = models.DateField()
+    publication_date = models.DateField(null=True)
     authors = models.ManyToManyField(Author)
     newspaper = models.ForeignKey(Newspaper,null=True)
     topic = models.ManyToManyField(Topic)
+    created_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return(str(self.pk) +' - ' +str(self.title))
@@ -195,6 +197,7 @@ class Behaviour(models.Model):
     #def __init__(self,*k):
     #    models.Model.__init__()
     #    self.toPrint = self.__unicode__(*k)
+    topic = models.ManyToManyField(Topic)
 
     def __unicode__(self):
         name = ""
