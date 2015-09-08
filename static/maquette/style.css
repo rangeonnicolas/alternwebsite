@@ -4,9 +4,16 @@ http://paletton.com/#uid=72N0X0klNmG63T1exvbtWd5Jn3k
 http://paletton.com/#uid=72N1T0klNmG63T1exvbtWd5Jn3k
 */
 
+
 body {
+
+    /*font-family: Georgia, "DejaVu Serif", Norasi, serif;*/
+    /*font-family: "avenir light";*/
+     /*ccfd: font-family: Arial,​"Helvetica Neue",​Helvetica,​"sans-serif";*/
+   
+
 	/*font-family:    "Trebuchet MS",Helvetica,Arial,sans-serif; */
-	font-family: Georgia, "DejaVu Serif", Norasi, serif;
+
 
 	/* polices a empattements */
 	/*font-family: "Times New Roman", Times, "Liberation Serif", FreeSerif, serif;*/
@@ -24,11 +31,10 @@ body {
 	/*font-family: "Courier New", Courier, "Liberation Mono", monospace;*/
 	/*font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;*/
 
-	font-size: 0
-	0.9em;
 	background-color: #F8F8F8;
 	color: #606060;
 	margin: 0;
+	font-family: Arial, "sans-serif";
 }
 
 @media handheld
@@ -37,6 +43,39 @@ body {
     {
         font-size: 1em;
     }
+}
+
+
+h2 {
+font-family:"courier new";
+/*border-bottom:solid 1px ;*/
+border-left:solid 5px ;
+border-top: solid 1px #AAAAAA;
+color: #404070;
+margin: 40px 0px 40px -35px/*todo: degueu*/;
+/*display:inline;*/
+padding:5px 15px;
+background-color: #F8F8F8;
+
+}
+
+h1 {
+    border-left: solid 5px black;
+    border-top: solid 1px black;
+	font-family: helvetica;
+	background-color: #404070;
+	color:white;
+	text-shadow:1px 1px black;
+/*font-family:"Courier new";*/
+/*border-top:solid 5px black ;/*
+/*border-left:solid 3px black ;*/
+#display:inline;
+padding: 10px;
+padding-left: 30px;
+margin:-35px;/*todo: merger les padding*/
+margin-bottom:40px;
+padding-bottom:10px;
+font-size:2em;
 }
 
 header {
@@ -66,9 +105,13 @@ p {
     margin-bottom : 25px;
 }
 
+
+
 h1, h2 {
 	#font-family: "Myriad Pro";
 }
+
+
 
 .navBar {
     z-index:10;
@@ -139,13 +182,16 @@ difv {
 }
 
 .buttonsAlternative {
-	display: none;
+	#display: none;
+	display:inline-block;
+
 	position:absolute;
 	right:0px;
 	margin-right:7px;
 }
 .alternative:hover .buttonsAlternative {
 	display:inline-block;
+
 }
 
 .contentSection {
@@ -153,7 +199,7 @@ difv {
 	width:80%;
 	min-width: 400px;
 	background-color: white;
-   	padding: 15px; 
+   	padding: 35px;
 	#box-shadow: 2px 2px 2px #021600; 
 	border: solid 1px;
 	border-color: #ECECEC;
@@ -176,6 +222,26 @@ difv {
 
 .impactVia {
 	display:inline;	
+}
+
+.respEmpty {
+	border:solid 1px black;
+	display: inline-block;
+	height:2px;
+	width: 350px
+}
+
+.container {
+	text-align: center;
+}
+
+
+
+.class1 {
+	display:inline-block;
+	width:300px;
+	overflow:hidden;
+	border:solid 1px black;
 }
 
 .colorOnHoverContainer {
@@ -239,9 +305,11 @@ difv {
 	margin-bottom: -1px;
 	margin-left: 2px;
 	#margin-right: 1em;
-	position:relative;
 	width:auto;
 	border-color: #E0E0E0;
+	position:relative;
+
+	/*display: none;*/
 }
 .alternative:hover {
 	background-color: #f0f0f0;
@@ -249,11 +317,9 @@ difv {
 	z-index: 30;
 }
 
-.mainImpact, .alternativeToMainImpact, .specificImpact {
-}
 
 .alternativeToMainImpact {
-	position:relative;
+
 	border-color: #E0E0E0;
 }
 
@@ -261,14 +327,7 @@ difv {
 	border-color: rgba(128,128,128,1);
 }
 
-.mainImpact, .specificImpact{
-	height: auto;
-	padding: 0;
-	overflow: hidden;
-	vertical-align: top;
-	margin-right: 1.5em;
-	margin-left: 1.5em; 
-}
+
 /*.mainImpact:hover, .specificImpact:hover{
 	height: auto;
 }
@@ -276,6 +335,12 @@ difv {
 .mainImpactContent, .alternativeToMainImpactContent, .specificImpactContent {
 	display: inline-block;
 	min-width: 400px;
+	height: auto;
+	padding: 0;
+	overflow: hidden;
+	vertical-align: top;
+	margin-right: 1.5em;
+	margin-left: 1.5em;
 }
 
 
@@ -419,12 +484,12 @@ difv {
 }
 
 label {
-	border: solid 1px black;
+	#border: solid 1px black;
 	opacity:0.9;
-	font-weight: bold;
+	#font-weight: bold;
 	color: white;
-	border-radius: 0.4em;
-	padding: 0px 0.2em  ;
+	border-radius: 2px;
+	padding: 0px 0.3em  ;
 	font-family:    "Trebuchet MS",Helvetica,Arial,sans-serif;
 }
 label:hover{
