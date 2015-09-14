@@ -58,9 +58,9 @@ border-left:solid 5px ;
 border-top: solid 1px #AAAAAA;
 #color: #404070;
 color:  #404060;
-margin: 40px 0px 40px -35px/*todo: degueu*/;
+margin: 40px 0px 40px -10px/*todo: degueu*/;
 /*display:inline;*/
-padding:5px 15px;
+padding:10px 15px 10px 15px;
 background-color: #F8F8F8;
 }
 
@@ -78,7 +78,7 @@ h1 {
 #display:inline;
 padding: 10px;
 padding-left: 30px;
-margin:-35px;/*todo: merger les padding*/
+margin:-10px;/*todo: merger les padding*/
 margin-bottom:40px;
 padding-bottom:10px;
 font-size:2em;
@@ -141,17 +141,22 @@ h1, h2 {
     padding: 10px 40px 10px 25px;
     #color: #eeeeee;
     #color: white;
-    color: inherit;
+    #color: inherit;
+    color: #404060;
+    opacity:0.5;
 }
 .navBarButton:hover {
     border-left: 5px solid  white;
     padding-left: 20px;
-    color: white;
     #text-shadow: 1px 1px black;
 }
 
-nav:hover{
+nav:hover .navBarButton{
     color: #eeeeee;
+    opacity:1;
+}
+nav:hover .navBarButton:hover{
+    color: white;
 }
 
 /*table {
@@ -226,9 +231,9 @@ difv {
 
 .softBox , .borderedBox {
 	border: solid 0px;
-	border-top-width: 1px;
+	#border-top-width: 1px;
 	border-bottom-width: 1px;
-	padding-top: 7px;
+	padding-top: 0px;
 	padding-bottom: 7px;
 	margin: -1px;
 }
