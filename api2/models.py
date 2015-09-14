@@ -44,6 +44,8 @@ class Entity(models.Model):
 
 class Topic(models.Model):
     name = models.CharField(max_length=255,unique=True)
+    description_en = models.TextField(null=True)
+    in_navigation_bar = models.BooleanField(default=False)
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
