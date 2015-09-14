@@ -98,13 +98,15 @@ overflow:hidden;
 
 header {
     background-color: white;
-    border-bottom: solid 1px #f0f0f0;
+    #border-bottom: solid 1px #f0f0f0;
+    border-bottom: solid 1px #AAAAAA;
+    box-shadow: 1px 1px 1px #AAAAAA;
     font-size:2em;
     padding:10px;
 /*    position:fixed;
     top:0;*/
    /* width:100%;*/
-    z-index:2;
+    z-index:-1;
 }
 .temp1 {
     color: #b2393f;
@@ -212,10 +214,12 @@ difv {
 	margin:14px ;
 /*	width:80%;*/
 	background-color: white;
-   	padding: 35px;
-	box-shadow: 2px 2px 2px #ECECEC;
+   	padding: 45px;
+	#box-shadow: 2px 2px 2px #ECECEC;
+	box-shadow: 2px 2px 2px #AAAAAA;
 	border: solid 1px;
-	border-color: #ECECEC;
+	#border-color: #ECECEC;
+	border-color: #AAAAAA;
 }
 
 
@@ -541,6 +545,7 @@ label:hover{
 
 nav {
     border-right: 1px solid black;
+    box-shadow: 2px 2px 2px #AAAAAA;
 
     background-color: #202030;
     #background-image: linear-gradient(to right, #202030, #08080b);
@@ -654,7 +659,7 @@ nav {
 
 
 
-@media (max-width: 640px) {
+@media handheld, (max-width: 640px) {
 
   .wrapper {
     -webkit-box-orient: vertical;
