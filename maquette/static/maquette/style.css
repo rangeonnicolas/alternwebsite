@@ -55,7 +55,7 @@ h2 {
 font-family:  "Trebuchet MS";
 /*border-bottom:solid 1px ;*/
 border-left:solid 5px ;
-border-top: solid 1px #AAAAAA;
+border-top: solid 1px #BBBBBB;
 #color: #404070;
 color:  #404060;
 margin: 40px 0px 40px -10px/*todo: degueu*/;
@@ -99,8 +99,8 @@ overflow:hidden;
 header {
     background-color: white;
     #border-bottom: solid 1px #f0f0f0;
-    border-bottom: solid 1px #AAAAAA;
-    box-shadow: 1px 1px 1px #AAAAAA;
+    border-bottom: solid 1px #BBBBBB;
+    box-shadow: 1px 1px 1px #BBBBBB;
     font-size:2em;
     padding:10px;
 /*    position:fixed;
@@ -144,8 +144,9 @@ h1, h2 {
     #color: #eeeeee;
     #color: white;
     #color: inherit;
-    color: #404060;
-    opacity:0.5;
+    #color: #404060;
+    color: #eeeeee;
+    #opacity:0.5;
 }
 .navBarButton:hover {
     border-left: 5px solid  white;
@@ -216,10 +217,10 @@ difv {
 	background-color: white;
    	padding: 45px;
 	#box-shadow: 2px 2px 2px #ECECEC;
-	box-shadow: 2px 2px 2px #AAAAAA;
+	box-shadow: 2px 2px 2px #BBBBBB;
 	border: solid 1px;
 	#border-color: #ECECEC;
-	border-color: #AAAAAA;
+	border-color: #BBBBBB;
 }
 
 
@@ -538,14 +539,14 @@ label:hover{
 		}
 
 		.objectLink {
-			background-color: #AAAAAA;
+			background-color: #BBBBBB;
 			border:none;
 		}
 
 
 nav {
     border-right: 1px solid black;
-    box-shadow: 2px 2px 2px #AAAAAA;
+    box-shadow: 2px 2px 2px #BBBBBB;
 
     background-color: #202030;
     #background-image: linear-gradient(to right, #202030, #08080b);

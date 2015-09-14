@@ -26,15 +26,19 @@
     <nav>
             {% for t in topics %}
                 {% if t.in_navigation_bar%}
-                <div class="navBarButton">
-                    {{ t.name }}
-                </div>
+                <a href="{% url 'altws.views.topic_id' t.id %}">
+                    <div class="navBarButton">
+                        {{ t.name }}
+                    </div>
+                </a>
                 {% endif %}
             {% endfor %}
+            {% comment %}
             <div class="navBarButton" style="margin-top:20px">
                 <i class="icon-chevron_right"></i>
                 &nbsp;Suggest a new topic
             </div>
+            {% endcomment %}
     </nav>
 
     <div class="content" style=''>

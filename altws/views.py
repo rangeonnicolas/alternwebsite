@@ -81,6 +81,32 @@ def maquette2(request):
     return render(request,"maquette2.html", locals())
 
 
+def topic_id(request, topic_id):
+
+    topic_id = int(topic_id)
+
+    topics = Topic.objects.all()
+
+    try:
+        topic = Topic.objects.get(id=topic_id)
+    except:
+        return render(request,"home.html",locals())#todo: mettre une 404
+
+    consumeaproduct = []
+    all_consumeaproduct = ConsumeAProduct.objects.all() #todo: inclure les habit.....
+    for c in all_consumeaproduct: #todo: faire plutot avec un queryset
+        tpcs = c.topic.all()
+        print([topic_id == tt.id for tt in tpcs])
+        if sum([topic_id == tt.id for tt in tpcs]):
+            consumeaproduct = consumeaproduct + [c]
+            print(3)
+
+
+    title = topic.name
+    description = topic.description_en
+
+    return render(request,"maquette.html",locals())
+
 
 
 
