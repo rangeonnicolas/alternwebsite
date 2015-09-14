@@ -25,9 +25,11 @@
 
     <nav>
             {% for t in topics %}
-            <div class="navBarButton">
-                {{ t.name }}
-            </div>
+                {% if t.in_navigation_bar%}
+                <div class="navBarButton">
+                    {{ t.name }}
+                </div>
+                {% endif %}
             {% endfor %}
             <div class="navBarButton" style="margin-top:20px">
                 <i class="icon-chevron_right"></i>
