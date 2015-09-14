@@ -47,6 +47,7 @@ def home(request):
     else: # Si ce n'est pas du POST, c'est probablement une requête GET
         form = ContactForm()  # Nous créons un formulaire vide
 
+    topics = Topic.objects.all()
 
     return render(request, 'home.html', locals())
 
@@ -55,7 +56,14 @@ def maquette(request):
 
     # products = Product.objects.all()
 
+    description = """ La banque à laquelle nous prétons notre argent investit cet agent dans des projets. Quels sont ces
+                                projets? Nous ne le savons pas toujours. Parfois, nous finançons sans le savoir des projets extrêmement
+                                polluants!"""
+
+    topics = Topic.objects.all()
+
     consumeaproduct = ConsumeAProduct.objects.all()
+    title = "Banque"
 
     return render(request,"maquette.html", locals())
 
@@ -65,12 +73,12 @@ def maquette2(request):
     # products = Product.objects.all()
 
     consumeaproduct = ConsumeAProduct.objects.all()
+    title = "Banque"
+
+    topics = Topic.objects.all()
+
 
     return render(request,"maquette2.html", locals())
-
-
-
-
 
 
 

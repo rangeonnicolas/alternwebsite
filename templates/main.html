@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>OpenAlternativa</title>
+    {% load staticfiles %}
+    <link href="{% static "maquette/style.css" %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "maquette/th/mfg.css" %}">
+</head>
+<body>
+
+
+<header>
+    <img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt=""
+         style="width:1em;height:1em;z-index:1;left:0em;top:0em;opacity:0.7;vertical-align:middle;position:relative"></img>
+            <b><span style="vertical-align:top"><span class="temp1">Open</span><span class="temp2">A</span><span
+                    class="temp2">lternativ</span><span class="temp3">a!</span>
+            </span></b>
+
+
+</header>
+
+
+<div class="wrapper">
+
+    <nav>
+            {% for t in topics %}
+            <div class="navBarButton">
+                {{ t.name }}
+            </div>
+            {% endfor %}
+            <div class="navBarButton" style="margin-top:20px">
+                <i class="icon-chevron_right"></i>
+                &nbsp;Suggest a new topic
+            </div>
+    </nav>
+
+    <div class="content" style=''>
+
+        {% block content %}
+        <section class="contentSection">
+            empty
+        </section>
+        {% endblock %}
+    </div>
+
+
+</div>
+
+
+<footer>
+    <br/><br/>
+</footer>
+
+<script>
+                        function openPar(id,id2){
+                            document.getElementById(id).style.display = 'inherit' ;
+                            var b = document.getElementById(id2);
+                            b.innerHTML = '<i class="icon-chevron_down"></i>' ;
+                            b.onclick=function(){closePar(id,id2);} ;
+                        }
+                        function closePar(id,id2){
+                            document.getElementById(id).style.display = 'None' ;
+                            var b = document.getElementById(id2);
+                            b.innerHTML = '<i class="icon-chevron_right"></i>' ;
+                            b.onclick=function(){openPar(id,id2);} ;
+                        }
+
+</script>
+
+</body>
+</html>
+
+
+<!--<html><head>
+    <meta charset="UTF-8">
+    <meta value="notranslate" name="google">
+
+
+    <title>CodePen - template : flexbox</title>
+
+
+
+
+        <style>
+      /* Layout */
+html {display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex; -webkit-box-orient: vertical; -webkit-box-direction: normal; -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;} /* IE fix */
+body {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; /* crée un contexte flex pour ses enfants */
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column; /* affichage vertical */
+  min-height: 100vh; /* toute la hauteur du viewport (compatible IE9+) */
+}
+.wrapper {
+  display: block; /* IE fix */
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1; /* occupe la hauteur restante */
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex; /* crée un contexte flex pour ses enfants */
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+          flex-direction: row; /* affichage horizontal */
+}
+nav {
+  width: 15em;
+}
+.content {
+  display: block; /* IE fix */
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+      -ms-flex: 1;
+          flex: 1; /* occupe la largeur restante */
+}
+
+
+/* Responsive */
+
+@media (max-width: 640px) {
+	.wrapper {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  nav {
+    width: auto;
+    -webkit-box-ordinal-group: 2;
+    -webkit-order: 1;
+        -ms-flex-order: 1;
+            order: 1;
+  }
+}
+
+/* Decoration */
+
+body {
+	margin: 0;
+	background: #fff;
+	font-family: "Century Gothic", helvetica, arial, sans-serif;
+	font-size: 1.1em;
+}
+
+
+nav a {
+  display: block;
+  padding: .5em 1em;
+  color: #fff;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255,255,255,.3);
+}
+section {
+	background: hotpink;
+}
+
+    </style>
+
+    <script>
+  window.console = window.console || function(t) {};
+</script>
+
+
+
+  </head>
+
+  <body>
+
+
+
+    <div class="wrapper">
+
+      <section class="content">
+        <h2>Flexbox c'est la vie, Hopla !</h2>
+        <p><code>flex: 1;</code></p>
+        <p>Lorem Elsass ipsum lacus leverwurscht Wurschtsalad mamsell Gal. gewurztraminer turpis, suspendisse commodo Oberschaeffolsheim ornare aliquam semper Miss Dahlias Mauris turpis sagittis kuglopf eleifend dignissim baeckeoffe geht's Richard Schirmeck mollis habitant schnaps ante et sit leo schpeck sit Salu bissame Salut bisamme varius quam. amet elementum nullam bissame bredele Heineken picon bière gal sed risus, condimentum Verdammi ch'ai ac réchime météor barapli s'guelt quam, non Christkindelsmärik blottkopf, Carola tellus rucksack vielmols, Gal !</p>
+      </section>
+    </div>
+
+
+
+</body></html>-->
