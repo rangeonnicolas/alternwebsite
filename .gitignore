@@ -2,19 +2,20 @@
 .idea/
 .idea
 
+*.css
 
-*/db.sqlite3
 *.sqlite3
 
 .idea/
 */__pycache__/*
-
+*/__pycache__/
+*/__pycache__
 
 *.pyc
 *.pyo
 *.db
 
-# ~._*
+#~._*
 
 
 local_settings.py
