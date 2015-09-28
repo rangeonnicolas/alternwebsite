@@ -49,7 +49,7 @@ class HabitSerializer(serializers.ModelSerializer):
 class RelationSerializer(serializers.ModelSerializer):
     #name = RelationTypeSerializer()
     sources = serializers.SlugRelatedField(many= True, queryset=Source.objects.all(), slug_field='title', label="Sources that proove this relation")
-    relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
+    relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label="has this relation [ /rest/relationtype ]")
     class Meta:
         model = Relation
         fields = ["id","from_rel","relationType","to_rel","sources"]

@@ -170,7 +170,7 @@ class RelationType(models.Model):
 
 class Relation(models.Model):
 
-    from_rel = models.ForeignKey(Entity, related_name="relations_from",verbose_name="This object")
+    from_rel = models.ForeignKey(Entity, related_name="relations_from",verbose_name="This Object")
     to_rel = models.ForeignKey(Entity, related_name="relations_to",verbose_name="with this object")
     relationType = models.ForeignKey(RelationType,verbose_name="has this relation")
     sources = models.ManyToManyField(Source)
@@ -263,8 +263,8 @@ class HasImpactOn(models.Model):
         ('Neu','neutral'),
         ('U','unknown')
     )
-    behavior = models.ForeignKey(Behaviour, related_name="has_impact_on",verbose_name="This behaviour")
-    becauseOf = models.ForeignKey(Relation, related_name="has_impact_on",verbose_name="because of")
+    behavior = models.ForeignKey(Behaviour, related_name="has_impact_on",verbose_name="This behaviour [ /rest/consumeaproduct OU /rest/habit ]")
+    becauseOf = models.ForeignKey(Relation, related_name="has_impact_on",verbose_name="because of [ /rest/relation ]")
     impactCateg = models.ForeignKey(ImpactCateg,verbose_name="has this impact")
     sources = models.ManyToManyField(Source,verbose_name="Source that prooves this impact") #todo: il peut y avoir plusieures sources
     impact_type = models.CharField(max_length=3, choices= TYPE_CHOICES, default= 'U')
@@ -276,8 +276,8 @@ class HasImpactOn(models.Model):
 
 
 class Alternative(models.Model):
-    from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives",verbose_name="This impact")
-    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of",verbose_name="has this alternative")
+    from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives",verbose_name="This impact [ /rest/hasimpacton ]")
+    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of",verbose_name="has this alternative [ /rest/habit OU /rest/consumeaproduct ]")
     sources = models.ManyToManyField(Source)
     def __str__(self):
         return self.__unicode__()
@@ -301,8 +301,8 @@ class MainImpact(models.Model):
 
 
 class AlternativeToMainImpact(models.Model):
-    from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact")
-    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of_main_impact",verbose_name="has this alternative")
+    from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact [ /rest/mainimpact ]")
+    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of_main_impact",verbose_name="has this alternative [ /rest/habit OU /rest/behaviour ]")
     sources = models.ManyToManyField(Source)
     def __str__(self):
         return self.__unicode__()
