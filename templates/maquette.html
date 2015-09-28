@@ -26,7 +26,7 @@
 
 							<div class="mainImpactBox height1">
 
-                                {% include "sources_and_alternatives.html" with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" only%}
+                                {% include "sources_and_alternatives.html" with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' only%}
 
 							</div>
 
@@ -83,7 +83,7 @@
 
                                                 <div class="alternativeToMainImpactContent flexBoxMaxWidth">
 
-                                                    {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" only %}
+                                                    {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
                                                 </div>
                                             </div>
                                         {% endfor %}
