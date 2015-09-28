@@ -278,7 +278,37 @@ class HasImpactOn(models.Model):
 class Alternative(models.Model):
     from_rel = models.ForeignKey(HasImpactOn, related_name="alternatives",verbose_name="This impact")
     to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of",verbose_name="has this alternative")
-    sources = models.ManyToManyField(Source) #todo: plusieures sources possibles
+    sources = models.ManyToManyField(Source)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return('[ '+str(self.to_rel)+' ]  is an alternative to this impact:  [ '+str(self.to_rel)+' ]')
+
+
+
+class MainImpact(models.Model):
+    topics = models.ManyToManyField(Topic)
+    impactCateg = models.ForeignKey(ImpactCateg,verbose_name="has an main impact on")
+    via = models.CharField(max_length= 200)
+    sources = models.ManyToManyField(Source,verbose_name="Source that prooves this impact")
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        topicsStr = ""
+        for t in self.topics.all():
+            topicsStr = topicsStr + ", " + t.name
+        return('[ '+ topicsStr +' ]  HAVE IMPACT ON  ['+str(self.impactCateg)+' ]  VIA  [ '+ str(self.via) +' ]')
+
+
+class AlternativeToMainImpact(models.Model):
+    from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact")
+    to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of_main_impact",verbose_name="has this alternative")
+    sources = models.ManyToManyField(Source)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return('[ '+str(self.to_rel)+' ]  is an alternative to this impact:  [ '+str(self.to_rel)+' ]')
+
 
 
 
