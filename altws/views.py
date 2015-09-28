@@ -73,7 +73,8 @@ def maquette2(request):
     # products = Product.objects.all()
 
     consumeaproduct = ConsumeAProduct.objects.all()
-    title = "Banque"
+    main_impacts = MainImpact.objects.all()
+    title = "Maquette"
 
     topics = Topic.objects.all()
 
@@ -96,14 +97,36 @@ def topic_id(request, topic_id):
     all_consumeaproduct = ConsumeAProduct.objects.all() #todo: inclure les habit.....
     for c in all_consumeaproduct: #todo: faire plutot avec un queryset
         tpcs = c.topic.all()
-        print([topic_id == tt.id for tt in tpcs])
+        #print([topic_id == tt.id for tt in tpcs])
         if sum([topic_id == tt.id for tt in tpcs]):
             consumeaproduct = consumeaproduct + [c]
-            print(3)
 
+
+    main_impacts = []
+    all_main_impacts = MainImpact.objects.all()
+    for mi in all_main_impacts: #todo: faire plutot avec un queryset
+        tpcs = mi.topics.all()
+        if sum([topic_id == tt.id for tt in tpcs]):
+            main_impacts = main_impacts + [mi]
 
     title = topic.name
     description = topic.description_en
+
+    #
+    # import random;
+    # col = [
+    #     [64,96,-1],
+    #     [96,64,-1],
+    #     [64,-1,96],
+    #     [96,-1,64],
+    #     [-1,64,96],
+    #     [-1,96,64]
+    # ][random.randrange(0,6)]
+    # col[col.index(-1)] = random.randrange(64,97)
+    # colStr = " rgba(" +str(col[0])+ "," +str(col[1])+ "," +str(col[2])+ ",1)"
+    # impactCategs = ImpactCateg.objects.all()
+    # colDict = {ic.name:colStr for ic in impactCategs}
+    # print(colDict)
 
     return render(request,"maquette.html",locals())
 

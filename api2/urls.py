@@ -75,6 +75,12 @@ urlpatterns = [
 
     url(r'^topic/$', views.TopicList.as_view()),
     url(r'^topic/(?P<pk>[0-9]+)/$', views.TopicDetail.as_view()),
+
+    url(r'^mainimpact/$', views.MainImpactList.as_view()),
+    url(r'^mainimpact/(?P<pk>[0-9]+)/$', views.MainImpactDetail.as_view()),
+
+    url(r'^alternativetomainimpact/$', views.AlternativeToMainImpactList.as_view()),
+    url(r'^alternativetomainimpact/(?P<pk>[0-9]+)/$', views.AlternativeToMainImpactDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

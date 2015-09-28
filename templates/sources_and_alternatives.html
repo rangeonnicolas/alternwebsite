@@ -1,0 +1,117 @@
+{% load staticfiles %}
+
+                                                    {% include "main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
+
+                                                   <!-- <div style="margin: 5px 0">
+                                                            <a href="#"><i class="icon-chevron_right"></i></a>
+                                                            <label class="impactCateg smallLabel">{{ hasImpactOn.impactCateg.name }}</label>
+                                                            <span style="font-style:italic">
+                                                            {% if hasImpactOn.impact_type == 'neg' %}
+                                                            &nbsp;(negative impact)
+                                                            {% elif  hasImpactOn.impact_type == 'pos' %}
+                                                            &nbsp;(positive impact)
+                                                            {% else %}
+                                                            &nbsp;(neutral impact)
+                                                            {% endif %}
+                                                            </span>
+                                                            &lt;!&ndash;<span style="display:float; float:right">Sources</span>&ndash;&gt;
+                                                    </div>-->
+
+                                                    <div class="flexContainer flexWrap box" style="border-color:#BBBBBB">
+                                                        <div class="flexBoxMaxWidth  minWidth1 padding1 color1">
+                                                            {% if title %}
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="icon-chevron_right"></i>
+                                                                {{ prod.name }} {{hasImpactOn.becauseOf.relationType.name}}
+                                                                <!--<label class="impactCateg smallLabel">-->
+                                                                    {{hasImpactOn.becauseOf.to_rel.product.name}}
+                                                                <!--</label>-->
+                                                                <!--<span style="font-style:italic">-->
+                                                                    according to: <a href="#" style="font-weight:bold">[...]</a>
+                                                                <!--</span>-->
+                                                            {% endif %}
+                                                            <span class="admin">(pour ajouter une source, cliquer sur "modifier ce cadre")</span>
+
+                                                                <div style="margin-top:5px">
+                                                                    {% if hasImpactOn.sources.all %}
+                                                                    <span style="margin-left:10px;font-size:0.8em;font-style:italic">Sources:</span>
+                                                                    {% endif %}
+
+                                                                {% for source in hasImpactOn.sources.all %}
+
+                                                                <div class="source whiteLine color2">
+                                                                    <a target="blank" href='{{source.url}}'><span><label class="year smallLabel">{{source.publication_date.year}}</label> {{source.title}}
+                                                                    </span></a>
+                                                                    <span class="buttonsAlternative">
+                                                                        <i class="icon-user icon1x"></i>&nbsp;|&nbsp;
+                                                                        <i class="icon-magnifying icon1x"></i>&nbsp;
+                                                                    </span>
+                                                                </div>
+
+                                                                {% endfor %}
+                                                                </div>
+
+                                                        </div>
+
+
+                                                        <div class="flexBoxMaxWidth minWidth1 padding1 border1 color1">
+                                                                        {% if hasImpactOn.alternatives.all %}
+                                                                                <div style="display:flex">
+                                                                                    <!--<div class="logoAlternative" style="display:inline-block">
+                                                                                        <img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt=""></img>
+                                                                                    </div>-->
+                                                                                    <span style="display:inline-block;">Alternatives :</span>
+                                                                                </div>
+                                                                                <div class="alternativeToMainImpactContent color2">
+
+
+                                                                                    {% for alternative in hasImpactOn.alternatives.all %}
+
+
+
+                                                                                            <div class="alternative whiteLine">
+                                                                                                <div class="logoAlternative" style="display:inline-block; vertical-align:middle">
+                                                                                                    <img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt=""></img>
+                                                                                                </div>
+
+                                                                                                <span class="lineHeight1">
+                                                                                                    {% if alternative.to_rel.consumeaproduct %}
+                                                                                                        Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
+                                                                                                    {% elif alternative.to_rel.habit %}
+                                                                                                        {{ alternative.to_rel.habit.name }}
+                                                                                                    {% endif %}
+                                                                                                </span>
+
+                                                                                                <span class="buttonsAlternative lineHeight1">
+                                                                                                    <!--<i class="icon-user icon1x"></i>&nbsp;|&nbsp;-->
+                                                                                                    <i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;
+                                                                                                    <a href="#" onclick="alert('Bientôt il y aura une belle page qui montrera ces sources: ');"><i class="icon-magnifying icon1x"></i>&nbsp;(39)</a>
+                                                                                                </span>
+                                                                                            </div>
+
+
+                                                                                    {% endfor %}
+
+                                                                                    <!--<div class="alternative">-->
+                                                                                        <!--<span>Garder tout son fric dans sa poche</span>-->
+                                                                                        <!--<span class="buttonsAlternative">-->
+                                                                                            <!--<i class="icon-user icon1x"></i>&nbsp;|&nbsp;-->
+                                                                                            <!--<i class="icon-mute_off icon1x"></i>&nbsp;<i class="icon-users icon1x"></i>&nbsp;|&nbsp;-->
+                                                                                            <!--<i class="icon-magnifying icon1x"></i>&nbsp;(39)-->
+                                                                                        <!--</span>-->
+                                                                                    <!--</div>-->
+
+                                                                                    <div class="alternative whiteLine lineHeight1" style="color:inherit">
+                                                                                        <i class="icon-chevron_down"></i> Plus ...
+                                                                                        <a href="/rest/alternative/"><span class="buttonsAlternative" style="position:absolute;right:0px;margin-right:7px"><i class="icon-PEN icon1x"></i> Ajouter une alternative</span></a>
+                                                                                    </div>
+
+
+                                                                                </div>
+                                                            {% endif %}
+                                                            <span class="admin"><a href="/rest/{{entity_alt}}">(ajouter une alternative)</a></span>
+
+                                                        </div>
+
+                                                    </div>
+
+

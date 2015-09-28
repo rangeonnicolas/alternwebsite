@@ -210,3 +210,19 @@ class PolicyList(generics.ListCreateAPIView):
     serializer_class = PolicySerializer
 
 
+class MainImpactDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = MainImpact.objects.all()
+    serializer_class = MainImpactSerializer
+
+class MainImpactList(generics.ListCreateAPIView):
+    queryset = MainImpact.objects.all()
+    serializer_class = MainImpactSerializer
+
+
+class AlternativeToMainImpactDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = AlternativeToMainImpact.objects.all()
+    serializer_class = AlternativeToMainImpactSerializer
+
+class AlternativeToMainImpactList(generics.ListCreateAPIView):
+    queryset = AlternativeToMainImpact.objects.all()
+    serializer_class = AlternativeToMainImpactSerializer

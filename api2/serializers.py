@@ -52,7 +52,7 @@ class RelationSerializer(serializers.ModelSerializer):
     relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
     class Meta:
         model = Relation
-        fields = ["from_rel","relationType","to_rel","sources"]
+        fields = ["id","from_rel","relationType","to_rel","sources"]
 
 class RelationReadSerializer(serializers.ModelSerializer):
     #name = RelationTypeSerializer()
@@ -62,7 +62,7 @@ class RelationReadSerializer(serializers.ModelSerializer):
     relationType = serializers.SlugRelatedField(queryset=RelationType.objects.all(), slug_field='name', label = "of type")
     class Meta:
         model = Relation
-        fields = ["from_rel","relationType","to_rel","sources"]
+        fields = ["id","from_rel","relationType","to_rel","sources"]
 
 
 
@@ -108,14 +108,14 @@ class HasImpactOnSerializer(serializers.ModelSerializer):
     #behavior    = serializers.StringRelatedField(label="This behavior :")
     class Meta:
         model = HasImpactOn
-        fields = ["behavior","impactCateg","becauseOf","impact_type","sources"]
+        fields = ["id","behavior","impactCateg","becauseOf","impact_type","sources"]
 class HasImpactOnReadSerializer(serializers.ModelSerializer):
     impactCateg = serializers.SlugRelatedField(queryset=ImpactCateg.objects.all(), slug_field="name", label="has an impact on")
     behavior    = serializers.StringRelatedField(label="This behavior :")
     becauseOf    = serializers.StringRelatedField()
     class Meta:
         model = HasImpactOn
-        fields = ["behavior","impactCateg","becauseOf","impact_type","sources"]
+        fields = ["id","behavior","impactCateg","becauseOf","impact_type","sources"]
 
 class TopicSerializer(serializers.ModelSerializer):
     class Meta:
@@ -137,6 +137,17 @@ class PhenomenonSerializer(serializers.ModelSerializer):
 class PolicySerializer(serializers.ModelSerializer):
     class Meta:
         model = Policy
+
+class MainImpactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MainImpact
+        fields = ["id","impactCateg","via","topics","sources"]
+
+class AlternativeToMainImpactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlternativeToMainImpact
+
+
 
 #
 # class Serializer(serializers.ModelSerializer):

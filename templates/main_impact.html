@@ -1,0 +1,15 @@
+{% with message="Attention, tu t'appretes à ACTUALISER un element déjà existant. Dans le formulaire que tu vas remplir, il faudra toujours Resaisir les toutes les information, meme celles que tu ne souhites pas modifier." %}
+                                <div style="white-space: nowrap;">
+                                    <div class="tab" style="position:relative;width:40%;white-space:normal;word-wrap: normal;">
+                                        {{ name }}
+
+
+                                        <div class="triangle" style="position:absolute;right:-9px; bottom:0;z-index:1"></div>
+
+                                    </div>
+                                    <div style="display:inline-block; margin-left:-9px; z-index:0;margin-bottom:-1px;width:60%;white-space:normal;word-wrap: normal;">
+                                            <label class="via smallLabel" style=" padding-left:16px">{{ label }}</label>
+                                            <span class="admin"><a onclick="alert('{{ message }}')" href="/rest/{{entity_imp}}/{{id_admin}}">(Modifier ce cadre)</a></span>
+                                    </div>
+                                </div>
+{% endwith %}
