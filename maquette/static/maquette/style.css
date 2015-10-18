@@ -108,7 +108,7 @@ header {
     #box-shadow: 1px 1px 1px #BBBBBB;
     font-size:2em;
     padding:10px;
-    height: 40px;
+    height: 50px;
 /*    position:fixed;
     top:0;*/
    /* width:100%;*/
@@ -204,6 +204,19 @@ difv {
 	border: solid 1px;
 	margin:-1px;
 	border-color: yellow;
+}
+
+.alternativeTitle:after {
+    content: ':'
+}
+
+.alternativeTitle{
+    display:inline-block;
+    padding:5px 10px;
+    font-size: 1.3em;
+    font-variant-caps: small-caps;
+    color: blue;
+    font-variant:underline;
 }
 
 .wordWrap {
@@ -314,6 +327,23 @@ difv {
     margin-left: -8px
 }
 
+.arrowAltern{
+    display:inline-block;
+}
+.arrowAlternTriangle{
+	width: 25px;
+	height:100%;
+	display: inline-block;
+	margin-left:30px;
+}
+.arrowAlternTriangle img{
+    height:100%;
+    width:100%;
+}
+
+.mainAlternative {
+    border : 1px solid black;
+}
 
 .mainImpactBox {
 	#display:inline-block;
@@ -548,8 +578,11 @@ a {
     line-height:30px;
 }
 
+.thumb {
+    height: 30px;/*todo : degueulasse*/
+}
+
 .logoAlternative {
-	#height: 30px;
 	width: 30px;
 	flex-grow : 0;
     flex-shrink : 0;
@@ -655,6 +688,7 @@ nav {
     display:block;
     background-color:#eee;
     border-bottom: solid 1px #bbbbbb;
+    border-top: solid 3px #ccc;
 }
 
 #svg2 {

@@ -41,12 +41,22 @@
                             <h2>Principales alternatives :</h2>
                                 {% for main_impact in main_impacts %}
                                     {% for alternative in main_impact.alternatives.all %}
-                                        <div>
-                                            {% if alternative.to_rel.consumeaproduct %}
-                                                Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
-                                            {% elif alternative.to_rel.habit %}
-                                                {{ alternative.to_rel.habit.name }}
-                                            {% endif %}
+                                        <div class="mainAlternative" style="display:flex">
+                                            <div style=" height:90px;background-color:blue">
+
+                                                <div class="arrowAlternTriangle" >
+                                                    <img src="{% static 'maquette/dessin.svg' %}" alt=""/>
+                                                </div>
+                                            </div>
+                                            <div style="">
+                                                <span class="alternativeTitle">
+                                                {% if alternative.to_rel.consumeaproduct %}
+                                                    Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
+                                                {% elif alternative.to_rel.habit %}
+                                                    {{ alternative.to_rel.habit.name }}
+                                                {% endif %}
+                                                </span>
+                                            </div>
                                         </div>
                                     {% endfor %}
                                 {% endfor %}
@@ -74,11 +84,11 @@
 
                                             <div class="flexContainer" style="margin-bottom: 20px">
                                                 {% if hasImpactOn.impact_type == 'Neg' %}
-                                                <div class="logoAlternative"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
                                                 {% elif  hasImpactOn.impact_type == 'Pos' %}
-                                                <div class="logoAlternative"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
                                                 {% else %}
-                                                <div class="logoAlternative"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
                                                 {% endif %}
 
                                                 <div class="alternativeToMainImpactContent flexBoxMaxWidth">
