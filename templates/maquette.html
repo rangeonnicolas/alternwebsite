@@ -39,16 +39,41 @@
 
 
                             <h2>Principales alternatives :</h2>
+                            <script type="text/javascript">
+                                    $(document).foundation();
+                            </script>
+
+
+                                        <div style="display:flex">
+                                            <div style="flex: 100%">
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
+                                                    I did it!
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
+                                                    Difficulty
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
+                                                    Efficiency
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
+                                                    Score
+                                            </div>
+
+                                        </div>
+
                                 {% for main_impact in main_impacts %}
                                     {% for alternative in main_impact.alternatives.all %}
                                         <div class="mainAlternative" style="display:flex">
-                                            <div style=" height:90px;background-color:blue">
+                                            <div class="backgroundGradient altLeftArrow">
 
                                                 <div class="arrowAlternTriangle" >
-                                                    <img src="{% static 'maquette/dessin.svg' %}" alt=""/>
+
+                                                    <img src="{% static 'maquette/icons/custom/dessin.svg' %}" alt=""/>
+
                                                 </div>
                                             </div>
-                                            <div style="">
+                                            <div style="flex: 100%">
                                                 <span class="alternativeTitle">
                                                 {% if alternative.to_rel.consumeaproduct %}
                                                     Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
@@ -56,11 +81,49 @@
                                                     {{ alternative.to_rel.habit.name }}
                                                 {% endif %}
                                                 </span>
+                                                <span class="proposedBy">
+                                                    proposed by : Admin &nbsp;|
+                                                </span>
+                                                <span class="theyDidIt">
+                                                    &nbsp;They did it! (3)
+                                                </span>
+                                                <span class="description">
+                                                    Description : qlkjh qlkuhflqkzu quheriul iqzkugf loqiuf <br/>rtek lkuhyerui kuzye
+                                                </span>
                                             </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
+
+                                                    30
+                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
+
+                                                    30
+                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
+
+                                                    30
+
+                                            </div>
+                                            <div class="alternativesNotesFlexSize" style="vertical-align:middle;text-align: center;font-size:35px; font-weight:bold">
+
+                                                <a href="" alt="I did it!"><i class="icon-check_circle"></i></a>
+                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
+
+
+
+                                            </div>
+
+
+
+
+
                                         </div>
                                     {% endfor %}
                                 {% endfor %}
-                            Note nico: faire un groupby ici
+                            Note nico: faire un groupby ici<br/>
+                            Gérer l'overflow
 
                             <h2>En détail...</h2>
 
@@ -74,8 +137,8 @@
                                     <div class="habitImpact">
 
                                         <div class="habitTitle">
-                                            <a href="#"><i class="icon-chevron_right"></i></a>
-                                            {{ prod.name }}
+                                            <span class="productName"><a href="#"><i class="icon-chevron_right"></i></a>
+                                            {{ prod.name }}</span>
                                         </div>
 
 
@@ -84,11 +147,11 @@
 
                                             <div class="flexContainer" style="margin-bottom: 20px">
                                                 {% if hasImpactOn.impact_type == 'Neg' %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumbdown.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
                                                 {% elif  hasImpactOn.impact_type == 'Pos' %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
                                                 {% else %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/th/hand_thumb.svg' %}"></img></div>
+                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
                                                 {% endif %}
 
                                                 <div class="alternativeToMainImpactContent flexBoxMaxWidth">

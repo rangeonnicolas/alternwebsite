@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <title>OpenAlternativa</title>
     {% load staticfiles %}
-    <link href="{% static "maquette/style.css" %}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="{% static "maquette/th/mfg.css" %}">
+    <link href="{% static 'maquette/css/style.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href='{% static "maquette/icons/mfg/mfg.css" %}'>
+
+    <script type="text/javascript" src="{% static 'maquette/js/jquery/jquery-1.11.3.min.js' %}"></script>
+
 </head>
 <body>
 
@@ -13,7 +16,7 @@
 <header class="alignCenter" >
     <div class="centeredBlock"  style="padding-top:5px">
         <div style="display:inline-block;height: 0.7em;width:1em;">
-            <img class="logoAlternativeImage" src="{% static 'maquette/th/hand_index.svg' %}" alt=""
+            <img class="logoAlternativeImage" src="{% static 'maquette/icons/custom/hand_index.svg' %}" alt=""
                  style="width:100%;height:100%;z-index:1;opacity:0.7"></img>
         </div>
                 <span style="font-style: italic;font-family:ubuntu"><span style="vertical-align:top;font-weight:normal">
