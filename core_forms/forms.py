@@ -1,5 +1,15 @@
+from django.forms import modelformset_factory
 from django import forms
 from api2.models import *
+
+
+class AlternativeForm(forms.ModelForm):
+    class Meta:
+        model = Alternative
+        exclude = []
+
+
+
 
 class AuthorForm(forms.ModelForm):
     class Meta:

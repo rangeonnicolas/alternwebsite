@@ -1,38 +1,60 @@
 from django.shortcuts import render
 from core_forms.forms import *
+from django.forms import inlineformset_factory
+import json
+from django.http import JsonResponse,HttpResponse
+from django.forms.models import modelform_factory
+from core_forms.models import *
+from django.utils.safestring import SafeString
 
 # Create your views here.
 
-def author(request):
+def model_post_form(request, modelName, formId=''):
+
+    try:
+        formId = request.GET["formId"]
+    except:
+        pass
+
+    try:
+        ModelForm = modelform_factory(eval(modelName),exclude=())
+    except NameError:
+        return JsonResponse({'errors': 'Class {0} doesn\'t exists in models'.format(modelName)})
 
     if request.method == 'POST':
-        form = AuthorForm(request.POST)  # Nous reprenons les données
+    #if 1:
 
-        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
-            1
-            # Ici nous pouvons traiter les données du formulaire
+        #if request.is_ajax():
+        if 1:
 
-            # Nous pourrions ici envoyer l'e-mail grâce aux données que nous venons de récupérer
+            form = ModelForm(request.POST)
 
-    else: # Si ce n'est pas du POST, c'est probablement une requête GET
-        form = AuthorForm()  # Nous créons un formulaire vide
+            if form.is_valid(): # Nous vérifions que les données envoyées sont valides
+                #form.save()
+                return JsonResponse({'success': '/success'})
 
-    return render(request, 'core_forms/author.html', locals())
+    else:
+        form = ModelForm()
+        return render(request, 'core_forms/formOnly.html', locals())
+        #return JsonResponse({'errors': 'Only POST requests are allowed'})
 
+def alternative(request):
 
+    form_conf = {
+            'form1': {
+                'to_rel' : {
+                    'type': 'polymorphicForeignKey',
+                    'classes': [
+                        ['Habit','Une habitude de vie'],
+                        ['ConsumeAProduct','Consommer un meilleur produit']
+                    ]
+                }
+            }
+        }
+    form_conf = json.dumps(form_conf)
+    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
 
-def source(request):
-
-    if request.method == 'POST':
-        form = SourceForm(request.POST)  # Nous reprenons les données
-
-        if form.is_valid(): # Nous vérifions que les données envoyées sont valides
-            form.save()
-            # Ici nous pouvons traiter les données du formulaire
-
-            # Nous pourrions ici envoyer l'e-mail grâce aux données que nous venons de récupérer
-
-    else: # Si ce n'est pas du POST, c'est probablement une requête GET
-        form = SourceForm()  # Nous créons un formulaire vide
-
+    form = AlternativeForm()
+    form2 = AlternativeForm()
+    modelName= 'Alternative'
     return render(request, 'core_forms/source.html', locals())
