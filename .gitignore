@@ -2,9 +2,7 @@
 .idea/
 .idea
 
-*.css
-
-*.sqlite3
+*qlite3
 
 .idea/
 */__pycache__/*
