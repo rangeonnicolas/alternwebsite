@@ -26,21 +26,24 @@
                     type: 'GET', // GET or POST
                     url: modelFormUrl + radioButtonValue + '?formId=' + childFormId + '_' + radioButtonValue,
                     success: function(response) {
-                        console.log("success");
-                        $('#' + childFormId + '_' + radioButtonValue)
+                        $('#' + childFormId + '_content')
                         .append(response)
-                        .hide();
+                        var children = $('#' + childFormId + '_content').children();
+                        children.hide();
+                        $('input[name=' + childFormId + '_radiogroup][value=' + field['classes'][0][0] + ']:radio')
+                        .trigger('click');
                     }
                 });
             })
             .click(function() {
                     var radioButtonValue = $(this).val();
+                    var children = $('#' + childFormId + '_content').children();
+                    children.hide();
+                    console.log(children);
                     $('#' + childFormId + '_' + radioButtonValue).show();
-                    console.log(childFormId + '_' + radioButtonValue);
             });
 
-            $('input[name=' + childFormId + '_radiogroup][value=' + field['classes'][0][0] + ']:radio')
-            .trigger('click');
+
 
         }
 
