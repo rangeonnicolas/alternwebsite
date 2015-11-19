@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from django.db import models
 
 class Entity(models.Model):
@@ -312,6 +314,6 @@ class AlternativeToMainImpact(models.Model):
 
 
 
-# todo: couper les arguments des urls car elle est limitée à 200 carac
+# todo: couper les arguments des urls car elle est limitee à 200 carac
 
 #  c.relations_from.all()[0].to_rel.labo.ville
