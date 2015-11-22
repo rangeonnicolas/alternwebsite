@@ -1,17 +1,17 @@
     $(document).ready(function() {
-        $('#form1').submit(function() { // catch the form's submit event
+        $('#____________form1_____________').submit(function() { // catch the form's submit event
             $.ajax({ // create an AJAX call...
                 data: $(this).serialize(), // get the form data
                 type: $(this).attr('method'), // GET or POST
                 url: $(this).attr('action'), // the file to call
                 success: function(response) { // on success..
-                    $('#form1').html(response); // update the DIV
+                    $('#___________form1_________').html(response); // update the DIV
                 }
             });
             return false;
         });
 
-        var field = form_conf[formId][fieldId];
+        var field = allFormsConf[_______form1_____________________][formId][fieldId];
         if(field['type'] == 'polymorphicForeignKey'){
 
             var objectToReplace = getFormField(formId,fieldId);
@@ -70,6 +70,11 @@
         function getFormField(formId, fieldId){
             return $('#' + formId + ' #id_' + fieldId)
         }
+
+
+
+
+
 
         var formId = 'form1',
             fieldId = 'to_rel';
