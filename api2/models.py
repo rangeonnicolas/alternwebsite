@@ -3,12 +3,6 @@
 from django.db import models
 
 class Entity(models.Model):
-    #toPrint = models.CharField(max_length=1000)
-
-    #def __init__(self,*k):
-    #    super(Entity, self).__init__(*k)
-    #    self.toPrint = self.__unicode__()
-
     def __str__(self):
         name = ""
         rightClass = ""
@@ -21,28 +15,8 @@ class Entity(models.Model):
                 pass
         return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
     def __unicode__(self):
-        name = ""
-        rightClass = ""
-        for cla in ["product","bank","company","newspaper","author","ressource","component","policy","phenomenon"]:
-            try :
-                sub = eval("self."+cla)
-                name = sub.name
-                rightClass = cla
-            except :
-                pass
-        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
-    # def __str__(self):
-    #     a = ""
-    #     try:
-    #         #for cla in Entity.__subclasses__():
-    #         try:
-    #             a = self.tostr()
-    #         except:
-    #             pass
-    #     except:
-    #         return("Une entite")
-    #     return(a)
-    #relations = models.ManyToManyField(Entity, through='Relation')
+        return self.__str__()
+
 
 class Topic(models.Model):
     name = models.CharField(max_length=255,unique=True)
@@ -58,42 +32,42 @@ class Topic(models.Model):
 class Ressource(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Component(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Phenomenon(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Policy(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Company(Entity):
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
 class Bank(Entity):    #Une banque est une compagy, mais alors il faudrait creer la classe IndustrialCompagy et faire extant ces 2 de COmpany. Voir dans evernote les precautio,ns avant de renommer une classe
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
@@ -104,26 +78,18 @@ class Language(models.Model):
     englishName =  models.CharField(max_length=255, unique= True)
     localName = models.CharField(max_length=255, unique= True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.englishName))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.englishName))
 
 class Newspaper(Entity):
-    name =  models.CharField(max_length=255, unique= True)
+    name =  models.CharField(max_length=255)#, unique= True)
     url =  models.URLField(unique= True)
     languages = models.ManyToManyField(Language)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
-
-# class Author(Entity):
-#     name = models.CharField(max_length=255, unique= True)
-#     lastname  = models.CharField(max_length=255, unique= True, null=True)
-#     def __str__(self):
-#         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
-#     def __unicode__(self):
-#         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
 
 class Author(Entity):
     TEMP_CHOICES = (
@@ -135,7 +101,7 @@ class Author(Entity):
     lastname  = models.CharField(max_length=255, null=True)
     type = models.CharField(max_length=1, choices= TEMP_CHOICES, default= 'U')
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name) + ' ' + str(self.lastname))
     class Meta:
@@ -147,12 +113,11 @@ class Source(models.Model):
     publication_date = models.DateField(null=True)
     authors = models.ManyToManyField(Author)
     newspaper = models.ForeignKey(Newspaper,null=True)
-    topic = models.ManyToManyField(Topic)
+    topic = models.ManyToManyField(Topic, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.title))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.title))
 
@@ -166,7 +131,7 @@ class RelationType(models.Model):
     name = models.CharField(max_length=255,unique=True)
     propagation_type = models.CharField(max_length=1, choices= PROPAGATION_CHOICES, default= 'U')
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
@@ -178,8 +143,6 @@ class Relation(models.Model):
     sources = models.ManyToManyField(Source)
     def __str__(self):
         return(self.__unicode__())
-    # def __unicode__(self):
-    #     return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
     def __unicode__(self):
         return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
     def simplePrint(self):
@@ -187,8 +150,6 @@ class Relation(models.Model):
 
 class Product(Entity):
     name = models.CharField(max_length=255, unique= True)
-    # def tostr(self):
-    #     return( str(self.name) )
 
 class Behaviour(models.Model):
     #BEHAVIOUR_TYPE = (from_re
@@ -246,14 +207,10 @@ class ConsumeAProduct(Behaviour):
 
 
 
-
-
-
-
 class ImpactCateg(models.Model):
     name = models.CharField(max_length=255, unique= True)
     def __str__(self):
-        return(str(self.pk) +' - ' +str(self.name))
+        return self.__unicode__()
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 

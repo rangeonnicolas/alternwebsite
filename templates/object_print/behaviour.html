@@ -1,0 +1,5 @@
+   {% if behaviour.consumeaproduct %}
+        Consommer chez {{ behaviour.consumeaproduct.product.name }}
+   {% elif behaviour.habit %}
+        {{ behaviour.habit.name }}
+   {% endif %}

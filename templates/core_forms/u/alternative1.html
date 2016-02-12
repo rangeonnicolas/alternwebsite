@@ -1,0 +1,21 @@
+{% extends 'object_print/base.html' %}
+
+    {% block content %}
+        {% with alternative=object %}
+            <span>
+                {% with behaviour=alternative.to_rel %}
+                    <span style="font-style:italic">{% include 'object_print/behaviour.html' with behaviour=behaviour%}</span>
+                {% endwith %}
+
+                est une alternative à l'impact causé par le fait de
+
+                {% with impact=alternative.from_rel %}
+                    {% with behaviour2=impact.behavior %}
+                        <span style="font-style:italic">{% include 'object_print/behaviour.html' with behaviour=behaviour2 %}</span>
+                    {% endwith %}
+                    sur
+                    <span style="font-style:italic">{{ impact.impactCateg.name }}</span>
+                {% endwith %}
+            </span>
+        {% endwith %}
+    {% endblock %}

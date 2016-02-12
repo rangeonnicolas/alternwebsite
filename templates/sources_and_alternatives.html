@@ -78,11 +78,9 @@
                                                                                                 </div>
 
                                                                                                 <span class="lineHeight1">
-                                                                                                    {% if alternative.to_rel.consumeaproduct %}
-                                                                                                        Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
-                                                                                                    {% elif alternative.to_rel.habit %}
-                                                                                                        {{ alternative.to_rel.habit.name }}
-                                                                                                    {% endif %}
+                                                                                                    {% with behaviour=alternative.to_rel %}
+                                                                                                        {% include 'object_print/behaviour.html' with behaviour=behaviour%}
+                                                                                                    {% endwith %}
                                                                                                 </span>
 
                                                                                                 <span class="buttonsAlternative lineHeight1">

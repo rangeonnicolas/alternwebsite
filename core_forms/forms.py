@@ -8,6 +8,37 @@ class AlternativeForm(forms.ModelForm):
         model = Alternative
         exclude = []
 
+class ConsumeAProductForm(forms.ModelForm):
+    class Meta:
+        model = ConsumeAProduct
+        exclude = []
+
+class HabitForm(forms.ModelForm):
+    class Meta:
+        model = Habit
+        exclude = []
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        exclude = []
+
+class SourceForm(forms.ModelForm):
+    class Meta:
+        model = Source
+        exclude = []
+
+class NewspaperForm(forms.ModelForm):
+    class Meta:
+        model = Newspaper
+        exclude = []
+
+class BehaviourForm(forms.ModelForm):
+    class Meta:
+        model = Behaviour
+        exclude = []
+
+
 
 
 
@@ -16,12 +47,3 @@ class AuthorForm(forms.ModelForm):
         model = Author
         exclude = []
 
-class SourceForm(forms.ModelForm):
-
-    sujet = forms.CharField(max_length=100)
-    message = forms.CharField(widget=forms.Textarea)
-    envoyeur = forms.EmailField(label="Votre adresse mail")
-    renvoi = forms.BooleanField(help_text="Cochez si vous souhaitez obtenir une copie du mail envoyé.", required=False)
-    class Meta:
-        model = Source
-        exclude = []

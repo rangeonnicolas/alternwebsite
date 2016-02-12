@@ -2,41 +2,18 @@
 .idea/
 .idea
 
-*qlite3
+*.sqlite3
 
-.idea/
 */__pycache__/*
 */__pycache__/
 */__pycache__
 
 *.pyc
 *.pyo
-*.db
 
 #~._*
-
 
 local_settings.py
 
 
-# *~
-# *.orig
-# *.rej
-# .installed.cfg
-# __minitage__*
-# bin/*
-# develop-eggs
-# downloads
-# eggs
-# log
-# parts
-# media/uploads
-# tmp
-# .DS_Store
-# *.bak
-# .*.swp
-# README.html
-# django_flatblocks.egg-info
-# dist
-# build
 

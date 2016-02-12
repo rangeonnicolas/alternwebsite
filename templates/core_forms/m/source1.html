@@ -1,0 +1,36 @@
+{% extends 'core_forms/defaultForm.html' %}
+
+{% block formContent %}
+
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.title.errors }}
+            <label for="{{ form.title.id_for_label }}">Titre de la source: </label>
+            {{ form.title }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form.url.errors }}
+            <label for="{{ form.url.id_for_label }}">url: </label>
+            {{ form.url }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form.publication_date.errors }}
+            <label for="{{ form.publication_date.id_for_label }}">Date de publication: </label>
+            {{ form.publication_date }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form.authors.errors }}
+            <label for="{{ form.authors.id_for_label }}">Auteurs: </label>
+            {{ form.authors }}
+        </div>
+
+        <div class="fieldWrapper">
+            {{ form.newspaper.errors }}
+            <label for="{{ form.newspaper.id_for_label }}">Paru dans: </label>
+            {{ form.newspaper }}
+        </div>
+
+{% endblock %}

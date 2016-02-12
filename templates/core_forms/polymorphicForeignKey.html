@@ -1,0 +1,10 @@
+            <form id='{{ formId }}_radioboxes'>
+
+                {% for b in boxList %}
+
+                <INPUT type="radio" name="{{ formId }}_radiogroup" value="{{ b[0] }}" checked>{{ b[1] }}<br/>
+
+                {% endfor %}
+
+            </form>
+            <div id='{{ formId }}_content'></div>

@@ -1,0 +1,13 @@
+{% extends 'core_forms/defaultForm.html' %}
+
+{% block formContent %}
+
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.product.errors }}
+            <label for="{{ form.product.id_for_label }}">Titre de la source: </label>
+            {{ form.product }}
+        </div>
+
+
+{% endblock %}

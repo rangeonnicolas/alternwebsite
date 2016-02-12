@@ -1,5 +1,0 @@
-    <form id="{{ formId }}" action="{% url 'core_forms.views.model_post_form' modelName %}" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Submit" />
-    </form>

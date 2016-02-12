@@ -1,0 +1,13 @@
+{% extends 'object_print/base.html' %}
+
+    {% block content %}
+        {% with source=object %}
+            <span>
+                <a href="{{ source.url }}" alt="{{ source.title }}" target="_blank">{{ source.title }}</a>
+
+                ({{ source.newspaper.name }})
+
+            </span>
+        {% endwith %}
+    {% endblock %}
+

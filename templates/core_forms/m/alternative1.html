@@ -1,0 +1,67 @@
+{% extends 'core_forms/defaultForm.html' %}
+
+{% block formContent %}
+
+    {% load staticfiles %} <!--todo: a mettre ailleurs où il ne sera chargé qu'une fois-->
+    <link href="{% static 'maquette/css/style.css' %}" rel="stylesheet" type="text/css">
+    <style type="text/css">
+
+        .formBox {
+            color: black;
+            padding:5px;
+            border:solid 3px purple;
+            border-radius: 5px;
+        }
+        .formBox label{
+            color: inherit;
+            font-size: 1.1em;
+            opacity: 1;
+            padding: 0;
+            margin: 15px;
+        }
+        .nestedBox {
+            margin-left: 70px;
+        }
+        .sources {
+            border: 1px solid grey;
+            border-radius: 0px;
+            padding: inherit;
+            margin: 5px;
+            color: grey;
+            background-color: rgba(100,100,100,0.2)
+        }
+        .sources label {
+            font-style: italic
+        }
+        .sources .explanation {
+
+        }
+
+    </style>
+
+
+
+        {{ form.non_field_errors }}
+        <div class="fieldWrapper">
+            {{ form.to_rel.errors }}
+            <label for="{{ form.to_rel.id_for_label }}">Le comportement suivant :</label>
+            {{ form.to_rel }}
+        </div>
+        <div class="fieldWrapper">
+            {{ form.from_rel.errors }}
+            <label for="{{ form.from_rel.id_for_label }}">est une alternative à l'impact</label>
+            {{ form.from_rel }}
+        </div>
+
+
+        <div class="sources">
+            {{ form.sources.errors }}
+            <label for="{{ form.sources.id_for_label }}">Sources:</label>
+            {{ form.sources }}
+            <span class="explanation">(sources explicitant en quoi ce comportement constitue une réelle alternative)</span>
+
+        </div>
+
+
+
+{% endblock %}
