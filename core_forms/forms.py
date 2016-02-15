@@ -38,6 +38,10 @@ class BehaviourForm(forms.ModelForm):
         model = Behaviour
         exclude = []
 
+class hasImpactOnForm(forms.ModelForm):
+    class Meta:
+        model = HasImpactOn
+        exclude = []
 
 
 

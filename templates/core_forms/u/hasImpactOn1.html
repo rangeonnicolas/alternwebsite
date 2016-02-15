@@ -3,14 +3,13 @@
     {% block content %}
         {% with hio=object %}
             <span>
-                Ce comportement :<br/>
-                {{ hio.behavior.name }} <br/>
-                a un impact sur :<br/>
-                {{ hio.impactCateg.name }}
-                because :<br/>
-                {{ hio.becauseOf.from_rel.name }}
+                {% include 'object_print/behaviour.html' with behaviour=hio.behavior%}
+                a un impact sur
+                {{ hio.impactCateg.name }}<br/>
+                ( because :
+                {{ hio.becauseOf.from_rel.name }}(faut faire un object_print)
                 {{ hio.becauseOf.relationType.name }}
-                {{ hio.becauseOf.to_rel.name }}
+                {{ hio.becauseOf.to_rel.name }})
 
             </span>
         {% endwith %}

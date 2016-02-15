@@ -22,7 +22,7 @@
 
 
     <!--<form id="form1" action=" url 'core_formws.model_post_form' modelName " method="post">-->
-    <form id="{{ formId }}" action="DanTonKu" method="post" class="formBox">
+    <form id="{{ formId }}" action="DanTonKu" method="post" class="formBox" style="{% if doNotDisplay %}display:none{% endif %}">
         <input type="hidden" name="_page_loaded_at" id="{{ formId }}_page_loaded_at" value="{{pageLoadedAt}}">
         {% csrf_token %}
 

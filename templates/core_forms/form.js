@@ -90,7 +90,7 @@
 
             return str;
         }
-*/
+
         function constructForeignKeyForm(formId)
         {
             'use strict';
@@ -104,7 +104,7 @@
 
             return "<div id='" + formId + "_content'></div>"
         }
-
+*/
         function encloseInDiv(str, divId, divClass)
         {
             'use strict';
@@ -119,8 +119,11 @@
             return $('#' + formId + ' #id_' + fieldId)
         }
 
-        function getFormWithAjax(formName,newFormId,whereToAddTheForm,successHandler,successHandlerParams,replace,url,objectId,hide,objectMayNotExist,modifiable)
+        function getFormWithAjax(formName,newFormId,whereToAddTheForm,
+            successHandler,successHandlerParams,replace,url,
+            objectId,hide,objectMayNotExist,modifiable)
         {
+        //todo: certains de ces parametre sont peut etre maintenant obsoletes
             'use strict';
 
             var data = {formId: newFormId};
@@ -171,21 +174,34 @@
                         $('#' + childFormId + '_' + radioButtonValue).show();
                     }
 
-        //getFormWithAjax('habit_1','titBiloute','html',function(){},{})
-
         function polymorphicForeignKey(fieldToReplace,childFormId,fieldConf,url)
         {
             'use strict';
 
-            fieldConf['classes'],childFormId
+            var boxList = [];
+            for(var c in fieldConf['classes']){
+                boxList.push({'id': fieldConf['classes'][c][0], 'label': fieldConf['classes'][c][1]})
+            }
 
-                var RadioBoxesForm = constructRadioBoxesForm(fieldConf['classes'],childFormId),
-                    replacement = encloseInDiv(RadioBoxesForm,childFormId,'nestedBox formBox');
-                fieldToReplace.replaceWith(replacement);
+            $.ajax({
+                        type: 'POST',
+                        url: '/coreforms/polymorphicForeignKey/', //todo: mettre l'url en paramertre?
+                        data: {
+                            "nbBoxes":boxList.length,
+                            "boxList":boxList,
+                            "formId":childFormId,
+                            "objectId": fieldToReplace.val(),
+                        },
+                        headers: {  "X-CSRFToken": getCookie('csrftoken') },
+                        success: function(res){
+                            fieldToReplace.replaceWith(res);
+                        }
+            });
 
+/*
                 var successHandler = function(params){
 
-                    var children = $('#' + params['whereToAddTheForm']).children();
+                    //var children = $('#' + params['whereToAddTheForm']).children();
 
                     if ($('#' + params['newFormId'] + '_was_originally_empty').val() == "False"){
                         var elem = $('input[name=' + params['formId'] + '_radiogroup][value=' + params['radioButtonValue'] + ']:radio');
@@ -214,6 +230,7 @@
                     showFormContent(this, childFormId);
 
                 });
+                */
 
         }
 
@@ -223,9 +240,29 @@
 
             var whereToAddTheForm = childFormId + '_content'
 
-            fieldToReplace.replaceWith(constructForeignKeyForm(childFormId));
-            getFormWithAjax(fieldConf['formName'],childFormId,whereToAddTheForm,function(){},null,false,url,fieldToReplace.val(),false);
 
+
+
+
+            $.ajax({
+                        type: 'POST',
+                        url: '/coreforms/foreignKey/', //todo: mettre l'url en paramertre?
+                        data: {
+                            "formId": childFormId,
+                            "formName": fieldConf['formName'],
+                            "objectId": fieldToReplace.val()
+                        },
+                        headers: {  "X-CSRFToken": getCookie('csrftoken') },
+                        success: function(res){
+                            fieldToReplace.replaceWith(res);
+                        }
+            });
+
+/*
+
+            constructForeignKeyForm(childFormId);
+            getFormWithAjax(fieldConf['formName'],childFormId,whereToAddTheForm,function(){},null,false,url,fieldToReplace.val(),false);
+*/
         }
 
         function manyToMany(fieldToReplace,childFormId,fieldConf,url)
@@ -330,6 +367,25 @@
             }
 
         }
+
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie != '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
 
 ///////////////////////////////////////// AJAX ///////////////
 

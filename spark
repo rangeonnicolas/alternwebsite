@@ -1,0 +1,10 @@
+import os
+import sys
+
+sudo pip install py4j
+
+os.environ['SPARK_HOME']="/home/developpeur/spark/spark-1.5.0/"
+sys.path.append("/home/developpeur/spark/spark-1.5.0/python/")
+
+from pyspark import SparkContext
+from pyspark import SparkConf

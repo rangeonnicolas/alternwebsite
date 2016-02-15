@@ -9,7 +9,9 @@ from django.http import JsonResponse,HttpResponse
 from django.forms.models import modelform_factory
 from core_forms.models import *
 from django.utils.safestring import SafeString
+from django.template.utils import import_string
 from django.template.loader import get_template, TemplateDoesNotExist
+from django.template import loader
 
 
 formNames = {
@@ -36,7 +38,7 @@ formNames = {
     'mainImpact_1':      {'model': 'MainImpact',      'view': 'mainImpact1'},
 
     'alternativeToMainImpact_1':       {'model': 'AlternativeToMainImpact',       'view': 'alternativeToMainImpact1'},
-}
+} #todo: parfois il y a des majuscules , parfois pas :p
 
 
 
@@ -101,7 +103,7 @@ def model_post_form(request, formName, formId=''):
     try:
         modifiable = request.GET["modifiable"]
     except:
-        modifiable = None
+        modifiable = False
 
     try:
         objectMayNotExist = request.GET["objectMayNotExist"]
@@ -113,17 +115,25 @@ def model_post_form(request, formName, formId=''):
     except KeyError:
         return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
 
-    ModelForm, conf, templates = eval(formNames[formName]['view']+"(request)")# remplacer par un truc du genre 'call'
+    method = request.method
+
+    htmlResponse, _ = getForm(request, formName, formNames[formName],formId, objectId,modifiable, objectMayNotExist, method, False, request.POST)
+
+    return HttpResponse(htmlResponse)
+
+def getForm(request, formName, formConf, formId, objectId, modifiable, objectMayNotExist, method, hideIfObjectIdNotFound , post= None):
+
+    ModelForm, conf, templates = eval(formConf['view']+"(request)")# remplacer par un truc du genre 'call'
 
     if not templates:
-        modifiableTemplate   = 'core_forms/m/' + formNames[formName]['view'] + '.html'
-        unmodifiableTemplate = 'core_forms/u/' + formNames[formName]['view'] + '.html'
+        modifiableTemplate   = 'core_forms/m/' + formConf['view'] + '.html'
+        unmodifiableTemplate = 'core_forms/u/' + formConf['view'] + '.html'
 
-    if request.method == 'POST':
+    if method == 'POST':
     #if 1:
         #if request.is_ajax():
         if 1:
-            form = ModelForm(request.POST)
+            form = ModelForm(post)
 
             if form.is_valid(): # Nous vérifions que les données envoyées sont valides
                 #form.save()
@@ -132,7 +142,7 @@ def model_post_form(request, formName, formId=''):
     else:
         returnEmptyForm = True
         if objectId:
-            Model = eval(formNames[formName]['model']) #todo: degueu
+            Model = eval(formConf['model']) #todo: degueu
 
             try:
                 object=Model.objects.get(id=objectId)
@@ -141,7 +151,7 @@ def model_post_form(request, formName, formId=''):
                 if objectMayNotExist:
                     returnEmptyForm = True
                 else:
-                    raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formNames[formName]['model']+' in the database')
+                    raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formConf['model']+' in the database')
 
         if returnEmptyForm:
             form = ModelForm
@@ -166,9 +176,10 @@ def model_post_form(request, formName, formId=''):
             except TemplateDoesNotExist:
                 template = 'rien de prévu encore!'
 
-        return render(request, template, locals())
+        if hideIfObjectIdNotFound and returnEmptyForm:
+            doNotDisplay = True
 
-        #return JsonResponse({'errors': 'Only POST requests are allowed'})
+        return loader.render_to_string(template, locals(), request=request), not returnEmptyForm
 
 def alternative1(request):
 
@@ -181,6 +192,10 @@ def alternative1(request):
                         ['habit_1','Une habitude de vie'],
                         ['consumeaproduct_1','Consommer un meilleur produit']
                     ]
+                },
+                'from_rel' : {
+                    'type': 'foreignKey',
+                    'formName': 'hasImpactOn_1'
                 },
                 'sources' : {
                     'type': 'manyToMany',
@@ -215,6 +230,15 @@ def consumeaproduct1(request):
     form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
 
     form = ConsumeAProductForm
+    return form, form_conf, None
+
+def hasImpactOn1(request):
+
+    form_conf = {}
+    form_conf = json.dumps(form_conf)
+    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
+
+    form = hasImpactOnForm
     return form, form_conf, None
 
 def habit1(request):
@@ -276,11 +300,46 @@ def newspaper1(request):
 
 
 def polymorphicForeignKeyWrapper(request):
-    #request.POST["formId"]
-    print(request.GET.getlist("a"))
-    return JsonResponse({2:request.GET.getlist("a")})
 
-def polymorphicForeignKey(request):
+    formId = request.POST.get('formId')
+    nbBoxes = request.POST.get('nbBoxes')
+    objectId = request.POST.get('objectId')
+    boxList = []
+    for i in range(int(nbBoxes)):
+        boxList += [{
+            'id':    request.POST.getlist('boxList['+ str(i) +'][id]')[0],
+            'label': request.POST.getlist('boxList['+ str(i) +'][label]')[0]
+        }]
 
-    return render(request, 'core_forms/polymorphicForeignKey.html', locals())
+    print(boxList)
 
+    return HttpResponse(polymorphicForeignKey(formId,boxList,objectId,request))
+
+def polymorphicForeignKey(formId,boxList,objectId,request):
+
+    forms = []
+
+    for b in boxList:
+        formName = b['id']
+        formAsHtml, isObjectIdFound = getForm(request, formName, formNames[formName], formId+'_'+formName , objectId, False, True, 'GET', True)
+        forms += [{'html':formAsHtml}]
+        print('hhhhhhhhhhhhhh  ',objectId,isObjectIdFound)
+        if (objectId is not None) and isObjectIdFound:
+            b['checked'] = True
+
+    return loader.render_to_string('core_forms/polymorphicForeignKey.html', locals(), request=request)
+
+
+def foreignKeyWrapper(request):
+
+    formId = request.POST.get('formId')
+    formName = request.POST.get('formName')
+    objectId = request.POST.get('objectId')
+
+    return HttpResponse(foreignKey(formId,objectId,formName,request))
+
+def foreignKey(formId,objectId,formName,request):
+
+    formAsHtml, isObjectIdFound = getForm(request, formName, formNames[formName], formId , objectId, False, False, 'GET', False)
+
+    return loader.render_to_string('core_forms/foreignKey.html', locals(), request=request)

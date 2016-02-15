@@ -1,27 +1,5 @@
-<div id='{{ formId }}_div' class='nestedBox formBox'>
-
-            <form id='{{ formId }}_radioboxes'>
-                {% for b in boxList %}
-                    <INPUT type="radio" name="{{ formId }}_radiogroup" value="{{ b.id }}" {% if b.checked %}checked{% endif %}>{{ b.label }}<br/>
-                {% endfor %}
-            </form>
-
-            <div id='{{ formId }}_content'>
-
-                {% for form in forms %}
+<div id='{{ formId }}_content' class='nestedBox formBox'>
                     {% autoescape off %}
-                        {{ form.html }}
+                        {{ formAsHtml }}
                     {% endautoescape %}
-                {% endfor %}
-
-            </div>
-
-            <script type="text/javascript">
-                $('input[name={{ formId }}_radiogroup]:radio').click(
-                    function() {
-                        showFormContent(this, '{{ formId }}');
-                    }
-                );
-            </script>
 </div>
-
