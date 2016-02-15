@@ -1,0 +1,18 @@
+{% extends 'object_print/base.html' %}
+
+    {% block content %}
+        {% with hio=object %}
+            <span>
+                Ce comportement :<br/>
+                {{ hio.behavior.name }} <br/>
+                a un impact sur :<br/>
+                {{ hio.impactCateg.name }}
+                because :<br/>
+                {{ hio.becauseOf.from_rel.name }}
+                {{ hio.becauseOf.relationType.name }}
+                {{ hio.becauseOf.to_rel.name }}
+
+            </span>
+        {% endwith %}
+    {% endblock %}
+

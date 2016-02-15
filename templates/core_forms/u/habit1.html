@@ -1,0 +1,12 @@
+{% extends 'object_print/base.html' %}
+
+    {% block content %}
+        {% with cap=object %}
+            <span>
+                Consommer chez :<br/>
+                {{ cap.product.name }}
+
+            </span>
+        {% endwith %}
+    {% endblock %}
+
