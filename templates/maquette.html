@@ -4,180 +4,124 @@
 
 {% block content %}
 
-                        <section class="contentSection">
-                            <h1>{{title}}</h1>
-                            <p class="intro">
-                            {{description}}
-                            </p>
+<section class="contentSection">
+    <h1>{{title}}</h1>
+    <p class="intro">
+        (note: ajouter description)<!--{{description}}-->
+    </p>
 
 
-                            <h2>Principaux impacts :</h2>
+    <h2>Points d'attention :</h2>
 
-                            <p>
-                                Voici les principaux impacts... [à compléter]:
-                            </p>
+    <div class="mainImpactCont flexContainer flexWrap">
 
+        {% for main_impact in main_impacts %}
+        <!--
+        <div class="mainImpactBox height1">
+            {# {% include "sources_and_alternatives.html" with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' only%} #}
+        </div>-->
+                <div style="width:100%;margin-left:30px">
+                        {% with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' %}
+                                                    {% include "main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
+                        {% endwith %}
+                </div>
 
+        {% endfor %}
 
+    </div>
 
-                		<div class="mainImpactCont flexContainer flexWrap">
-
-                            {% for main_impact in main_impacts %}
-
-							<div class="mainImpactBox height1">
-
-                                {% include "sources_and_alternatives.html" with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' only%}
-
-							</div>
-
-
-                            {% endfor %}
-
-                        </div>
-                        <span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>
+    <span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>
 
 
 
-                            <h2>Principales alternatives :</h2>
-                            <script type="text/javascript">
+    <h2>Principales alternatives :</h2>
+    <script type="text/javascript">
                                     $(document).foundation();
-                            </script>
-
-
-                                        <div style="display:flex">
-                                            <div style="flex: 100%">
-                                            </div>
-<!--                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
-                                                    I did it!
-                                            </div>
-                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
-                                                    Difficulty
-                                            </div>
-                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
-                                                    Efficiency
-                                            </div>
-                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px">
-                                                    Score
-                                            </div>-->
-
-                                        </div>
-
-                                {% for main_impact in main_impacts %}
-                                    {% for alternative in main_impact.alternatives.all %}
-                                        <div class="mainAlternative" style="display:flex">
-                                            <div class="backgroundGradient altLeftArrow">
-
-                                                <div class="arrowAlternTriangle" >
-
-                                                    <img src="{% static 'maquette/icons/custom/dessin.svg' %}" alt=""/>
-
-                                                </div>
-                                            </div>
-                                            <div style="flex: 100%">
-                                                <span class="alternativeTitle">
-                                                {% with behaviour=alternative.to_rel %}
-                                                    {% include 'object_print/behaviour.html' with behaviour=behaviour%}
-                                                {% endwith %}
-                                                </span>
-                                                <span class="proposedBy">
-                                                    proposed by : Admin &nbsp;|
-                                                </span>
-                                                <span class="theyDidIt">
-                                                    &nbsp;They did it! (3)
-                                                </span>
-                                                <span class="description">
-                                                    Description : qlkjh qlkuhflqkzu quheriul iqzkugf loqiuf <br/>rtek lkuhyerui kuzye
-                                                </span>
-                                            </div>
-<!--                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
-
-                                                    30
-                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
-                                            </div>
-                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
-
-                                                    30
-                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
-                                            </div>
-                                            <div class="alternativesNotesFlexSize" style="background-color:black; vertical-align:middle;text-align: center;color:white; font-size:35px; font-weight:bold">
-
-                                                    30
-
-                                            </div>-->
-                                            <div class="alternativesNotesFlexSize" style="vertical-align:middle;text-align: center;font-size:35px; font-weight:bold">
-
-                                                <a href="" alt="I did it!"><i class="icon-check_circle"></i></a>
-                                                <input type="range" min="0" max="10" value="5" step="1" style="width:50px"/>
-
-
-
-                                            </div>
+    </script>
 
 
 
 
-
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-                            Note nico: faire un groupby ici<br/>
-                            Gérer l'overflow
-
-                            <h2>En détail...</h2>
-
-                            <div>
-                                Search
-                            </div>
-
-                            <!-- todo:mettre en liste-->
-                                {% for consprod in consumeaproduct %}
-                                    {% with prod=consprod.product %}
-                                    <div class="habitImpact">
-
-                                        <div class="habitTitle">
-                                            <span class="productName"><a href="#"><i class="icon-chevron_right"></i></a>
-                                            {{ prod.name }}</span>
-                                        </div>
+    <div class="mainImpactCont flexContainer flexWrap" style="margin-left:30px">
+    {% for main_impact in main_impacts %}
+    {% for alternative in main_impact.alternatives.all %}
+    <div class="mainAlternative" style="width:33%">
 
 
-                                        <div class="alternativeToMainImpact">
-                                        {% for hasImpactOn in consprod.has_impact_on.all %}
-
-                                            <div class="flexContainer" style="margin-bottom: 20px">
-                                                {% if hasImpactOn.impact_type == 'Neg' %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
-                                                {% elif  hasImpactOn.impact_type == 'Pos' %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
-                                                {% else %}
-                                                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
-                                                {% endif %}
-
-                                                <div class="alternativeToMainImpactContent flexBoxMaxWidth">
-
-                                                    {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                        </div>
-
-                                        <a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>
-
-
-                                    </div>
-                                    {% endwith %}
-                                {% endfor %}
+        <div style="flex: 100%">
+            <span class="alternativeTitle">
+                {% if alternative.to_rel.consumeaproduct %}
+                Consommer chez: {{ alternative.to_rel.consumeaproduct.product.name }}
+                {% elif alternative.to_rel.habit %}
+                {{ alternative.to_rel.habit.name }}
+                {% endif %}
+            </span>
+        </div>
 
 
 
-                             (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
-                            <br/>topic dan chacun des behaviour
-                            <br/>modificaion de chaq elemn rest en cliquant essus
-                            <br/>mettre les sources démenties
-                            <br/>tri des sources par date
-                            <br/> date des sources: date de consultation + parutuon facultatives
-                            <br/> un seu ls à ressource
-                            <br/> responsive pas compressible à fond
-                        </section>
+    </div>
+    {% endfor %}
+    {% endfor %}
+    </div>
+
+
+
+    <h2>Que dit-on de ...?</h2>
+
+    <div>
+        Search
+    </div>
+
+    <!-- todo:mettre en liste-->
+    {% for consprod in consumeaproduct %}
+    {% with prod=consprod.product %}
+    <div class="habitImpact">
+
+        <div class="habitTitle">
+            <span class="productName"><a href="#"><i class="icon-chevron_right"></i></a>
+                {{ prod.name }}</span>
+        </div>
+
+
+        <div class="alternativeToMainImpact">
+            {% for hasImpactOn in consprod.has_impact_on.all %}
+
+            <div class="flexContainer" style="margin-bottom: 20px">
+                {% if hasImpactOn.impact_type == 'Neg' %}
+                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                {% elif  hasImpactOn.impact_type == 'Pos' %}
+                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                {% else %}
+                <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                {% endif %}
+
+                <div class="alternativeToMainImpactContent flexBoxMaxWidth">
+
+                    {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>
+
+
+    </div>
+    {% endwith %}
+    {% endfor %}
+
+
+
+    (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
+    <br/>topic dan chacun des behaviour
+    <br/>modificaion de chaq elemn rest en cliquant essus
+    <br/>mettre les sources démenties
+    <br/>tri des sources par date
+    <br/> date des sources: date de consultation + parutuon facultatives
+    <br/> un seu ls à ressource
+    <br/> responsive pas compressible à fond
+</section>
 {% endblock %}
 <!--
 <iframe

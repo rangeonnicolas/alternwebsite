@@ -58,21 +58,7 @@ WSGI_APPLICATION = 'altws.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    #'default': {
-    #    'ENGINE': 'django.db.backends.sqlite3',
-    #    'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    #}
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django',
-        'USER': 'django',
-        'PASSWORD': 'mypassword2',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-
-}
+# moved to settingsDEV.py and settingsPROD.py
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
