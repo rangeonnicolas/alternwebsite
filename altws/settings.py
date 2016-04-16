@@ -87,26 +87,26 @@ STATIC_ROOT = 'static/'
 
 
 
-if 'USE_DEFAULT_SETTINGS' in locals() or 'USE_DEFAULT_SETTINGS' in globals():
-	if USE_DEFAULT_SETTINGS:
-		#DATABASES = {
-		#    'default': {
-		#	'ENGINE': 'django.db.backends.sqlite3',
-		#	'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-		#    },
-		#}
-		DATABASES = {
-		    'default': {
-			'ENGINE': 'django.db.backends.postgresql_psycopg2',
-			'NAME': 'django',
-			'USER': 'django',
-			'PASSWORD': 'mypassword2',
-			'HOST': 'localhost',
-			'PORT': '',
-		    }
-		}
-
-		# SECURITY WARNING: don't run with debug turned on in production!
-		DEBUG = True
+if ~( 'USE_DEFAULT_SETTINGS' in locals() or 'USE_DEFAULT_SETTINGS' in globals()) :
+        USE_DEFAULT_SETTINGS = True
+if USE_DEFAULT_SETTINGS:
+	#DATABASES = {
+	#    'default': {
+	#	'ENGINE': 'django.db.backends.sqlite3',
+	#	'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	#    },
+	#}
+	DATABASES = {
+	    'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'django',
+		'USER': 'django',
+		'PASSWORD': 'mypassword2',
+		'HOST': 'localhost',
+		'PORT': '',
+	    }
+	}
+	# SECURITY WARNING: don't run with debug turned on in production!
+	DEBUG = True
 
 	
