@@ -1,3 +1,4 @@
+USE_DEFAULT_SETTINGS = False
 from altws.settings import *
 
 DATABASES = {
