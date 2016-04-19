@@ -38,6 +38,9 @@ formNames = {
     'mainImpact_1':      {'model': 'MainImpact',      'view': 'mainImpact1'},
 
     'alternativeToMainImpact_1':       {'model': 'AlternativeToMainImpact',       'view': 'alternativeToMainImpact1'},
+
+    'source_test':         {'view': 'sourceTest'}
+
 } #todo: parfois il y a des majuscules , parfois pas :p
 
 
@@ -285,6 +288,17 @@ def source1(request):
     form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
 
     form = SourceForm
+    return form, form_conf, None
+
+def sourceTest(request): #todo: a retirer
+
+    form_conf = {
+    }
+
+    form_conf = json.dumps(form_conf)
+    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
+
+    form = SourceTestForm
     return form, form_conf, None
 
 

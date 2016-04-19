@@ -936,7 +936,7 @@ body {
 	border-top: 14px solid transparent;
 	border-bottom: 14px solid transparent;
 
-	border-left: 10px solid #89D6D2;
+	border-left: 10px solid turquoise;
 }
 
 @media handheld, (max-width: 640px) {

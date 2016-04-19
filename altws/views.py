@@ -128,6 +128,19 @@ def topic_id(request, topic_id):
     # colDict = {ic.name:colStr for ic in impactCategs}
     # print(colDict)
 
+    # Todo: Attention, dans ce bloc for, il y a confusion entre le terme 'alternative' et 'behaviour'
+    main_alternatives = set()
+    main_impact_grouped_by_alternative = dict()
+    for main_impact in main_impacts:
+        for alternative in main_impact.alternatives.all():
+            main_alternatives.add(alternative.to_rel)
+            if alternative.to_rel_id not in main_impact_grouped_by_alternative:
+                main_impact_grouped_by_alternative[alternative.to_rel_id] = [main_impact]
+            else:
+                main_impact_grouped_by_alternative[alternative.to_rel_id] += [main_impact]
+
+    print(main_impact_grouped_by_alternative)
+
     return render(request,"maquette.html",locals())
 
 
