@@ -33,7 +33,7 @@
                                                                     , according to: <a href="#" style="font-weight:bold">[...]</a>
                                                                 <!--</span>-->
                                                             {% endif %}
-                                                            <br/><span class="admin">(pour ajouter une source, cliquer sur "modifier ce cadre")</span>
+                                                            <!--<br/><span class="admin">(pour ajouter une source, cliquer sur "modifier ce cadre")</span>-->
 
                                                                 <div style="margin-top:5px">
                                                                     {% if hasImpactOn.sources.all %}
@@ -110,7 +110,11 @@
 
                                                                                 </div>
                                                             {% endif %}
-                                                            <span class="admin"><a href="/rest/{{entity_alt}}">(ajouter une alternative)</a></span>
+                                                            <span class="admin">
+                                                                <!--<a href="/rest/{{entity_alt}}">-->
+                                                                    (ajouter une alternative)
+                                                                <!--</a>-->
+                                                            </span>
 
                                                         </div>
 

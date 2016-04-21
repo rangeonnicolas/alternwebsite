@@ -81,6 +81,19 @@ def maquette2(request):
 
     return render(request,"maquette2.html", locals())
 
+def search_product(request, topic_id):
+
+    topic_id = int(topic_id)
+
+    consumeaproduct = []
+    all_consumeaproduct = ConsumeAProduct.objects.all()  # todo: inclure les habit.....
+    for c in all_consumeaproduct:  # todo: faire plutot avec un queryset
+        tpcs = c.topic.all()
+        # print([topic_id == tt.id for tt in tpcs])
+        if sum([topic_id == tt.id for tt in tpcs]):
+            consumeaproduct = consumeaproduct + [c]
+
+    return render(request, "search_product.html", locals())
 
 def topic_id(request, topic_id):
 
@@ -92,15 +105,6 @@ def topic_id(request, topic_id):
         topic = Topic.objects.get(id=topic_id)
     except:
         return render(request,"home.html",locals())#todo: mettre une 404
-
-    consumeaproduct = []
-    all_consumeaproduct = ConsumeAProduct.objects.all() #todo: inclure les habit.....
-    for c in all_consumeaproduct: #todo: faire plutot avec un queryset
-        tpcs = c.topic.all()
-        #print([topic_id == tt.id for tt in tpcs])
-        if sum([topic_id == tt.id for tt in tpcs]):
-            consumeaproduct = consumeaproduct + [c]
-
 
     main_impacts = []
     all_main_impacts = MainImpact.objects.all()
@@ -128,18 +132,21 @@ def topic_id(request, topic_id):
     # colDict = {ic.name:colStr for ic in impactCategs}
     # print(colDict)
 
-    # Todo: Attention, dans ce bloc for, il y a confusion entre le terme 'alternative' et 'behaviour'
-    main_alternatives = set()
-    main_impact_grouped_by_alternative = dict()
+    #print(main_impact_grouped_by_alternative)
+
+    behaviours = {}
     for main_impact in main_impacts:
         for alternative in main_impact.alternatives.all():
-            main_alternatives.add(alternative.to_rel)
-            if alternative.to_rel_id not in main_impact_grouped_by_alternative:
-                main_impact_grouped_by_alternative[alternative.to_rel_id] = [main_impact]
+            behaviour_id = alternative.to_rel_id
+            impact_name = main_impact.impactCateg.name
+            if behaviour_id not in behaviours:
+                behaviours[behaviour_id] = {'behaviour': alternative.to_rel, 'impacts': {impact_name: [main_impact.via]}}
             else:
-                main_impact_grouped_by_alternative[alternative.to_rel_id] += [main_impact]
+                if impact_name not in behaviours[behaviour_id]['impacts']:
+                    behaviours[behaviour_id]['impacts'][impact_name] = [main_impact.via]
+                else:
+                    behaviours[behaviour_id]['impacts'][impact_name] += [main_impact.via]
 
-    print(main_impact_grouped_by_alternative)
 
     return render(request,"maquette.html",locals())
 

@@ -16,6 +16,18 @@ class Entity(models.Model):
         return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
     def __unicode__(self):
         return self.__str__()
+    def simplePrint(self):
+        name = ""
+        rightClass = ""
+        for cla in ["product", "bank", "company", "newspaper", "author", "ressource", "component", "policy", "phenomenon"]:
+            try:
+                sub = eval("self." + cla)
+                name = sub.name
+                rightClass = cla
+            except:
+                pass
+        return name
+
 
 
 class Topic(models.Model):
@@ -144,7 +156,8 @@ class Relation(models.Model):
     def __str__(self):
         return(self.__unicode__())
     def __unicode__(self):
-        return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
+        return(  self.from_rel.simplePrint()  + ' / ' + self.relationType.name + ' / ' +  self.to_rel.simplePrint()  )
+        #return( '[ ' + str(self.from_rel) + ' ] ___' + str(self.relationType.name) + '___ [' + str(self.to_rel) + ' ]' )
     def simplePrint(self):
         return( str(self.from_rel) + ' ' + str(self.relationType.name) + ' ' + str(self.to_rel) )
 

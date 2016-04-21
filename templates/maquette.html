@@ -30,7 +30,7 @@
 
     </div>
 
-    <span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>
+    <!--<span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>-->
 
 
 
@@ -41,68 +41,63 @@
 
 
 
-
     <div class="mainImpactCont flexContainer flexWrap" style="margin-left:30px">
+        {% for behaviour_id, value in behaviours.items %}
+            {% with behaviour=value.behaviour %}
+                    <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
+                        <div style="flex: 100%">
+                            <div class="alternativeTitle">
+                                <div>
+                                    <img style="width:50px" alt="" src="
+                                    {% if behaviour.consumeaproduct %}
+                                    {% static 'maquette/temporaire/icon_basket.png' %}
+                                    {% elif behaviour.habit %}
+                                    {% static 'maquette/temporaire/icon_habit.png' %}
+                                    {% endif %}"/>
+                                    <div style="display:inline-block;vertical-align:top;width:200px">
+                                        <span>
+                                            {# todo: simplifier cela avec un tag customise? #}
+                                    {% if behaviour.consumeaproduct %}
+                                    Consommer chez: {{ behaviour.consumeaproduct.product.name }}
+                                    {% elif behaviour.habit %}
+                                    {{ behaviour.habit.name }}
+                                    {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
+                                <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
+                                </a>
 
-    {% for behaviour in main_alternatives %}
-        {# Attention, dans ce bloc for, il y a confusion entre le terme 'alternative' et 'behaviour' #}
+                            <div style="padding-left:5px;margin: 8px 0">
+                                <div style="text-align:center;margin:3px">
+                                <span style="font-style:italic;font-size:0.8em;color:#777">Helps to reduce the impact on :</span>
+                                </div>
+                                {% with impacts=value.impacts %}
+                                    {% for impact_name, value in impacts.items %}
+                                        <span style="margin-bottom:2px;margin-top:8px;display:inline-block">{{impact_name}} :</span>
+                                        {% for via in value %}
+                                            <div style="font-size:0.9em;">
+                                                <div style="width:8px;height:8px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};border-radius:50%;display:inline-block;margin-left:3px">
 
-    <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
+                                                </div>
+                                                <span style="margin:2px;display:inline-block;color:white;padding:1px 6px;border-radius:4px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};">{{ via }}</span>
+                                                <div style="float:right">
+                                                    <span><a href="#" alt="">?</a>&nbsp|&nbsp</span><a href="#" alt=""><img alt='' style="height:18px;bottom:-4px;position:relative;padding-right:5px" src="{% static 'maquette/temporaire/icon_document_search_interface_symbol.png' %}"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </div>
 
-
-        <div style="flex: 100%">
-            <span class="alternativeTitle">
-                <div>
-                    <img style="width:50px" alt="" src="
-                    {% if behaviour.consumeaproduct %}
-                    {% static 'maquette/temporaire/icon_basket.png' %}
-                    {% elif behaviour.habit %}
-                    {% static 'maquette/temporaire/icon_habit.png' %}
-                    {% endif %}"/>
-
-                    <div style="display:inline-block;vertical-align:top;width:200px">
-                        <span>
-                    {% if behaviour.consumeaproduct %}
-                    Consommer chez: {{ behaviour.consumeaproduct.product.name }}
-                    {% elif behaviour.habit %}
-                    {{ behaviour.habit.name }}
-                    {% endif %}
-                        </span>
+                        </div>
                     </div>
+            {% endwith %}
+        {% endfor %}
 
-                </div>
-                <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
-                </a>
-
-
-                    {% with behaviour_id=behaviour.id %}
-
-                    {# todo: simplifier les 2 lignes du dessous avec un tag groupby sinon ça ralentit beaucoup, ou bien faire un tableau general de type {behav_id:{behaviour: <object> main_impacts:[<object>,<object>,...]}} #}
-                    {% for behav_id, impacts in main_impact_grouped_by_alternative.items %}
-                    {% if behaviour_id == behav_id %}
-
-                    {% for impact in impacts %}
-                    <div style="border:yellow 1px solid;width:100%;font-size:0.5em">
-                        {% with title=false hasImpactOn=impact name=impact.impactCateg.name label=impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' %}
-                        {% include "main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
-                        {% endwith %}
-                    </div>
-                    {% endfor %}
-
-                    {% endif %}
-                    {% endfor %}
-
-                    {% endwith %}
-
-
-            </span>
-        </div>
-
-
-
-    </div>
-    {% endfor %}
     </div>
 
 
@@ -119,49 +114,9 @@
     </div>
 
     <div id="search_product_result" style="border:1px solid #444;padding:5px;display:none">
-        <!-- todo:mettre en liste-->
-        {% for consprod in consumeaproduct %}
-        {% with prod=consprod.product %}
-        <div class="habitImpact">
-
-            <div class="habitTitle">
-                <span class="productName">
-                    <!--<a href="#">     ENLEVE CAR LIEN CACHE PAS BON PR GOOGLE-->
-                        <i class="icon-chevron_right"></i>
-                    <!--</a>-->
-                    {{ prod.name }}</span>
-            </div>
-
-
-            <div class="alternativeToMainImpact">
-                {% for hasImpactOn in consprod.has_impact_on.all %}
-
-                <div class="flexContainer" style="margin-bottom: 20px">
-                    {% if hasImpactOn.impact_type == 'Neg' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
-                    {% elif  hasImpactOn.impact_type == 'Pos' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
-                    {% else %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
-                    {% endif %}
-
-                    <div class="alternativeToMainImpactContent flexBoxMaxWidth">
-
-                        {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-
-            <!--<a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>-->
-
-
-        </div>
-        {% endwith %}
-        {% endfor %}
-
     </div>
 
+    <!--
     (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
     <br/>topic dan chacun des behaviour
     <br/>modificaion de chaq elemn rest en cliquant essus
@@ -170,13 +125,30 @@
     <br/> date des sources: date de consultation + parutuon facultatives
     <br/> un seu ls à ressource
     <br/> responsive pas compressible à fond
+    -->
 
     <script type="text/javascript">
+        temp_var = true;
         $(function(){
             $("#search_product_form").on('keyup',function(){
                 $("#search_product_result").show();
+                if(temp_var){
+                    $.ajax({
+                        url: "/searchproduct/{{ topic_id }}",
+                        success: function(result){
+                            $("#search_product_result").html(result);
+                        }
+                    })
+                }
+                temp_var = false;
             });
         });
+
+
+
+
+
+
     </script>
 
 </section>

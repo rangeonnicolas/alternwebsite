@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^maquette2/$', 'altws.views.maquette2', name='maquette2'),
     url(r'^coreforms/', include(coreFormsUrls), name='forms'),
     url(r'^topic/(?P<topic_id>\d*)/$', 'altws.views.topic_id', name='topic'),
+    url(r'^searchproduct/(?P<topic_id>\d*)/$', 'altws.views.search_product', name='topic'),
     url(r'^rest/', include(api2urls)),
     url(r'^admin/', include(admin.site.urls)),
 )
