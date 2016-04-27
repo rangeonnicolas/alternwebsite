@@ -85,6 +85,7 @@ def search_product(request, topic_id):
 
     topic_id = int(topic_id)
 
+    # todo factoriser les 2 blocs suivants et regrouper en une ligne
     consumeaproduct = []
     all_consumeaproduct = ConsumeAProduct.objects.all()  # todo: inclure les habit.....
     for c in all_consumeaproduct:  # todo: faire plutot avec un queryset
@@ -92,6 +93,23 @@ def search_product(request, topic_id):
         # print([topic_id == tt.id for tt in tpcs])
         if sum([topic_id == tt.id for tt in tpcs]):
             consumeaproduct = consumeaproduct + [c]
+
+    consumeatacompany = []
+    all = ConsumeAtACompany.objects.all()  # todo: inclure les habit.....
+    for c in all: # todo: faire plutot avec un queryset
+        tpcs = c.topic.all()
+        # print([topic_id == tt.id for tt in tpcs])
+        if sum([topic_id == tt.id for tt in tpcs]):
+            consumeatacompany = consumeatacompany + [c]
+
+    #todo: ces lignes sont vraiment foireuses (au niveau du modele de donnees:
+    #hotfix
+    consumeatabank = Bank.objects.all()
+    if topic_id != 5:
+        consumeatabank = []
+
+    print(consumeatabank)
+
 
     return render(request, "search_product.html", locals())
 
@@ -106,12 +124,12 @@ def topic_id(request, topic_id):
     except:
         return render(request,"home.html",locals())#todo: mettre une 404
 
-    main_impacts = []
-    all_main_impacts = MainImpact.objects.all()
-    for mi in all_main_impacts: #todo: faire plutot avec un queryset
-        tpcs = mi.topics.all()
-        if sum([topic_id == tt.id for tt in tpcs]):
-            main_impacts = main_impacts + [mi]
+    #main_impacts = []
+    #all_main_impacts = MainImpact.objects.all()
+    #for mi in all_main_impacts: #todo: faire plutot avec un queryset
+    #    tpcs = mi.topics.all()
+    #    if sum([topic_id == tt.id for tt in tpcs]):
+    #        main_impacts = main_impacts + [mi]
 
     title = topic.name
     description = topic.description_en
@@ -135,17 +153,20 @@ def topic_id(request, topic_id):
     #print(main_impact_grouped_by_alternative)
 
     behaviours = {}
-    for main_impact in main_impacts:
-        for alternative in main_impact.alternatives.all():
-            behaviour_id = alternative.to_rel_id
-            impact_name = main_impact.impactCateg.name
-            if behaviour_id not in behaviours:
-                behaviours[behaviour_id] = {'behaviour': alternative.to_rel, 'impacts': {impact_name: [main_impact.via]}}
-            else:
-                if impact_name not in behaviours[behaviour_id]['impacts']:
-                    behaviours[behaviour_id]['impacts'][impact_name] = [main_impact.via]
-                else:
-                    behaviours[behaviour_id]['impacts'][impact_name] += [main_impact.via]
+    for alt in AlternativeToMainImpact.objects.all():
+        if alt.to_rel.habit.topic.all()[0].id == topic_id: #todo: moche le [0] !!
+            behaviour_id = alt.to_rel_id
+            for impact_lev2 in alt.impact_on.all():
+                impact_l2_name = impact_lev2.label
+                for impact_lev1 in impact_lev2.parents.all():
+                    impact_l1_name = impact_lev1.label
+                    if behaviour_id not in behaviours:
+                        behaviours[behaviour_id] = {'behaviour': alt.to_rel, 'impacts': {impact_l1_name: [impact_l2_name]}}
+                    else:
+                        if impact_l1_name not in behaviours[behaviour_id]['impacts']:
+                            behaviours[behaviour_id]['impacts'][impact_l1_name] = [impact_l2_name]
+                        else:
+                            behaviours[behaviour_id]['impacts'][impact_l1_name] += [impact_l2_name]
 
 
     return render(request,"maquette.html",locals())

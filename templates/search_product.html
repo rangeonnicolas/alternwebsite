@@ -1,20 +1,60 @@
 {% load static %}
-        <!-- todo:mettre en liste-->
+        <!-- todo:mettre en liste + regrouper les 2-->
         {% for consprod in consumeaproduct %}
         {% with prod=consprod.product %}
         <div class="habitImpact">
 
             <div class="habitTitle">
                 <span class="productName">
-                    <!--<a href="#">     ENLEVE CAR LIEN CACHE PAS BON PR GOOGLE-->
+                    <a href="#">
                         <i class="icon-chevron_right"></i>
-                    <!--</a>-->
+                    </a>
                     {{ prod.name }}</span>
             </div>
 
 
             <div class="alternativeToMainImpact">
                 {% for hasImpactOn in consprod.has_impact_on.all %}
+
+                <div class="flexContainer" style="margin-bottom: 20px">
+                    {% if hasImpactOn.impact_type == 'Neg' %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                    {% elif  hasImpactOn.impact_type == 'Pos' %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    {% else %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    {% endif %}
+
+                    <div class="alternativeToMainImpactContent flexBoxMaxWidth">
+
+                        {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <!--<a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>-->
+        </div>
+        {% endwith %}
+        {% endfor %}
+
+
+
+
+        {% for cons in consumeatacompany %}
+        {% with comp=cons.company %}
+        <div class="habitImpact">
+
+            <div class="habitTitle">
+                <span class="productName">
+                    <a href="#">
+                        <i class="icon-chevron_right"></i>
+                    </a>
+                    {{ comp.name }}</span>
+            </div>
+
+
+            <div class="alternativeToMainImpact">
+                {% for hasImpactOn in cons.has_impact_on.all %}
 
                 <div class="flexContainer" style="margin-bottom: 20px">
                     {% if hasImpactOn.impact_type == 'Neg' %}
@@ -39,3 +79,46 @@
         </div>
         {% endwith %}
         {% endfor %}
+
+
+
+
+
+        {% for bank in consumeatabank %}
+        <div class="habitImpact">
+
+            <div class="habitTitle">
+                <span class="productName">
+                    <a href="#">
+                        <i class="icon-chevron_right"></i>
+                    </a>
+                    {{ bank.name }}</span>
+            </div>
+
+
+            <div class="alternativeToMainImpact">
+                {% for hasImpactOn in cons.has_impact_on.all %}
+
+                <div class="flexContainer" style="margin-bottom: 20px">
+                    {% if hasImpactOn.impact_type == 'Neg' %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                    {% elif  hasImpactOn.impact_type == 'Pos' %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    {% else %}
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    {% endif %}
+
+                    <div class="alternativeToMainImpactContent flexBoxMaxWidth">
+
+                        {% include 'sources_and_alternatives.html' with title=1 hasImpactOn=hasImpactOn name=hasImpactOn.impactCateg.name label='__?'  entity_alt="alternative" entity_imp="hasimpacton" prod=prod only %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!--<a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>-->
+
+
+        </div>
+        {% endfor %}
+

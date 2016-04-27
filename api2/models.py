@@ -3,6 +3,7 @@
 from django.db import models
 
 class Entity(models.Model):
+    # si l'on met le champ 'name' dans Entity, il se posera le problème des doublons (ex: entreprises qui ont le même nom que leur produit) à réfléchir donc...
     def __str__(self):
         name = ""
         rightClass = ""
@@ -125,7 +126,7 @@ class Source(models.Model):
     publication_date = models.DateField(null=True)
     authors = models.ManyToManyField(Author)
     newspaper = models.ForeignKey(Newspaper,null=True)
-    topic = models.ManyToManyField(Topic, null=True)
+    topic = models.ManyToManyField(Topic)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -180,11 +181,13 @@ class Behaviour(models.Model):
     def __unicode__(self):
         name = ""
         rightClass = ""
-        for cla in ["consumeaproduct","habit"]:
+        for cla in ["consumeaproduct","habit","consumeatacompany"]:
             try :
                 sub = eval("self."+cla)
                 if cla == "consumeaproduct":
                     name = sub.product.name
+                elif cla == "consumeatacompany":
+                    name = sub.company.name
                 elif cla == "habit":
                     name = sub.name
                 rightClass = cla
@@ -192,19 +195,7 @@ class Behaviour(models.Model):
                 pass
         return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
     def __str__(self):
-        name = ""
-        rightClass = ""
-        for cla in ["consumeaproduct","habit"]:
-            try :
-                sub = eval("self."+cla)
-                if cla == "consumeaproduct":
-                    name = sub.product.name
-                elif cla == "habit":
-                    name = sub.name
-                rightClass = cla
-            except :
-                pass
-        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
+        return self.__unicode__()
 
 
 
@@ -218,6 +209,8 @@ class Habit(Behaviour):
 class ConsumeAProduct(Behaviour):
     product = models.OneToOneField(Product,verbose_name="Consume ...")
 
+class ConsumeAtACompany(Behaviour):
+    company = models.OneToOneField(Company,verbose_name="Consume at ...")
 
 
 class ImpactCateg(models.Model):
@@ -256,12 +249,34 @@ class Alternative(models.Model):
     def __unicode__(self):
         return('[ '+str(self.to_rel)+' ]  is an alternative to this impact:  [ '+str(self.to_rel)+' ]')
 
+class ImpactLevel1(models.Model):
+    label = models.CharField(max_length=255,unique=True)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return self.label
+class ImpactLevel2(models.Model):
+    label = models.CharField(max_length=255,unique=True)
+    parents = models.ManyToManyField(ImpactLevel1)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return self.label
+class ImpactLevel3(models.Model):
+    label = models.CharField(max_length=255,unique=True)
+    parents = models.ManyToManyField(ImpactLevel2)
+    def __str__(self):
+        return self.__unicode__()
+    def __unicode__(self):
+        return self.label
+
 
 
 class MainImpact(models.Model):
     topics = models.ManyToManyField(Topic)
     impactCateg = models.ForeignKey(ImpactCateg,verbose_name="has an main impact on")
     via = models.CharField(max_length= 200)
+    tag = models.CharField(max_length= 200, null=True)
     sources = models.ManyToManyField(Source,verbose_name="Source that prooves this impact")
     def __str__(self):
         return self.__unicode__()
@@ -271,15 +286,22 @@ class MainImpact(models.Model):
             topicsStr = topicsStr + ", " + t.name
         return('[ '+ topicsStr +' ]  HAVE IMPACT ON  ['+str(self.impactCateg)+' ]  VIA  [ '+ str(self.via) +' ]')
 
-
 class AlternativeToMainImpact(models.Model):
-    from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact [ /rest/mainimpact ]")
+    #from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact [ /rest/mainimpact ]")
+    impact_on = models.ManyToManyField(ImpactLevel2)
     to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of_main_impact",verbose_name="has this alternative [ /rest/habit OU /rest/behaviour ]")
-    sources = models.ManyToManyField(Source)
+    sources = models.ManyToManyField(Source,null=True)
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
         return('[ '+str(self.to_rel)+' ]  is an alternative to this impact:  [ '+str(self.to_rel)+' ]')
+
+
+class Association(Entity):
+    name = models.CharField(max_length=255,unique=True)	
+
+class WebPlatform(Entity):
+    name = models.CharField(max_length=255,unique=True)	
 
 
 

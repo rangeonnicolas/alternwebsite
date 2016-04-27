@@ -46,7 +46,7 @@
             {% with behaviour=value.behaviour %}
                     <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
                         <div style="flex: 100%">
-                            <div class="alternativeTitle">
+                            <div class="alternativeTitle" style='height:72px'>
                                 <div>
                                     <img style="width:50px" alt="" src="
                                     {% if behaviour.consumeaproduct %}
@@ -66,6 +66,8 @@
                                     </div>
                                 </div>
                             </div>
+
+			<div style="opacity:0.4" class="highlightOnMouseOver">
 
                                 <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
                                 </a>
@@ -92,7 +94,7 @@
                                     {% endfor %}
                                 {% endwith %}
                             </div>
-
+			  </div>
                         </div>
                     </div>
             {% endwith %}
@@ -144,6 +146,16 @@
             });
         });
 
+        $(function(){
+            $(".highlightOnMouseOver").each(function(){
+		$(this).mouseover(function(){
+			$(this).css('opacity',1);
+		})
+		$(this).mouseout(function(){
+			$(this).css('opacity',0.4);
+		})
+            });
+        });
 
 
 
