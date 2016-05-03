@@ -44,7 +44,7 @@
     <div class="content" style=''>-->
 
         {% block content %}
-        <section class="contentSection">
+
 
             <h1>
                 <a id="a0" onclick="closePar('par0','a0');">
@@ -59,6 +59,7 @@
                     and ethical way of consumption.
                 </p>
             </div>
+
 
             <h2>
                 <a id="a1" onclick="openPar('par1','a1');">
@@ -106,9 +107,8 @@
             <h2>Interested ?</h2>
 
             <div class="softBox">
-
-
-                <p>OpenAlternativa will be available soon. If you are interested in the project, and/or if you
+                <p>
+                    OpenAlternativa will be available soon. If you are interested in the project, and/or if you
                     want to contribute to it, please enter your email here and we'll get in touch!
                 </p>
 
@@ -116,8 +116,7 @@
 
                     {% if ok %}<p>That's done! Thank you!</p>
                     {% else %}
-                    <form action="{% url " altws.views.home
-                    " %}" method="post">
+                    <form action="{% url 'altws.views.home' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="Submit"/>
@@ -130,5 +129,5 @@
 
 
             </div>
-        </section>
+
         {% endblock %}

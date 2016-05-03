@@ -229,14 +229,14 @@ difv {
 
 }
 
-.softBox , .borderedBox {
+.borderedBox {
 	border: solid 0px;
-	#border-top-width: 1px;
 	border-bottom-width: 1px;
 	padding-top: 0px;
 	padding-bottom: 7px;
 	margin: -1px;
 }
+
 
 
 
@@ -581,12 +581,7 @@ nav {
 
 
 
-label[for=id_email]
-{
-   background-color:white;
-   color:inherit;
-   border:none;
-}
+
 
 
 

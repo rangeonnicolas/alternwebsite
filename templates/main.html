@@ -12,16 +12,19 @@
 <body>
 <header class="alignCenter">
     <div class="centeredBlock" style="padding-top:8px">
-        {% comment%}
-        <div style="display:inline-block;height: 0.7em;width:1em;">
-            <img class="logoAlternativeImage" src="{% static 'maquette/icons/custom/hand_index.svg' %}"
-                              alt=""
-                              style="width:100%;height:100%;z-index:1;opacity:0.7"></img>
-        </div>
-        {% endcomment %}
-        <span style="font-style: italic;font-family:ubuntu"><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><span style="vertical-align:top;font-weight:normal"><span class="temp2" style="font-weight:inherit"> Open</span><span class="temp1">A</span><span
-                class="temp1">lternativa</span><span class="temp3" style="font-weight:bold"> .</span>
-        </span></span>
+        <a href="/" >
+            {% comment%}
+            <div style="display:inline-block;height: 0.7em;width:1em;">
+                <img class="logoAlternativeImage" src="{% static 'maquette/icons/custom/hand_index.svg' %}"
+                     alt=""
+                     style="width:100%;height:100%;z-index:1;opacity:0.7"></img>
+            </div>
+            {% endcomment %}
+            <div style="font-style: italic;font-family:ubuntu"><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><span style="vertical-align:top;font-weight:normal"><span class="temp2" style="font-weight:inherit"> Open</span><span class="temp1">A</span><span
+                    class="temp1">lternativa</span><span class="temp3" style="font-weight:bold"> .</span>
+            </span>
+            </div>
+        </a>
     </div>
 
 </header>
@@ -32,7 +35,7 @@
         {% for t in topics %}
         {% if t.in_navigation_bar%}
         <a href="{% url 'altws.views.topic_id' t.id %}"
-           onclick="alert('Attention, vous allez accéder à une page en développement. Beaucoup de données sont manquantes. La structure ainsi que le design de la page ne sont absolument pas finalisés. \nMerci de ne pas modifier la base de données avant que de réels formulaires intelligibles n\'aient été mis en place. \n\nMerci de votre indulgence!')">
+           onclick="alert('The content your are about to acess is still in development. A lot of data is missing, and the design is about to be completely reviewed.\n\nThank you!')">
             <div class="navBarButton nbbTop">
                 {{ t.name }}
             </div>
@@ -40,7 +43,7 @@
         {% endif %}
         {% endfor %}
         {% comment %}
-        <div class="navBarButton" style="margin-top:20px">
+        <div class="navBarButton">
             <i class="icon-chevron_right"></i>
             &nbsp;Suggest a new topic
         </div>
@@ -50,12 +53,12 @@
 
 <div class="alignCenter">
     <div class="centeredBlock">
-        <div class="content" style=''>
-            {% block content %}
+        <div class="content">
             <section class="contentSection">
+            {% block content %}
                 empty
-            </section>
             {% endblock %}
+            </section>
         </div>
     </div>
 </div>
@@ -69,13 +72,13 @@
 
 <script>
                         function openPar(id,id2){
-                            document.getElementById(id).style.display = 'inherit' ;
+                            document.getElementById(id).style.display = 'block';
                             var b = document.getElementById(id2);
                             b.innerHTML = '<i class="icon-chevron_down"></i>' ;
                             b.onclick=function(){closePar(id,id2);} ;
                         }
                         function closePar(id,id2){
-                            document.getElementById(id).style.display = 'None' ;
+                            document.getElementById(id).style.display = 'none' ;
                             var b = document.getElementById(id2);
                             b.innerHTML = '<i class="icon-chevron_right"></i>' ;
                             b.onclick=function(){openPar(id,id2);} ;

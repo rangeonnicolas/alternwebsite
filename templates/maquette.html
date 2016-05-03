@@ -4,13 +4,13 @@
 
 {% block content %}
 
-<section class="contentSection">
+
     <h1>{{title}}</h1>
     <p class="intro">
         (note: ajouter description)<!--{{description}}-->
     </p>
 
-
+{% comment %}
     <h2>Points d'attention :</h2>
 
     <div class="mainImpactCont flexContainer flexWrap">
@@ -20,11 +20,11 @@
         <div class="mainImpactBox height1">
             {# {% include "sources_and_alternatives.html" with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' only%} #}
         </div>-->
-                <div style="width:100%;margin-left:30px">
-                        {% with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' %}
-                                                    {% include "main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
-                        {% endwith %}
-                </div>
+        <div style="width:100%;margin-left:30px">
+            {% with title=false hasImpactOn=main_impact name=main_impact.impactCateg.name label=main_impact.via entity_alt="alternativetomainimpact" entity_imp="mainimpact" prod='O' %}
+            {% include "main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
+            {% endwith %}
+        </div>
 
         {% endfor %}
 
@@ -43,72 +43,72 @@
 
     <div class="mainImpactCont flexContainer flexWrap" style="margin-left:30px">
         {% for behaviour_id, value in behaviours.items %}
-            {% with behaviour=value.behaviour %}
-                    <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
-                        <div style="flex: 100%">
-                            <div class="alternativeTitle" style='height:72px'>
-                                <div>
-                                    <img style="width:50px" alt="" src="
+        {% with behaviour=value.behaviour %}
+        <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
+            <div style="flex: 100%">
+                <div class="alternativeTitle" style='height:72px'>
+                    <div>
+                        <img style="width:50px" alt="" src="
                                     {% if behaviour.consumeaproduct %}
                                     {% static 'maquette/temporaire/icon_basket.png' %}
                                     {% elif behaviour.habit %}
                                     {% static 'maquette/temporaire/icon_habit.png' %}
                                     {% endif %}"/>
-                                    <div style="display:inline-block;vertical-align:top;width:200px">
-                                        <span>
-                                            {# todo: simplifier cela avec un tag customise? #}
-                                    {% if behaviour.consumeaproduct %}
-                                    Consommer chez: {{ behaviour.consumeaproduct.product.name }}
-                                    {% elif behaviour.habit %}
-                                    {{ behaviour.habit.name }}
-                                    {% endif %}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-			<div style="opacity:0.4" class="highlightOnMouseOver">
-
-                                <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
-                                </a>
-
-                            <div style="padding-left:5px;margin: 8px 0">
-                                <div style="text-align:center;margin:3px">
-                                <span style="font-style:italic;font-size:0.8em;color:#777">Helps to reduce the impact on :</span>
-                                </div>
-                                {% with impacts=value.impacts %}
-                                    {% for impact_name, value in impacts.items %}
-                                        <span style="margin-bottom:2px;margin-top:8px;display:inline-block">{{impact_name}} :</span>
-                                        {% for via in value %}
-                                            <div style="font-size:0.9em;">
-                                                <div style="width:8px;height:8px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};border-radius:50%;display:inline-block;margin-left:3px">
-
-                                                </div>
-                                                <span style="margin:2px;display:inline-block;color:white;padding:1px 6px;border-radius:4px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};">{{ via }}</span>
-                                                <div style="float:right">
-                                                    <span><a href="#" alt="">?</a>&nbsp|&nbsp</span><a href="#" alt=""><img alt='' style="height:18px;bottom:-4px;position:relative;padding-right:5px" src="{% static 'maquette/temporaire/icon_document_search_interface_symbol.png' %}"/>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    {% endfor %}
-                                {% endwith %}
-                            </div>
-			  </div>
+                        <div style="display:inline-block;vertical-align:top;width:200px">
+                            <span>
+                                {# todo: simplifier cela avec un tag customise? #}
+                                {% if behaviour.consumeaproduct %}
+                                Consommer chez: {{ behaviour.consumeaproduct.product.name }}
+                                {% elif behaviour.habit %}
+                                {{ behaviour.habit.name }}
+                                {% endif %}
+                            </span>
                         </div>
                     </div>
-            {% endwith %}
+                </div>
+
+                <div style="opacity:0.4" class="highlightOnMouseOver">
+
+                    <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
+                    </a>
+
+                    <div style="padding-left:5px;margin: 8px 0">
+                        <div style="text-align:center;margin:3px">
+                            <span style="font-style:italic;font-size:0.8em;color:#777">Helps to reduce the impact on :</span>
+                        </div>
+                        {% with impacts=value.impacts %}
+                        {% for impact_name, value in impacts.items %}
+                        <span style="margin-bottom:2px;margin-top:8px;display:inline-block">{{impact_name}} :</span>
+                        {% for via in value %}
+                        <div style="font-size:0.9em;">
+                            <div style="width:8px;height:8px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};border-radius:50%;display:inline-block;margin-left:3px">
+
+                            </div>
+                            <span style="margin:2px;display:inline-block;color:white;padding:1px 6px;border-radius:4px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};">{{ via }}</span>
+                            <div style="float:right">
+                                <span><a href="#" alt="">?</a>&nbsp|&nbsp</span><a href="#" alt=""><img alt='' style="height:18px;bottom:-4px;position:relative;padding-right:5px" src="{% static 'maquette/temporaire/icon_document_search_interface_symbol.png' %}"/>
+                            </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% endfor %}
+                        {% endwith %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
         {% endfor %}
 
     </div>
 
 
 
-    <h2>Que dit-on de ...?</h2>
+    <h2>What is said about...?</h2>
 
     <div style="width:100%;text-align:center">
         <span>
-            Rechercher une marque ou un produit:
+            Search for a product or a trademark:
         </span>
         <div style="margin:5px">
             <a href=""><i style="margin:4px" class="icon-magnifying icon1x"></i></a><input id="search_product_form" type="search"/>
@@ -128,6 +128,8 @@
     <br/> un seu ls à ressource
     <br/> responsive pas compressible à fond
     -->
+
+    {% endcomment %}
 
     <script type="text/javascript">
         temp_var = true;
@@ -157,72 +159,9 @@
             });
         });
 
-
-
-
-
     </script>
 
-</section>
 {% endblock %}
-<!--
-<iframe
-  src="http://www.koom.org/web/jsp/api/action.jsp?idaction=17&displayMap=0"
-  frameborder="0" scrolling="no"
-  width="310" height="500">
-</iframe>
-
- <script type="text/javascript">
- 	var csList = document.getElementsByClassName("contentSection");
-	var cs = csList[0];
-	var csStyle = cs.currentStyle || window.getComputedStyle(cs);
-	var origPadding = parseInt(csStyle.paddingRight);alert(origPadding);
-
-	window.onresize = function(event){
-		if(csStyle.width == csStyle.minWidth){
-			for(i=0; i<csList.length; i++){
-				p = csList[i];
-				p.style.paddingLeft = 2;
-				p.style.paddingRight = 2;
-			}
-		}
-		else{
-			for(i=0; i<csList.length; i++){
-				p = csList[i];
-				p.style.paddingLeft = origPadding;
-				p.style.paddingRight = origPadding;
-			}
-		}
-	}
-</script>
-
- -->
-
-<!--
-
-  <i class="icon-plus icon3x"></i>
- <i class="icon-pen icon3x"></i>
-  <i class="icon-sheet icon3x"></i>
-   <i class="icon-file_open icon3x"></i>
-    <i class="icon-file_alt icon3x"></i>
-     <i class="icon-attachment icon3x"></i>
-      <i class="icon-cross_mark icon3x"></i>
-       <i class="icon-file_close_alt icon3x"></i>
-        <i class="icon-file_close icon3x"></i>
-         <i class="icon-cancel_circle icon3x"></i>
-<i class="icon-magnifying icon3x"></i>
-<i class="icon-warning icon3x"></i>
-<i class="icon-warning_alt icon3x"></i>
-<i class="icon-magnifying_plus icon3x"></i>
-<i class="icon-white_question icon3x"></i>
-<i class="icon-black_question icon3x"></i>
-<i class="icon-eye icon3x"></i>
-<i class="icon-newspaper icon3x"></i>
-<i class="icon-mute_off  icon3x"></i>
-<i class="icon-users  icon3x"></i>
-<i class="icon-message  icon3x"></i>
-<i class="icon-discussion  icon3x"></i>
-<i class="icon-video_camera icon3x"></i> -->
 
 
 <!--

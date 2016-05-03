@@ -37,7 +37,6 @@ header {
     font-size:2em;
     padding:10px;
     height: 60px;
-    z-index:-1;
 }
 
 h1 {
@@ -90,8 +89,6 @@ label {
 	font-family:arial;
 	font-weight:bold;
 	display:inline-block;
-}:hover{
-	opacity: 1;
 }
 
 /*
@@ -100,10 +97,16 @@ label {
 *
 */
 
-.centeredBlock{
+.centeredBlock {
     width:1000px;
     display: inline-block;
     text-align: left;
+    overflow: hidden;
+}
+@media handheld, (max-width: 1000px) {
+    .centeredBlock {
+        width:100%;
+    }
 }
 
 .contentSection {
@@ -128,7 +131,7 @@ label {
 }
 
 #search_product_result {
-    border:1px solid #444;
+    border:1px solid #AAA;
     padding:5px;
     display:none;
     margin-left:30px;
@@ -153,6 +156,7 @@ label {
 .navBarButton {
     font-size: 1em;
     font-weight: bold;
+    margin-top:20px;
 }
 .navTop {
     display:block;
@@ -382,19 +386,12 @@ footer{
 
 @media handheld, (max-width: 640px) {
 
-    body
-    {
-        font-size: 1em;
-    }
-
   .contentSection {
     margin:0;
     padding: 3px;
   }
 
-  h1{
-    margin: -4px;
-  }
+
 }
 
 
@@ -402,4 +399,22 @@ footer{
 .admin{
     font-size:0.6em;
     color:red;
+}
+
+.softBox { /*uniquement homapage: useless?*/
+	border: solid 0px;
+	border-bottom-width: 1px;
+	padding-top: 0px;
+	padding-bottom: 7px;
+	margin: -1px;
+}
+label[for=id_email] /*uniquement homapage */
+{
+   background-color:white;
+   color:inherit;
+   border:none;
+}
+
+p {
+    max-height: 999999px; /* see http://stackoverflow.com/questions/11289166/chrome-on-android-resizes-font */
 }
