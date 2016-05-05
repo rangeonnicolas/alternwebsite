@@ -103,7 +103,8 @@ label {
     text-align: left;
     overflow: hidden;
 }
-@media handheld, (max-width: 1000px) {
+/*@media handheld, (max-width: 1000px) {*/
+@media all and (max-width: 1000px) {
     .centeredBlock {
         width:100%;
     }
@@ -156,7 +157,6 @@ label {
 .navBarButton {
     font-size: 1em;
     font-weight: bold;
-    margin-top:20px;
 }
 .navTop {
     display:block;
@@ -384,7 +384,7 @@ footer{
 	flex-wrap: wrap;
 }
 
-@media handheld, (max-width: 640px) {
+@media all and (max-width: 640px) {
 
   .contentSection {
     margin:0;
