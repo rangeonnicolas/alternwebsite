@@ -31,10 +31,10 @@
     </div>
 
     <!--<span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>-->
+{% endcomment %}
 
 
-
-    <h2>Principales alternatives :</h2>
+    <h2>Main alternatives :</h2>
     <script type="text/javascript">
                                     $(document).foundation();
     </script>
@@ -44,7 +44,7 @@
     <div class="mainImpactCont flexContainer flexWrap" style="margin-left:30px">
         {% for behaviour_id, value in behaviours.items %}
         {% with behaviour=value.behaviour %}
-        <div class="mainAlternative" style="width:32.5%;margin:1px;border:2px solid #b3b3b5">
+        <div class="mainAlternative" style="width:32.5%;min-width:300px!important;margin:1px;border:2px solid #b3b3b5">
             <div style="flex: 100%">
                 <div class="alternativeTitle" style='height:72px'>
                     <div>
@@ -129,7 +129,7 @@
     <br/> responsive pas compressible à fond
     -->
 
-    {% endcomment %}
+    
 
     <script type="text/javascript">
         temp_var = true;
