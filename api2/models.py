@@ -4,46 +4,57 @@ from django.db import models
 
 class Entity(models.Model):
     # si l'on met le champ 'name' dans Entity, il se posera le problème des doublons (ex: entreprises qui ont le même nom que leur produit) à réfléchir donc...
-    def __str__(self):
-        name = ""
-        rightClass = ""
-        for cla in ["product","bank","company","newspaper","author","ressource","component","policy","phenomenon"]:
-            try :
-                sub = eval("self."+cla)
-                name = sub.name
-                rightClass = cla
-            except :
-                pass
-        return(str(self.pk) +' ( ' + rightClass +  ' ) - ' +str(name))
-    def __unicode__(self):
-        return self.__str__()
-    def simplePrint(self):
-        name = ""
-        rightClass = ""
-        for cla in ["product", "bank", "company", "newspaper", "author", "ressource", "component", "policy", "phenomenon"]:
+    def getChild(self):
+        child = None
+        childClass = None
+        for canditateClass in ["product", "bank", "company", "newspaper", "author", "ressource", "component", "policy",
+                    "phenomenon"]:
             try:
-                sub = eval("self." + cla)
-                name = sub.name
-                rightClass = cla
+                child = self.__getattribute__(canditateClass)
+                childClass = canditateClass
             except:
                 pass
-        return name
 
+        return (child, childClass)
 
+    def __str__(self):
+        child, childClass = self.getChild()
+        return "{0} ({1}) - {2}".format(str(self.pk), rightClass, str(child.name))
+
+    def __unicode__(self):
+        return self.__str__()
+
+    def simplePrint(self):
+        '''A displaying method'''
+        child, childClass = self.getChild()
+        return child.name
+
+from slugify import slugify
 
 class Topic(models.Model):
     name = models.CharField(max_length=255,unique=True)
     description_en = models.TextField(null=True)
     in_navigation_bar = models.BooleanField(default=False,verbose_name="appears in main menu")
+    position_in_nav_bar = models.IntegerField()
+    _slug = models.SlugField(max_length=100)
+
+    def _get_slug(self):
+        return slugify(self.name)
+    def _set_slug(self, slug):
+        pass
+
+    slug = property(_get_slug, _set_slug)
+
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
-        return(str(self.name))
+        return str(self.name)
 
 
 
 class Ressource(Entity):
     name = models.CharField(max_length=255,unique=True)
+
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
@@ -77,7 +88,7 @@ class Company(Entity):
     def __unicode__(self):
         return(str(self.pk) +' - ' +str(self.name))
 
-class Bank(Entity):    #Une banque est une compagy, mais alors il faudrait creer la classe IndustrialCompagy et faire extant ces 2 de COmpany. Voir dans evernote les precautio,ns avant de renommer une classe
+class Bank(Entity):    #Une banque est une company, mais alors il faudrait creer la classe IndustrialCompagy et faire extant ces 2 de COmpany. Voir dans evernote les precautio,ns avant de renommer une classe
     name = models.CharField(max_length=255,unique=True)
     def __str__(self):
         return self.__unicode__()
@@ -290,7 +301,7 @@ class AlternativeToMainImpact(models.Model):
     #from_rel = models.ForeignKey(MainImpact, related_name="alternatives",verbose_name="This Main Impact [ /rest/mainimpact ]")
     impact_on = models.ManyToManyField(ImpactLevel2)
     to_rel = models.ForeignKey(Behaviour, related_name="is_alternative_of_main_impact",verbose_name="has this alternative [ /rest/habit OU /rest/behaviour ]")
-    sources = models.ManyToManyField(Source,null=True)
+    sources = models.ManyToManyField(Source)
     def __str__(self):
         return self.__unicode__()
     def __unicode__(self):
@@ -304,8 +315,5 @@ class WebPlatform(Entity):
     name = models.CharField(max_length=255,unique=True)	
 
 
-
-
 # todo: couper les arguments des urls car elle est limitee à 200 carac
 
-#  c.relations_from.all()[0].to_rel.labo.ville

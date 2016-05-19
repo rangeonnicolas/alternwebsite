@@ -1,5 +1,3 @@
-__author__ = 'developpeur'
-
 from django.conf.urls import include, url
 from api2 import views
 from django.conf.urls import url, include
@@ -28,7 +26,6 @@ urlpatterns = [
   	url(r'^relation/$', views.RelationList.as_view()),
     url(r'^relation/(?P<pk>[0-9]+)/$', views.RelationDetail.as_view()),
   	url(r'^relation/read/$', views.RelationReadList.as_view()),
-    #url(r'^relation/read/(?P<pk>[0-9]+)/$', views.RelationReadDetail.as_view()),
 
   	url(r'^behaviour/$', views.BehaviourList.as_view()),
     url(r'^behaviour/(?P<pk>[0-9]+)/$', views.BehaviourDetail.as_view()),

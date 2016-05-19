@@ -1,3 +1,4 @@
 from django.contrib import admin
+from maquette.models import *
 
-# Register your models here.
+admin.site.register(mails)

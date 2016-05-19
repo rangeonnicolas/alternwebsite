@@ -11,9 +11,6 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from api2.serializers import *
 
-
-
-
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -21,9 +18,6 @@ class ProductList(generics.ListCreateAPIView):
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-
-
 
 class HasImpactOnList(generics.ListCreateAPIView):
     queryset = HasImpactOn.objects.all()
@@ -43,7 +37,6 @@ class EntityDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Entity.objects.all()
     serializer_class = EntitySerializer
 
-
 class SourceList(generics.ListCreateAPIView):
     queryset = Source.objects.all()
     serializer_class = SourceSerializer
@@ -61,7 +54,6 @@ class RelationTypeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = RelationType.objects.all()
     serializer_class = RelationTypeSerializer
 
-
 class RelationList(generics.ListCreateAPIView):
     queryset = Relation.objects.all()
     serializer_class = RelationSerializer
@@ -71,10 +63,6 @@ class RelationDetail(generics.RetrieveUpdateDestroyAPIView):
 class RelationReadList(generics.ListAPIView):
     queryset = Relation.objects.all()
     serializer_class = RelationReadSerializer
-#class RelationReadDetail(generics.RetrieveUpdateDestroyAPIView):
-#    queryset = Relation.objects.all()
-#    serializer_class = RelationSerializer
-
 
 class BehaviourList(generics.ListCreateAPIView):
     queryset = Behaviour.objects.all()
@@ -84,7 +72,6 @@ class BehaviourDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Behaviour.objects.all()
     serializer_class = BehaviourSerializer
 
-
 class HabitList(generics.ListCreateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
@@ -92,7 +79,6 @@ class HabitList(generics.ListCreateAPIView):
 class HabitDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
-
 
 class ConsumeAProductList(generics.ListCreateAPIView):
     queryset = ConsumeAProduct.objects.all()
@@ -113,7 +99,6 @@ class AlternativeReadList(generics.ListAPIView):
     queryset = Alternative.objects.all()
     serializer_class = AlternativeReadSerializer
 
-
 class ImpactCategList(generics.ListCreateAPIView):
     queryset = ImpactCateg.objects.all()
     serializer_class = ImpactCategSerializer
@@ -129,7 +114,6 @@ class AuthorList(generics.ListCreateAPIView):
 class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-
 
 class NewspaperList(generics.ListCreateAPIView):
     queryset = Newspaper.objects.all()
@@ -147,7 +131,6 @@ class LanguageDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Language.objects.all()
     serializer_class = LanguageSerializer
 
-
 class CompanyList(generics.ListCreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
@@ -155,7 +138,6 @@ class CompanyList(generics.ListCreateAPIView):
 class CompanyDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-
 
 class BankList(generics.ListCreateAPIView):
     queryset = Bank.objects.all()
@@ -172,10 +154,6 @@ class TopicList(generics.ListCreateAPIView):
 class TopicDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Topic.objects.all()
     serializer_class = TopicSerializer
-
-
-
-
 
 class RessourceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Ressource.objects.all()
@@ -209,7 +187,6 @@ class PolicyList(generics.ListCreateAPIView):
     queryset = Policy.objects.all()
     serializer_class = PolicySerializer
 
-
 class MainImpactDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = MainImpact.objects.all()
     serializer_class = MainImpactSerializer
@@ -217,7 +194,6 @@ class MainImpactDetail(generics.RetrieveUpdateDestroyAPIView):
 class MainImpactList(generics.ListCreateAPIView):
     queryset = MainImpact.objects.all()
     serializer_class = MainImpactSerializer
-
 
 class AlternativeToMainImpactDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = AlternativeToMainImpact.objects.all()

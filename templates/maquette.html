@@ -41,18 +41,18 @@
 
 
 
-    <div class="mainImpactCont flexContainer flexWrap" style="margin-left:30px">
+    <div class="mainImpactCont flexContainer flexWrap">
         {% for behaviour_id, value in behaviours.items %}
         {% with behaviour=value.behaviour %}
-        <div class="mainAlternative" style="width:32.5%;min-width:300px!important;margin:1px;border:2px solid #b3b3b5">
+        <div class="mainAlternative">
             <div style="flex: 100%">
                 <div class="alternativeTitle" style='height:72px'>
                     <div>
                         <img style="width:50px" alt="" src="
                                     {% if behaviour.consumeaproduct %}
-                                    {% static 'maquette/temporaire/icon_basket.png' %}
+                                    {% static 'core/temporaire/icon_basket.png' %}
                                     {% elif behaviour.habit %}
-                                    {% static 'maquette/temporaire/icon_habit.png' %}
+                                    {% static 'core/temporaire/icon_habit.png' %}
                                     {% endif %}"/>
                         <div style="display:inline-block;vertical-align:top;width:200px">
                             <span>
@@ -69,7 +69,7 @@
 
                 <div style="opacity:0.4" class="highlightOnMouseOver">
 
-                    <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'maquette/temporaire/alternative_cadre.png' %}"/>
+                    <a href="http://lesjoiesducode.fr/post/35336782255/quand-le-client-essaie-de-cliquer-sur-les"><img style="width:100%;opacity:0.9" alt="" src="{% static 'core/temporaire/alternative_cadre.png' %}"/>
                     </a>
 
                     <div style="padding-left:5px;margin: 8px 0">
@@ -86,7 +86,7 @@
                             </div>
                             <span style="margin:2px;display:inline-block;color:white;padding:1px 6px;border-radius:4px;background-color:{% cycle '#70BC64' '#559AB9' '#B55352' '#8A59A8' %};">{{ via }}</span>
                             <div style="float:right">
-                                <span><a href="#" alt="">?</a>&nbsp|&nbsp</span><a href="#" alt=""><img alt='' style="height:18px;bottom:-4px;position:relative;padding-right:5px" src="{% static 'maquette/temporaire/icon_document_search_interface_symbol.png' %}"/>
+                                <span><a href="#" alt="">?</a>&nbsp|&nbsp</span><a href="#" alt=""><img alt='' style="height:18px;bottom:-4px;position:relative;padding-right:5px" src="{% static 'core/temporaire/icon_document_search_interface_symbol.png' %}"/>
                             </a>
                             </div>
                         </div>
@@ -110,24 +110,17 @@
         <span>
             Search for a product or a trademark:
         </span>
+        <form> <!-- tester avec un telephone le champ de recherche (et surtou sa validation) -->
         <div style="margin:5px">
             <a href=""><i style="margin:4px" class="icon-magnifying icon1x"></i></a><input id="search_product_form" type="search"/>
         </div>
+        </form>
     </div>
 
     <div id="search_product_result">
     </div>
 
-    <!--
-    (note nico: transformer hasImpactOn.becauseOf.to_rel.product.name en hasImpactOn.becauseOf.to_rel.name)
-    <br/>topic dan chacun des behaviour
-    <br/>modificaion de chaq elemn rest en cliquant essus
-    <br/>mettre les sources démenties
-    <br/>tri des sources par date
-    <br/> date des sources: date de consultation + parutuon facultatives
-    <br/> un seu ls à ressource
-    <br/> responsive pas compressible à fond
-    -->
+
 
     
 
@@ -163,14 +156,3 @@
 
 {% endblock %}
 
-
-<!--
-	checklist:
-	- pas de redondance de description meta
-    - pas de lien <a> en hidden (referencement google)
-	- titres en h1 h2
-	- balises header, footer, nav, section(=grandes sections de la page), aside(=infos complementaires), article (https://openclassrooms.com/courses/apprenez-a-creer-votre-site-web-avec-html5-et-css3/structurer-sa-page)
-	- pas de texte en dehors de balises
-	- utilisation de balises spécifiques (https://openclassrooms.com/courses/apprenez-a-creer-votre-site-web-avec-html5-et-css3/memento-des-balises-html)
-	- s'assurer que tous les <img> on un alt, même chaine de caractère vide si besoin
--->

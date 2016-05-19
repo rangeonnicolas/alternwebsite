@@ -12,16 +12,15 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'u^8jbesbxnk52&m&(so9bnjzi)e^g2b!(lz-#h%t=c9w1ek@2m'
 print('Hm hm... SECURITY WARNING: keep the secret key used in production secret!')
+# todo: hide this key from the github repo
 
 ALLOWED_HOSTS = ['openalternativa.com','www.openalternativa.com']
-
 
 # Application definition
 
@@ -32,8 +31,12 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'api','api2','maquette','core_forms',
-    'rest_framework'
+	'api2',
+	'maquette',
+	'core_forms',
+    'rest_framework',
+	'core',
+	'home'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -44,12 +47,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.common.BrokenLinkEmailsMiddleware'
 )
 
 ROOT_URLCONF = 'altws.urls'
 
 WSGI_APPLICATION = 'altws.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
@@ -77,39 +80,40 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = 'static/'
 
-
-
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
-	'OPTIONS': {
-	        'context_processors': [
-			"django.contrib.auth.context_processors.auth",
-			"django.template.context_processors.debug",
-			"django.template.context_processors.i18n",
-			"django.template.context_processors.media",
-			"django.template.context_processors.static",
-			"django.template.context_processors.tz",
-			"django.contrib.messages.context_processors.messages"],
+		'OPTIONS': {
+				'context_processors': [
+				"django.contrib.auth.context_processors.auth",
+				"django.template.context_processors.debug",
+				"django.template.context_processors.i18n",
+				"django.template.context_processors.media",
+				"django.template.context_processors.static",
+				"django.template.context_processors.tz",
+				"django.contrib.messages.context_processors.messages"],
 		'debug': True
 	},
-	'DIRS': (os.path.join(BASE_DIR, 'templates'), )
+	'DIRS': (os.path.join(BASE_DIR, 'templates'),)
     },
 ]
 
+# Administrators
+ADMINS = (
+    ('admin', 'nicapps23@gmail.com'),
+)
 
+# Email notification when 404 errors occur
+MANAGERS = ADMINS
+SEND_BROKEN_LINK_EMAILS = True
+SERVER_EMAIL = 'no-reply@openalternativa.com'
 
+# Makes the difference between prod and dev environments
 if ~( 'USE_DEFAULT_SETTINGS' in locals() or 'USE_DEFAULT_SETTINGS' in globals()) :
         USE_DEFAULT_SETTINGS = True
+
 if USE_DEFAULT_SETTINGS:
-	#DATABASES = {
-	#    'default': {
-	#	'ENGINE': 'django.db.backends.sqlite3',
-	#	'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	#    },
-	#}
 	DATABASES = {
 	    'default': {
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -120,7 +124,6 @@ if USE_DEFAULT_SETTINGS:
 		'PORT': '',
 	    }
 	}
+
 	# SECURITY WARNING: don't run with debug turned on in production!
 	DEBUG = True
-
-	

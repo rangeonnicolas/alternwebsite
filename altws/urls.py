@@ -1,16 +1,14 @@
 from django.conf.urls import url, include
 from django.contrib import admin
-import altws.views
+import home.views
 import core_forms.urls
 import api2.urls
+import core.urls
 
 urlpatterns = [
-    url(r'^$', altws.views.home, name='home'),
-    url(r'^maquette/$', altws.views.maquette, name='maquette'),
-    url(r'^maquette2/$', altws.views.maquette2, name='maquette2'),
+    url(r'^$',          home.views.home, name='home'),
+    url(r'^',           include(core.urls)),
     url(r'^coreforms/', include(core_forms.urls), name='forms'),
-    url(r'^topic/(?P<topic_id>\d*)/$', altws.views.topic_id, name='topic'),
-    url(r'^searchproduct/(?P<topic_id>\d*)/$', altws.views.search_product, name='topic'),
-    url(r'^rest/', include(api2.urls)),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/',       include(api2.urls)),
+    url(r'^admin/',     include(admin.site.urls)),
 ]

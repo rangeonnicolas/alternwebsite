@@ -12,17 +12,16 @@
                     {{ prod.name }}</span>
             </div>
 
-
             <div class="alternativeToMainImpact">
                 {% for hasImpactOn in consprod.has_impact_on.all %}
 
                 <div class="flexContainer" style="margin-bottom: 20px">
                     {% if hasImpactOn.impact_type == 'Neg' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumbdown.svg' %}"></img></div>
                     {% elif  hasImpactOn.impact_type == 'Pos' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% else %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% endif %}
 
                     <div class="alternativeToMainImpactContent flexBoxMaxWidth">
@@ -36,9 +35,6 @@
         </div>
         {% endwith %}
         {% endfor %}
-
-
-
 
         {% for cons in consumeatacompany %}
         {% with comp=cons.company %}
@@ -58,11 +54,11 @@
 
                 <div class="flexContainer" style="margin-bottom: 20px">
                     {% if hasImpactOn.impact_type == 'Neg' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumbdown.svg' %}"></img></div>
                     {% elif  hasImpactOn.impact_type == 'Pos' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% else %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% endif %}
 
                     <div class="alternativeToMainImpactContent flexBoxMaxWidth">
@@ -75,14 +71,9 @@
 
             <!--<a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>-->
 
-
         </div>
         {% endwith %}
         {% endfor %}
-
-
-
-
 
         {% for bank in consumeatabank %}
         <div class="habitImpact">
@@ -95,17 +86,16 @@
                     {{ bank.name }}</span>
             </div>
 
-
             <div class="alternativeToMainImpact">
                 {% for hasImpactOn in cons.has_impact_on.all %}
 
                 <div class="flexContainer" style="margin-bottom: 20px">
                     {% if hasImpactOn.impact_type == 'Neg' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumbdown.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumbdown.svg' %}"></img></div>
                     {% elif  hasImpactOn.impact_type == 'Pos' %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% else %}
-                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'maquette/icons/custom/hand_thumb.svg' %}"></img></div>
+                    <div class="logoAlternative thumb"><img class="logoPlusOrMinusImage" src="{% static 'core/icons/custom/hand_thumb.svg' %}"></img></div>
                     {% endif %}
 
                     <div class="alternativeToMainImpactContent flexBoxMaxWidth">
@@ -117,7 +107,6 @@
             </div>
 
             <!--<a href="/rest/hasimpacton" alt="" style="font-size:0.8em">(Ajouter un impact)</a>-->
-
 
         </div>
         {% endfor %}

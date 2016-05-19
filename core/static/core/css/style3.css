@@ -1,0 +1,426 @@
+/*
+http://paletton.com/#uid=72N150klNmG63T1exvbtWd5Jn3k
+http://paletton.com/#uid=72N0X0klNmG63T1exvbtWd5Jn3k
+http://paletton.com/#uid=72N1T0klNmG63T1exvbtWd5Jn3k
+*/
+
+html {
+    display: -webkit-box;display:
+    -webkit-flex;display:
+    -ms-flexbox;display:
+    flex; -webkit-box-orient:
+    vertical; -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+} /* IE fix */
+
+body {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; /* crée un contexte flex pour ses enfants */
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column; /* affichage vertical */
+    min-height: 100vh; /* toute la hauteur du viewport (compatible IE9+) */
+	background-color: #EEE;
+	color: #606060;
+	margin: 0;
+	font-family: Arial, "sans-serif";
+}
+
+header {
+    background-color: rgb(249, 249, 249);
+    font-size:2em;
+    padding:10px;
+    height: 60px;
+}
+
+h1 {
+    border-bottom: 7px solid black;
+    background: rgb(68, 70, 96);
+    border-radius: 4px 0px 0px 50px;
+    padding: 17px 40px;
+    margin: 0 0 40px 0;
+	color:white;
+	text-shadow:1px 1px black;
+	font-family:Helvetica,Arial,sans-serif;
+	font-size:2em;
+	font-style:italic;
+	text-transform:capitalize;
+	overflow:hidden;
+}
+
+h2 {
+    border-bottom: 7px solid #b3b3b5;
+    color: rgb(95,68,96);
+    margin: 40px 0px;
+    padding:15px 30px;
+    background-color:#ececef;
+    font-family:  monospace;
+    text-transform:capitalize;
+    font-style:italic;
+    font-size:1.5em;
+    text-transform:uppercase;
+    border-radius: 3px 0px 0px 40px;
+
+}
+
+p {
+    text-align: justify;
+    line-height: 1.6em;
+    margin-top : 25px;
+    margin-bottom : 25px;
+}
+
+a {
+    color:inherit;
+    text-decoration: none;
+}
+
+label {
+	opacity:0.9;
+	color: white;
+	border-radius: 2px;
+	padding: 3px 0.4em  ;
+	font-family:arial;
+	font-weight:bold;
+	display:inline-block;
+}
+
+/*
+*
+* Page structure
+*
+*/
+
+.centeredBlock {
+    width:1000px;
+    display: inline-block;
+    text-align: left;
+    overflow: hidden;
+}
+/*@media handheld, (max-width: 1000px) {*/
+@media all and (max-width: 1000px) {
+    .centeredBlock {
+        width:100%;
+    }
+}
+
+.contentSection {
+	background-color: white;
+   	padding: 30px;
+	border: solid 1px;
+	border-color: #BBBBBB;
+}
+
+.mainImpactCont {
+    margin-left:30px
+}
+
+@media all and (max-width: 400px) {
+  .mainImpactCont {
+    margin-left:1px;
+  }
+}
+
+.content {
+    position:0
+    display: block; /* IE fix */
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1; /* occupe la largeur restante */
+  order:2;
+}
+
+#search_product_result {
+    border:1px solid #AAA;
+    padding:5px;
+    display:none;
+    margin-left:30px;
+}
+
+/*
+*
+* Navigation Bar
+*
+*/
+
+.nbbTop{ /* ren: navButton */
+    display: inline-block;
+    padding: 20px 10px;
+}
+.nbbTop:hover{
+    border-bottom: 5px solid;
+    #border-top:2px solid #AAA;
+    padding-bottom:15px;
+    #padding-top:18px;
+}
+.navBarButton {
+    font-size: 1em;
+    font-weight: bold;
+}
+.navTop {
+    display:block;
+    border-bottom: solid 1px #606060;
+    border-top: solid 1px #606060;
+    box-shadow:0px 0px 1px #444660;
+    background-color: #444660;
+    color:white;
+    font-family:Helvetica,Arial,sans-serif;
+    text-shadow: 1px 1px black;
+}
+
+/*
+*
+* Footer
+*
+*/
+
+footer{
+    width: 100%;
+    background-color: #202020;
+}
+
+/*
+*
+*
+*
+*/
+
+.alternativeTitle{
+    display:inline-block;
+    padding:8px 10px;
+    font-size: 1.3em;
+    text-transform:capitalize;
+    font-family:,"Liberation Sans Narrow",monospace,Arial,sans-serif;
+    color : #446040;
+    font-weight:bold;
+}
+
+.mainAlternative {
+    width:29%;
+    min-width:280px!important;
+    margin:1px;
+    border:2px solid #b3b3b5;
+}
+
+/*
+*
+* Search Product
+*
+*/
+
+.productName{
+    font-size:1.3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-family: monospace,arial,sans-serif;
+}
+
+.habitImpact {
+    margin-top: -1px;
+    padding:15px 0px 15px 25px;
+    background-color:#ECECEF;
+    margin-bottom:15px;
+    border-bottom: 7px solid #B3B3B5;
+}
+
+.habitTitle{
+    color: rgb(95, 68, 96);
+    font-size:1em;
+    margin-bottom: 10px;
+    padding:12px 10px 17px 10px;
+}
+
+.buttonsAlternative {
+	display: none;
+	position:absolute;
+	right:0px;
+	margin:2px 10px;
+	background-color: inherit;
+}
+
+.whiteLine:hover .buttonsAlternative{
+    display: inline-block;
+}
+
+.box {
+	border-bottom: solid 1px #b3b3b5;
+    border-left: solid 4px #b3b3b5;
+}
+
+.whiteLine{
+	border-style: solid;
+	border-width: 1px 2px;
+	padding: 0px 7px;
+	margin-bottom: -1px;
+	margin-left: 2px;
+	width:auto;
+	border-color: #E0E0E0;
+	position:relative;
+	overflow:hidden;
+}
+
+.source {
+    white-space: nowrap;
+}
+
+.alternative {
+    color:black;
+}
+
+.alternative:hover {
+	background-color: #f0f0f0;
+	border-color: rgba(128,128,128,1);
+	z-index: 30;
+}
+
+.alternativeToMainImpact {
+	background-color:white;
+	padding:20px;
+}
+
+.alternativeToMainImpact:hover {
+	border-color: rgba(128,128,128,1);
+}
+
+.thumb {
+    height: 30px;/*todo : degueulasse*/
+}
+
+.logoAlternative {
+	width: 30px;
+	flex-grow : 0;
+    flex-shrink : 0;
+    margin-bottom: -5px; /*todo: degeu */
+    margin-right: 5px;
+}
+.alternativeToMainImpact:hover .logoAlternative {
+	opacity:0.8;
+}
+
+.logoAlternativeImage {
+	height: 100%;
+	width: 100%;
+}
+
+.logoPlusOrMinusImage {
+	height: 100%;
+	width: 100%;
+}
+
+.smallLabel {
+	font-size: 1em;
+}
+
+.year {
+	background-color: #39942F;
+	opacity:0.5;
+}
+
+/*
+*
+* Generic properties
+*
+*/
+
+.alignCenter{
+    text-align: center;
+}
+
+.padding1 {
+    padding: 10px;
+}
+
+.border1 {
+    border-left: 1px solid #BBBBBB;
+}
+
+.color1 {
+    background-color:#ececef;
+}
+
+.color2 {
+    background-color: white;
+}
+
+.flexBoxMaxWidth {
+    flex: 1;
+}
+.minWidth1 {
+    min-width:400px;
+}
+
+.lineHeight1{
+    line-height:30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.temp1 {
+    color: #b2393f;
+}
+.temp2 {
+	color: #323f7b;
+}
+.temp3 {
+	color: #39942F;
+}
+.temp4 {
+    color: #666;
+}
+
+
+.flexContainer {
+	display:flex;
+	flex-direction:row;
+}
+.flexWrap {
+	flex-wrap: wrap;
+}
+
+@media all and (max-width: 640px) {
+  .contentSection {
+    margin:0;
+    padding: 6px;
+  }
+}
+
+
+
+.admin{
+    font-size:0.6em;
+    color:red;
+}
+
+.softBox { /*uniquement homapage: useless?*/
+	border: solid 0px;
+	border-bottom-width: 1px;
+	padding-top: 0px;
+	padding-bottom: 7px;
+	margin: -1px;
+}
+label[for=id_email] /*uniquement homapage */
+{
+   background-color:white;
+   color:inherit;
+   border:none;
+}
+
+p {
+    max-height: 999999px; /* see http://stackoverflow.com/questions/11289166/chrome-on-android-resizes-font */
+}

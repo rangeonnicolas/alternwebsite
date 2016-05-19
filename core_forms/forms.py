@@ -43,30 +43,7 @@ class hasImpactOnForm(forms.ModelForm):
         model = HasImpactOn
         exclude = []
 
-
-
-
 class AuthorForm(forms.ModelForm):
     class Meta:
         model = Author
         exclude = []
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class SourceTestForm(forms.ModelForm):
-    aa=forms.CharField(max_length=100,initial=Source.alternative_set)
-    class Meta:
-        model = Source
-        #exclude = []
-        fields = ['url','authors']
