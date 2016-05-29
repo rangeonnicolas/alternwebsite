@@ -12,19 +12,15 @@
 
 <body>
 <header class="alignCenter">
-    <div class="centeredBlock" style="padding-top:8px">
+    <div class="centeredBlock" style="height:100%">
         <a href="/" >
-            {% comment%}
-            <div style="display:inline-block;height: 0.7em;width:1em;">
-                <img class="logoAlternativeImage" src="{% static 'core/icons/custom/hand_index.svg' %}"
-                     alt=""
-                     style="width:100%;height:100%;z-index:1;opacity:0.7"></img>
-            </div>
-            {% endcomment %}
-            <div style="font-style: italic;font-family:ubuntu"><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><span style="vertical-align:top;font-weight:normal"><span class="temp2" style="font-weight:inherit"> Open</span><span class="temp1">A</span><span
+            <img class="logo" src="{% url 'core.views.get_logo' %}"
+                 alt="OpenAlternativa"></img>
+            <!--
+            <div style="font-style: normal;font-family:ubuntu"><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><span style="vertical-align:top;font-weight:normal"><span class="temp2" style="font-weight:inherit"> Open</span><span class="temp1">A</span><span
                     class="temp1">lternativa</span><span class="temp3" style="font-weight:bold"></span>
             </span>
-            </div>
+            </div>-->
         </a>
     </div>
 
@@ -33,22 +29,12 @@
 
 <div class="alignCenter navTop">
     <nav class="centeredBlock">
-        {% for t in topics %}
-        {% if t.in_navigation_bar%}
-        <a href="{% url 'core.views.get_topic_by_name_and_id' t.id t.slug %}"
-           onclick="alert('The content your are about to acess is still in development. A lot of data is missing, and the design is about to be completely reviewed.\n\nThank you!')">
-            <div class="navBarButton nbbTop">
-                {{ t.name }}
-            </div>
-        </a>
-        {% endif %}
-        {% endfor %}
-        {% comment %}
-        <div class="navBarButton">
-            <i class="icon-chevron_right"></i>
-            &nbsp;Suggest a new topic
-        </div>
-        {% endcomment %}
+        {% for t in topics %}{% if t.in_navigation_bar%}<!-- do not delete these comments (they are here to avoid spaces
+        between the naviation buttons)
+     --><div class="navBarButton">
+                <div style="line-height:1em; display:inline-block">{{ t.name }}</div>
+        </div><!--
+     -->{% endif %}{% endfor %}
     </nav>
 </div>
 
@@ -86,6 +72,7 @@
                         }
 </script>
 
+{% if analytics %}
 <!-- Piwik -->
 <script type="text/javascript">
   var _paq = _paq || [];
@@ -102,6 +89,7 @@
 </script>
 <noscript><p><img src="//stats.openalternativa.com/piwik.php?idsite=1" style="border:0;" alt=""/></p></noscript>
 <!-- End Piwik Code -->
+{% endif %}
 
 </body>
 </html>

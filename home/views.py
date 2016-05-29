@@ -34,4 +34,4 @@ def home(request):
     # Topic list to display in the navgation bar
     topics = Topic.objects.all()
 
-    return render(request, 'home.html', locals())
+    return render(request, 'home/home.html', locals())

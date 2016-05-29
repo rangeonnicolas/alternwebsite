@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404
+from django.template.loader import render_to_string
+from django.http import Http404, HttpResponse
 from api2.models import Topic, AlternativeToMainImpact, ConsumeAProduct, ConsumeAtACompany, Bank
 
 def search_product(request, topic_id):
@@ -15,7 +16,7 @@ def search_product(request, topic_id):
     if Topic.objects.get(name="Bank").id == topic_id:
         consumeatabank = Bank.objects.all()
 
-    return render(request, "search_product.html", locals())
+    return render(request, "core/search_product.html", locals())
 
 def get_topic_by_id(request, topic_id):
     '''Returns the page related to a topic'''
@@ -62,4 +63,16 @@ def get_topic(request, topic, topic_id):
                             behaviours[behaviour_id]['impacts'][impact_l1_name] += [impact_l2_name]
 
 
-    return render(request,"maquette.html",locals())
+    return render(request,"core/maquette.html",locals())
+
+def get_logo(request):
+    """Temporary.
+    returns the website SVG logo with customised color"""
+
+    color2 = '1a7e3a'
+    color1 = '254679'
+
+    image = render_to_string('core/logo.svg',locals(), request=request)
+
+
+    return HttpResponse(image, content_type="image/svg+xml")

@@ -30,7 +30,6 @@ class Entity(models.Model):
         return child.name
 
 from slugify import slugify
-
 class Topic(models.Model):
     name = models.CharField(max_length=255,unique=True)
     description_en = models.TextField(null=True)

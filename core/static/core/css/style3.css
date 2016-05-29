@@ -29,14 +29,6 @@ body {
 	background-color: #EEE;
 	color: #606060;
 	margin: 0;
-	font-family: Arial, "sans-serif";
-}
-
-header {
-    background-color: rgb(249, 249, 249);
-    font-size:2em;
-    padding:10px;
-    height: 60px;
 }
 
 h1 {
@@ -47,7 +39,6 @@ h1 {
     margin: 0 0 40px 0;
 	color:white;
 	text-shadow:1px 1px black;
-	font-family:Helvetica,Arial,sans-serif;
 	font-size:2em;
 	font-style:italic;
 	text-transform:capitalize;
@@ -60,13 +51,11 @@ h2 {
     margin: 40px 0px;
     padding:15px 30px;
     background-color:#ececef;
-    font-family:  monospace;
     text-transform:capitalize;
     font-style:italic;
     font-size:1.5em;
     text-transform:uppercase;
     border-radius: 3px 0px 0px 40px;
-
 }
 
 p {
@@ -86,9 +75,30 @@ label {
 	color: white;
 	border-radius: 2px;
 	padding: 3px 0.4em  ;
-	font-family:arial;
 	font-weight:bold;
 	display:inline-block;
+}
+
+/*
+*
+* Fonts
+*
+*/
+
+body {
+	font-family: Arial, Helvetica, "Liberation Sans", FreeSans, "sans-serif";
+}
+
+h2 {
+    font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
+}
+
+.productName{
+    font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
+}
+
+.navTop{
+    font-family: Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace;
 }
 
 /*
@@ -144,35 +154,52 @@ label {
     margin-left:30px;
 }
 
+
+/*
+*
+* Header
+*
+*/
+
+header {
+    background-color: white;
+    padding:2px;
+    height: 60px;
+    box-shadow: 0 2px 4px rgba(0,0,0,.3);
+}
+
+.logo {
+    height: 50px;
+    display:inline-block;
+}
+
 /*
 *
 * Navigation Bar
 *
 */
 
-.nbbTop{ /* ren: navButton */
+.navBarButton{ /* ren: navButton */
     display: inline-block;
-    padding: 20px 10px;
+    padding: 8px 4px;
+    border-left: 2px black solid;
+    font-size: 0.8em;
+    text-transform: uppercase;
+    max-width:100px;
+    height:30px;
+    line-height:30px;/* must be equals to the box-height */
+    overflow:hidden;
+    text-align:center;
 }
-.nbbTop:hover{
+.navBarButton:hover{
     border-bottom: 5px solid;
-    #border-top:2px solid #AAA;
-    padding-bottom:15px;
-    #padding-top:18px;
+    padding-bottom:3px;
 }
-.navBarButton {
-    font-size: 1em;
-    font-weight: bold;
-}
+
 .navTop {
     display:block;
-    border-bottom: solid 1px #606060;
-    border-top: solid 1px #606060;
-    box-shadow:0px 0px 1px #444660;
-    background-color: #444660;
-    color:white;
-    font-family:Helvetica,Arial,sans-serif;
-    text-shadow: 1px 1px black;
+    color:black;
+    background-color: white;
 }
 
 /*
@@ -197,7 +224,6 @@ footer{
     padding:8px 10px;
     font-size: 1.3em;
     text-transform:capitalize;
-    font-family:,"Liberation Sans Narrow",monospace,Arial,sans-serif;
     color : #446040;
     font-weight:bold;
 }
@@ -219,7 +245,6 @@ footer{
     font-size:1.3em;
     font-weight: bold;
     text-transform: uppercase;
-    font-family: monospace,arial,sans-serif;
 }
 
 .habitImpact {
