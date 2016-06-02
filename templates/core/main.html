@@ -2,11 +2,13 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>OpenAlternativa{% if title %} - {{ title }}{% endif %}</title><!-- todo: changer le titre pour chaque page (referencement google)-->
+    <title>OpenAlternativa{% if title %} - {{ title }}{% endif %}</title><!-- todo: change the title for each page (google SEO)-->
     {% load staticfiles %}
-    <link href="{% static 'core/css/style3.css' %}" rel="stylesheet" type="text/css">
+    <link rel="icon" href="{% static 'core/favicon.png' %}" />
+    <link href="{% url 'core.views.get_css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href='{% static "core/icons/mfg/mfg.css" %}'>
     <script type="text/javascript" src="{% static 'core/js/jquery/jquery-1.11.3.min.js' %}"></script>
+    <script src="http://paletton.com/widget/js/colorize.js"></script><!--todo: temporary. Made to choose the website colors-->
     <meta name="viewport" content="width=device-width" ></code>
 </head>
 
@@ -23,17 +25,18 @@
             </div>-->
         </a>
     </div>
-
 </header>
 
-
-<div class="alignCenter navTop">
-    <nav class="centeredBlock">
+<div class="alignCenter navTop bgcol-pri-lum-2"><!--todo: remove bgcol-pri-0-->
+    <nav class="centeredBlock alignCenter">
         {% for t in topics %}{% if t.in_navigation_bar%}<!-- do not delete these comments (they are here to avoid spaces
         between the naviation buttons)
-     --><div class="navBarButton">
-                <div style="line-height:1em; display:inline-block">{{ t.name }}</div>
-        </div><!--
+     --><div class="nbbContainer"><a href="{% url 'core.views.get_topic_by_name_and_id' t.id t.slug %}"
+            onclick="alert('The content your are about to acess is still in development. A lot of data is missing, and the design is about to be completely reviewed.\n\nThank you!')"><!--
+         --><div class="navBarButton">
+                <div style="line-height:1.3em;display:inline-block">{{ t.name }}</div>
+            </div><!--
+     --></a></div><!--
      -->{% endif %}{% endfor %}
     </nav>
 </div>
@@ -55,6 +58,18 @@
     <div class="centeredBlock">
         <br/><br/>
     </div>
+
+    <!--todo: temporary. Made to choose the website colors-->
+    <script type="text/javascript">
+        window.addEventListener('message',function(e){
+           if (!e || !e.data) return;
+           if (e.data.id=='palettonwidget/colorize/class') myColorizeHandler(e.data.data);
+           },false);
+
+        function myColorizeHandler(a){
+            $(".bgcol-pri-0").css({fill: a.byPalette.pri[1] });
+        }
+    </script>
 </footer>
 
 <script>

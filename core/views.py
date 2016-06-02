@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import Http404, HttpResponse
+from django.utils.safestring import SafeString
+from colour import Color
 from api2.models import Topic, AlternativeToMainImpact, ConsumeAProduct, ConsumeAtACompany, Bank
 
 def search_product(request, topic_id):
@@ -69,10 +71,26 @@ def get_logo(request):
     """Temporary.
     returns the website SVG logo with customised color"""
 
-    color2 = '1a7e3a'
-    color1 = '254679'
+    color2 = Color('#1a7e3a')
+    color1 = Color('#254679')
+
+    #hue/saturation/lumnance
+
+    color1.luminance += 0.1
 
     image = render_to_string('core/logo.svg',locals(), request=request)
 
 
     return HttpResponse(image, content_type="image/svg+xml")
+
+def get_css(request):
+    """Temporary: returns the css style sheet with parameters"""
+
+    font_body = SafeString('Arial, Helvetica, "Liberation Sans", FreeSans, "sans-serif"')
+    font_1    = SafeString('Monaco, "DejaVu Sans Mono", "Lucida Console", "Andale Mono", monospace')
+
+    content_width = '1300px'
+
+    image = render_to_string('core/style.css',locals(), request=request)
+
+    return HttpResponse(image, content_type="text/css")

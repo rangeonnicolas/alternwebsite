@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paletton</title>
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static 'core/js/jquery/jquery-1.11.3.min.js' %}"></script>
+    <script type="text/javascript" src="http://paletton.com/widget/js/widget.js"></script>
+</head>
+<body>
+    <div id="result"></div>
+
+    <script type="text/javascript">
+
+        function callback(a){
+            $("#result").html('Please keep this code:<br/>' + a.paletteUID + '<br/>It is the reference to the paletton you choose');
+        }
+
+        _paletton.open({
+            templateURL:'http://localhost:8000',
+            paletteUID:'7000u0kllllaFw0g0qFqFg0w0aF',
+            colorizeMode: 'class',
+            width: 1300,
+            height:650,
+        },callback)
+    </script>
+
+</body>
+</html>
