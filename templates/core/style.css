@@ -32,7 +32,7 @@ body {
 }
 
 h1 {
-	font-size:2em;
+	font-size:1.7em;
 	border-bottom: 1px solid;
 	overflow:hidden;
 	margin: 0 0 40px 0;
@@ -41,7 +41,7 @@ h1 {
 }
 
 h2 {
-    font-size:1.5em;
+    font-size:1.4em;
     font-variant: small-caps;
     border-bottom: 1px dashed;
 }
@@ -65,6 +65,12 @@ label {
 	padding: 3px 0.4em  ;
 	font-weight:bold;
 	display:inline-block;
+}
+
+ul {
+    list-style-type:none;
+    padding:0;
+    margin:0;
 }
 
 /*
@@ -109,16 +115,6 @@ h2, h1{
    	padding: 30px 50px;
 	border: solid 1px;
 	border-color: #BBBBBB;
-}
-
-.mainImpactCont {
-    margin-left:30px
-}
-
-@media all and (max-width: 400px) {
-  .mainImpactCont {
-    margin-left:1px;
-  }
 }
 
 .content {
@@ -231,18 +227,37 @@ footer{
 
 .alternativeTitle{
     display:inline-block;
-    padding:8px 10px;
-    font-size: 1.3em;
+    padding:8px;
     text-transform:capitalize;
-    color : #446040;
-    font-weight:bold;
+    height:72px;
+    overflow: hidden;
 }
 
 .mainAlternative {
-    width:29%;
-    min-width:280px!important;
-    margin:1px;
-    border:2px solid #b3b3b5;
+    width:220px;
+    margin:0 0 15px 15px;
+    border:1px solid #b3b3b5;
+}
+
+.mainAltCont{
+    margin-left: -15px;
+    margin-top:30px;
+}
+
+@media all and (max-width: 640px) {
+    .mainAlternative {
+        width:100%;
+        margin:0 0 15px 6px;
+    }
+
+    .mainAltCont{
+        margin-left:0;
+    }
+}
+
+.imgAlt{
+    width:100%;
+    height:160px;
 }
 
 /*
@@ -431,7 +446,7 @@ footer{
 @media all and (max-width: 640px) {
   .contentSection {
     margin:0;
-    padding: 6px;
+    padding: 30px 6px;
   }
 }
 

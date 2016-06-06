@@ -8,7 +8,7 @@
     <link href="{% url 'core.views.get_css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href='{% static "core/icons/mfg/mfg.css" %}'>
     <script type="text/javascript" src="{% static 'core/js/jquery/jquery-1.11.3.min.js' %}"></script>
-    <script src="http://paletton.com/widget/js/colorize.js"></script><!--todo: temporary. Made to choose the website colors-->
+    <script src="{% static 'core/paletton/colorize.js' %}"></script><!--todo: temporary. Made to choose the website colors-->
     <meta name="viewport" content="width=device-width" ></code>
 </head>
 
@@ -64,6 +64,7 @@
         window.addEventListener('message',function(e){
            if (!e || !e.data) return;
            if (e.data.id=='palettonwidget/colorize/class') myColorizeHandler(e.data.data);
+           console.log(e)
            },false);
 
         function myColorizeHandler(a){

@@ -4,7 +4,6 @@
 
 {% block content %}
 
-
     <h1 class="col-pri-lum-2">{{title}}</h1>
     <p class="intro">
         (note: ajouter description)<!--{{description}}-->
@@ -12,9 +11,7 @@
 
 {% comment %}
     <h2 class="col-pri-lum-2 bdcol-pri-lum-0">Points d'attention :</h2>
-
     <div class="mainImpactCont flexContainer flexWrap">
-
         {% for main_impact in main_impacts %}
         <!--
         <div class="mainImpactBox height1">
@@ -25,13 +22,11 @@
             {% include "core/main_impact.html" with name=name label=label id_admin=hasImpactOn.id entity_imp=entity_imp only %}
             {% endwith %}
         </div>
-
         {% endfor %}
-
     </div>
-
     <!--<span class="admin"><a href="/rest/mainimpact/">(Ajouter un cadre)</a></span>-->
 {% endcomment %}
+
 
 
     <h2 class="col-pri-lum-2 bdcol-pri-lum-0">Main alternatives :</h2>
@@ -39,21 +34,27 @@
                                     $(document).foundation();
     </script>
 
-
-
-    <div class="mainImpactCont flexContainer flexWrap">
+    <ul class="mainAltCont flexContainer flexWrap">
         {% for behaviour_id, value in behaviours.items %}
         {% with behaviour=value.behaviour %}
-        <div class="mainAlternative">
+        <li class="mainAlternative">
             <div style="flex: 100%">
-                <div class="alternativeTitle" style='height:72px'>
-                    <div>
-                        <img style="width:50px" alt="" src="
-                                    {% if behaviour.consumeaproduct %}
-                                    {% static 'core/temporaire/icon_basket.png' %}
-                                    {% elif behaviour.habit %}
-                                    {% static 'core/temporaire/icon_habit.png' %}
-                                    {% endif %}"/>
+
+                <div class='imgAlt bgcol-pri-lum-2'>
+                    <div style="height:70px;width:70px;text-align:center;border-radius:50%;background-color:white;position:relative;top:45px;left:75px;">
+                        <span style="font-weight:bold;line-height:70px;font-size:30px">
+                                {# todo: simplifier cela avec un tag customise? #}
+                                {% if behaviour.consumeaproduct %}
+                                {{ behaviour.consumeaproduct.product.name }}
+                                {% elif behaviour.habit %}
+                                {{ behaviour.habit.name|make_list|first }}
+                                {% endif %}
+
+                        </span>
+                    </div>
+                </div>
+
+                <div class="alternativeTitle col-pri-lum-2">
                         <div style="display:inline-block;vertical-align:top;width:200px">
                             <span>
                                 {# todo: simplifier cela avec un tag customise? #}
@@ -64,7 +65,6 @@
                                 {% endif %}
                             </span>
                         </div>
-                    </div>
                 </div>
 
                 <div style="opacity:0.4" class="highlightOnMouseOver">
@@ -96,11 +96,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </li>
         {% endwith %}
         {% endfor %}
 
-    </div>
+    </ul>
 
 
 
