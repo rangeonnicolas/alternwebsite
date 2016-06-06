@@ -34,6 +34,7 @@ INSTALLED_APPS = (
 	'api2',
 	'maquette',
 	'core_forms',
+	'core_model',
     'rest_framework',
 	'core',
 	'home'
@@ -92,7 +93,8 @@ TEMPLATES = [
 				"django.template.context_processors.media",
 				"django.template.context_processors.static",
 				"django.template.context_processors.tz",
-				"django.contrib.messages.context_processors.messages"],
+				"django.contrib.messages.context_processors.messages",
+				"core.context_processors.analytics",],
 		'debug': True
 	},
 	'DIRS': (os.path.join(BASE_DIR, 'templates'),)
@@ -119,7 +121,7 @@ if USE_DEFAULT_SETTINGS:
 		'ENGINE': 'django.db.backends.postgresql_psycopg2',
 		'NAME': 'django',
 		'USER': 'django',
-		'PASSWORD': 'mypassword2',
+		'PASSWORD': 'mypassword2', #todo : hide from the git repo
 		'HOST': 'localhost',
 		'PORT': '',
 	    }
@@ -127,3 +129,6 @@ if USE_DEFAULT_SETTINGS:
 
 	# SECURITY WARNING: don't run with debug turned on in production!
 	DEBUG = True
+
+	# activates analytics when the website is in production
+	ANALYTICS = False

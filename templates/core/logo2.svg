@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="370.09"
+   height="70.5"
+   id="svg4483"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="logo.svg">
+  <defs
+     id="defs4485">
+    <linearGradient
+       id="linearGradient4733-9-6-3-1-2-8-9-8-1-36-0-99">
+      <stop
+         style="stop-color:#000080;stop-opacity:1;"
+         offset="0"
+         id="stop4735-4-2-9-6-6-5-3-9-2-5-5-4" />
+      <stop
+         id="stop4743-4-3-0-24-5-3-5-2-7-6-7-2"
+         offset="1"
+         style="stop-color:#d7d7ff;stop-opacity:1;" />
+    </linearGradient>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.3150307"
+     inkscape:cx="144.16552"
+     inkscape:cy="33.571707"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1323"
+     inkscape:window-height="744"
+     inkscape:window-x="43"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata4488">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-981.86217)">
+    <path
+       d="m 144.62859,1002.2273 c 7.5457,0.057 14.5953,20.6628 16.4497,25.1286 -8.0567,-24.1967 -14.1673,-32.34789 -17.64592,-32.26297 -12.76785,0.0142 -25.23189,27.33537 -25.81524,44.20147 6.52454,-0.1167 6.43913,0.068 12.56925,-0.038 -1.39131,-12.6849 1.0503,-36.5809 14.44221,-37.0291 z"
+       id="path3003-0-3-4-4-5-6-4-1-3-0-8-2-1-7-2-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc"
+       style="fill:#{{color1}}" />
+    <path
+       d="m 143.12767,998.9505 c 13.49562,0 23.08942,49.388 23.08942,49.388 l 3.4023,-0.3049 c 0,0 -14.9547,-62.6132 -26.52167,-62.6132 -11.70133,0 -25.72238,21.6075 -25.67404,53.7844 0,0 8.18997,-40.532 25.70399,-40.2543 z"
+       id="path3003-0-4-17-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccscc"
+       style="fill:#{{color2}}" />
+    <text
+       xml:space="preserve"
+       style="font-size:45px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#{{color2}};fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="168.91676"
+       y="1039.088"
+       id="text3614"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3616"
+         x="168.91676"
+         y="1039.088">lternativa</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:45px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#{{color1}};fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Ubuntu"
+       x="0.46033669"
+       y="1039.1151"
+       id="text3614-2"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3616-8"
+         x="0.46033669"
+         y="1039.1151">Open</tspan></text>
+  </g>
+</svg>
