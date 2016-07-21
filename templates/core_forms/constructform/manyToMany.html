@@ -1,0 +1,21 @@
+{% extends 'core_forms/constructform/constructForm.html' %}
+
+{% block content %}
+
+<div id='{{ formId }}_div' class='nestedBox formBox'>
+    <div id='{{ formId }}_control'>A cette ligne il faut dire que faire quand on clique sur ajouter
+        <a class='addElemToManyToMany' alt='Ajouter' href='#'>Ajouter</a>
+    </div>
+    <div id='{{ contentId }}'>
+        {% for formAsHtml in forms %}
+            {% autoescape off %}
+                {{ formAsHtml }}
+            {% endautoescape %}
+        {% endfor %}
+    </div>
+    <div id='{{ formId }}_templateForm' style="display:none">
+        {{ emptyForm }}
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+<script type="text/javascript">
+    var fids = [{% for fid in formIds %}'{{ fid }}',{% endfor %}];
+    for(fid in fids)
+        updateFormTree('{{ parentFormId }}',fids[fid],formTreePtrs,formTree);
+</script>
+{% block content %}
+{% endblock %}

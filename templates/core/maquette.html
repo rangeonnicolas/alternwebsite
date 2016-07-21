@@ -5,11 +5,12 @@
 {% block content %}
 
     <h1 class="col-pri-lum-2">{{title}}</h1>
-    <p class="intro">
-        (note: ajouter description)<!--{{description}}-->
-    </p>
 
 {% comment %}
+    <p class="intro">
+        (note: ajouter description){{description}}
+    </p>
+
     <h2 class="col-pri-lum-2 bdcol-pri-lum-0">Points d'attention :</h2>
     <div class="mainImpactCont flexContainer flexWrap">
         {% for main_impact in main_impacts %}

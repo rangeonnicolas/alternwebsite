@@ -1,16 +1,11 @@
 from django.forms import modelformset_factory
 from django import forms
-from api2.models import *
-
+import api2.models as api2
+from core_model.models import *
 
 class AlternativeForm(forms.ModelForm):
     class Meta:
         model = Alternative
-        exclude = []
-
-class ConsumeAProductForm(forms.ModelForm):
-    class Meta:
-        model = ConsumeAProduct
         exclude = []
 
 class HabitForm(forms.ModelForm):
@@ -18,32 +13,85 @@ class HabitForm(forms.ModelForm):
         model = Habit
         exclude = []
 
+class UseAKindOfEntityForm(forms.ModelForm):
+    class Meta:
+        model = UseAKindOfEntity
+        exclude = []
+
+class EntityThatHavePropertiesForm(forms.ModelForm):
+    class Meta:
+        model = EntityThatHaveProperties
+        exclude = []
+
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = []
 
-class SourceForm(forms.ModelForm):
+class CompanyForm(forms.ModelForm):
     class Meta:
-        model = Source
+        model = Company
         exclude = []
 
-class NewspaperForm(forms.ModelForm):
+class AssociationForm(forms.ModelForm):
     class Meta:
-        model = Newspaper
-        exclude = []
+         model = Association
+         exclude = []
 
 class BehaviourForm(forms.ModelForm):
     class Meta:
         model = Behaviour
         exclude = []
 
-class hasImpactOnForm(forms.ModelForm):
+class TopicForm(forms.ModelForm):
     class Meta:
-        model = HasImpactOn
+        model = Topic
         exclude = []
 
-class AuthorForm(forms.ModelForm):
+
+###################################################################
+
+class Api2AlternativeForm(forms.ModelForm):
     class Meta:
-        model = Author
+        model = api2.Alternative
+        exclude = []
+
+class Api2ConsumeAProductForm(forms.ModelForm):
+    class Meta:
+        model = api2.ConsumeAProduct
+        exclude = []
+
+class Api2HabitForm(forms.ModelForm):
+    class Meta:
+        model = api2.Habit
+        exclude = []
+
+class Api2ProductForm(forms.ModelForm):
+    class Meta:
+        model = api2.Product
+        exclude = []
+
+class Api2SourceForm(forms.ModelForm):
+    class Meta:
+        model = api2.Source
+        exclude = []
+
+class Api2NewspaperForm(forms.ModelForm):
+    class Meta:
+        model = api2.Newspaper
+        exclude = []
+
+class Api2BehaviourForm(forms.ModelForm):
+    class Meta:
+        model = api2.Behaviour
+        exclude = []
+
+class Api2hasImpactOnForm(forms.ModelForm):
+    class Meta:
+        model = api2.HasImpactOn
+        exclude = []
+
+class Api2AuthorForm(forms.ModelForm):
+    class Meta:
+        model = api2.Author
         exclude = []

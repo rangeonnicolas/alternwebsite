@@ -1,9 +1,9 @@
-{% extends 'core_forms/defaultForm.html' %}
+{% extends 'core_forms/modelforms/modifiable/defaultForm.html' %}
 
 {% block formContent %}
 
     {% load staticfiles %} <!--todo: a mettre ailleurs où il ne sera chargé qu'une fois-->
-    <link href="{% static 'core/css/style.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'core/css/style2.css' %}" rel="stylesheet" type="text/css">
     <style type="text/css">
 
         .formBox {
@@ -43,24 +43,12 @@
 
         {{ form.non_field_errors }}
         <div class="fieldWrapper">
-            {{ form.to_rel.errors }}
-            <label for="{{ form.to_rel.id_for_label }}">Le comportement suivant :</label>
-            {{ form.to_rel }}
-        </div>
-        <div class="fieldWrapper">
-            {{ form.from_rel.errors }}
-            <label for="{{ form.from_rel.id_for_label }}">est une alternative à l'impact</label>
-            {{ form.from_rel }}
+            {{ form.label_en.errors }}
+            <label for="{{ form.label_en.id_for_label }}">koi?</label>
+            {{ form.label_en }}
         </div>
 
 
-        <div class="sources">
-            {{ form.sources.errors }}
-            <label for="{{ form.sources.id_for_label }}">Sources:</label>
-            {{ form.sources }}
-            <span class="explanation">(sources explicitant en quoi ce comportement constitue une réelle alternative)</span>
-
-        </div>
 
 
 

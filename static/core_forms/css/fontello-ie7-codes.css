@@ -1,1 +1,3 @@
-/home/ubuntu/code/altws/core_forms/static/core_forms/css/fontello-ie7-codes.css
+
+.icon-left-circle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe800;&nbsp;'); }
+.icon-right-circle { *zoom: expression( this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe801;&nbsp;'); }

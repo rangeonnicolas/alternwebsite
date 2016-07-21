@@ -1,3 +1,6 @@
+{% extends 'core_forms/constructform/constructForm.html' %}
+
+{% block content %}
 <div id='{{ formId }}_div' class='nestedBox formBox'>
 
             <form id='{{ formId }}_radioboxes'>
@@ -24,4 +27,5 @@
                 );
             </script>
 </div>
+{% endblock %}
 
