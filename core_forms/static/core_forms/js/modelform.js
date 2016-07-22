@@ -2,17 +2,19 @@
 
     function applyFormConfiguration(formIdStr, formName, url, url2, formTreePtr) { //todo: donner un nom plus explicite que url
 
-        /*$('#' + formIdStr ).submit(function() { // catch the form's submit event
-            $.ajax({ // create an AJAX call...
+        $('#' + formIdStr).submit(function() { // catch the form's submit event
+            submit(formTree,url);
+            /*$.ajax({ // create an AJAX call...
                 data: $(this).serialize(), // get the form data
                 type: $(this).attr('method'), // GET or POST
                 url: $(this).attr('action'), // the file to call
                 success: function(response) { // on success..
                     $('#' + formIdStr ).html(response); // update the DIV
                 }
-            });
+            });*/
             return false;
-        });*/
+        });
+
         if (formIdStr in allFormsConf) {
             var formConf = allFormsConf[formIdStr];
             if (formConf != null) {
@@ -78,24 +80,58 @@
         }
     }
 
-    function updateFormTree(formId, childFormId, formTreePtrs, formTree) {
+    function submit(tree, url){
+        for(var el in tree){
+            recursiveSubmit(tree[el],url); //todo: formTree has a strange structure at its root... no need to have a list as a root
+        }
+    }
+
+    function recursiveSubmit(node,url){
+        var childrenAreOk = true;
+
+        for(var child in node.children){
+            childrenAreOk = childrenAreOk && recursiveSubmit(node.children[child],url);
+        }
+
+        if(childrenAreOk){
+            return submitOneForm(node,url);
+        }else{
+            return false;
+        }
+    }
+
+    function submitOneForm(node,url){
+        if(node['is_visible']){
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: $('#'+node['form_id']).serialize(),
+                        success: function(response) {
+                            //$('#' + formIdStr).append(response); // update the DIV
+                        }
+                    });
+        }
+        return true;
+    }
+
+    function updateFormTree(parentFormId, childFormId, groupId, formTreePtrs, formTree, is_visible) {
         var ind,ptr,
             node = {
                 form: $('#' + childFormId),
                 form_id: childFormId,
                 children: [],
                 status: "being_edited",
-                is_visible: false
+                is_visible: is_visible,
+                groupId: groupId
             };
-
-        if(formId==null){ // in case of rootForm
-            ind = formTree.push(node);
-            ptr = formTree[ind -1];
+        if(parentFormId==null){ // in case of rootForm
+            formTree.push(node);
+            //ptr = formTree[ind -1].children;
         }else{
-            ind = formTreePtrs[formId].push(node);
-            ptr = formTreePtrs[formId][ind - 1];
+            formTreePtrs[parentFormId].children.push(node);
+            //ptr = formTreePtrs[parentFormId].children[ind - 1];
         }
-        formTreePtrs[childFormId] = ptr.children;
+        formTreePtrs[childFormId] = node;
     }
 
 
@@ -105,11 +141,30 @@
         return $('#' + formId + ' #id_' + fieldId)
     }
 
-    function showFormContent(elem, childFormId) {
+    function showFormContent(elem, groupId, formTreePtrs) {
         var radioButtonValue = $(elem).val();
-        var children = $('#' + childFormId + '_content').children();
+        var children = $('#' + groupId + '_content').children();
         children.hide();
-        $('#' + childFormId + '_' + radioButtonValue).show();
+        var formId = groupId + '_' + radioButtonValue;
+        $('#' + formId).show();
+
+        //update formTree
+        /*var groupId = formTreePtrs[formId]['groupId'];
+        for(fid in formTreePtrs){
+            if(formTreePtrs[fid]['groupId'] == groupId){
+                formTreePtrs[fid]['is_visible'] = false;
+            }
+        }
+        formTreePtrs[formId]['is_visible'] = true;
+        */
+
+        updateVisibilityInfo(formTreePtrs);
+    }
+
+    function updateVisibilityInfo(formTreePtrs){
+        for(fid in formTreePtrs){
+            formTreePtrs[fid]['is_visible'] = $('#'+fid).is(":visible");
+        }
     }
 
     function polymorphicForeignKey(fieldToReplace, childFormId, fieldConf, url, parentFormId) {
@@ -135,7 +190,7 @@
             fieldToReplace.replaceWith(res); //console.log("je passe la avec", boxList, fieldToReplace)
         }
 
-        plop('/coreforms/getform/polymorphicForeignKey/', data, success, childFormId);
+        plop('/coreforms/getformpart/polymorphicForeignKey/', data, success, childFormId);
     }
 
     function foreignKey(fieldToReplace, childFormId, fieldConf, url, parentFormId) {
@@ -153,7 +208,7 @@
             fieldToReplace.replaceWith(res);
         }
 
-        plop('/coreforms/getform/foreignKey/', data, success, childFormId);
+        plop('/coreforms/getformpart/foreignKey/', data, success, childFormId);
     }
 
     function manyToMany(fieldToReplace, childFormId, fieldConf, url, parentFormId) {
@@ -187,7 +242,7 @@
 
                 console.log("!!!!!penser a ajouter ici le update formtree!!!");
         }
-        plop('/coreforms/getform/manytomany/', data, success, childFormId);
+        plop('/coreforms/getformpart/manytomany/', data, success, childFormId);
     }
 
     function addFormToManyToMany(formName, childFormId, contentId, url, objectId, parentFormId) {

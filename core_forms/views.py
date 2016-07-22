@@ -91,6 +91,12 @@ def model_post_form(request, formName, isRootForm=False, formId=''):
         return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
 
     if request.method == 'POST':
+        # erreurs possibles : erreur classique de champ (detectee par django)
+        # chanmp vide (ex: polmorphicforeignkey jamais initialisee par un click sur les boxes)
+        # doublons : veux-ton modifier l'objet deja existant ou un nouveau? normalement géré par le ajaxlivesearch (?)
+        # clés uniques?
+        # lien en foreign key interdite
+
         form = ModelForm(request.POST)
         if form.is_valid():  # Nous vérifions que les données envoyées sont valides
             #todo: gerer le isRootForm
@@ -484,6 +490,8 @@ def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,request):
 
     forms = []
     formIds = []
+    groupId = formId
+    isVisible = 'false'  # JS string
 
     for b in boxList:
         formName = b['id']
@@ -503,11 +511,14 @@ def foreignKeyWrapper(request):
     formName = request.POST.get('formName')
     objectId = request.POST.get('objectId')
     parentFormId = request.POST.get('parentFormId')
+
+    return HttpResponse(foreignKey(formId,objectId,formName,parentFormId,request))
+
+def foreignKey(formId,objectId,formName,parentFormId,request):
+
     formIds = [formId]
-
-    return HttpResponse(foreignKey(formId,objectId,formName,formIds,parentFormId,request))
-
-def foreignKey(formId,objectId,formName,formIds,parentFormId,request):
+    groupId = formId
+    isVisible = 'true' # JS string
 
     formAsHtml, isObjectIdFound = getForm(request, False, formName, formNames[formName], formId , objectId, False, False, False)
 
@@ -528,6 +539,8 @@ def manyToMany(formId,formName,contentId,parentFormId,initVal,request):
 
     formIds = []
     forms = []
+    groupId = formId
+    isVisible = 'true'  # JS string
 
     emptyForm, _ = getForm(
         request,

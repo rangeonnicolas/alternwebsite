@@ -11,12 +11,9 @@ urlpatterns = [
     url(r'^livesearch/process/(?P<formName>\w*)$',process_livesearch),
     url(r'^livesearch/resultdiv/(?P<id>\w*)$',process_livesearch_resultdiv),
 
-    url(r'^getform/polymorphicForeignKey/$'                 ,polymorphicForeignKeyWrapper),
-    #url(r'^getform/polymorphicForeignKey/updateformtree$'   ,polymorphicForeignKeyWrapper), #not implemented
-    url(r'^getform/foreignKey/$'                            ,foreignKeyWrapper),
-    #url(r'^getform/foreignKey/updateformtree$'              ,foreignKeyWrapper),#not implemented
-    url(r'^getform/manytomany/$'                            ,manyToManyWrapper),
-    #url(r'^getform/manytomany/updateformtree$'              ,manyToManyWrapper),#not implemented
+    url(r'^getformpart/polymorphicForeignKey/$'                 ,polymorphicForeignKeyWrapper),
+    url(r'^getformpart/foreignKey/$'                            ,foreignKeyWrapper),
+    url(r'^getformpart/manytomany/$'                            ,manyToManyWrapper),
 
     url(r'^dev/alternative/?$', model_post_form, {'formName': 'alternative', 'formId': 'foo', 'isRootForm': True}),
     url(r'^dev/ethp/?$', model_post_form, {'formName': 'entityThatHaveProperties', 'formId': 'foo', 'isRootForm': True}),

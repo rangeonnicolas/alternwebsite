@@ -8,7 +8,7 @@
                 formTreePtrs = {},
                 ls = {};
             $('head').append($('<style type="text/css">.isUneditable{background-color:grey}</style>')); //todo: a revoir
-            updateFormTree(null,'{{ formId }}',formTreePtrs,formTree);
+            updateFormTree(null,'{{ formId }}',null,formTreePtrs,formTree);
     </script>
 {% endif %}
 
@@ -28,7 +28,7 @@
 
 
     <!--<form id="form1" action=" url 'core_formws.model_post_form' modelName " method="post">-->
-    <form id="{{ formId }}" action="DanTonKu" method="post" class="formBox" style="{% if doNotDisplay %}display:none{% endif %}">
+    <form id="{{ formId }}" action="" method="post" class="formBox" style="{% if doNotDisplay %}display:none{% endif %}">
         <input type="hidden" name="_page_loaded_at" id="{{ formId }}_page_loaded_at" value="{{pageLoadedAt}}">
         {% csrf_token %}
         {% block formContent %}

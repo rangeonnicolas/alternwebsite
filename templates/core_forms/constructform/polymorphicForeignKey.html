@@ -22,7 +22,7 @@
             <script type="text/javascript">
                 $('input[name={{ formId }}_radiogroup]:radio').click(
                     function() {
-                        showFormContent(this, '{{ formId }}');
+                        showFormContent(this, '{{ groupId }}', formTreePtrs);
                     }
                 );
             </script>
