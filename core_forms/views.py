@@ -90,6 +90,8 @@ def model_post_form(request, formName, isRootForm=False, formId=''):
     except KeyError:
         return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
 
+    formConf = formNames[formName]
+
     if request.method == 'POST':
         # erreurs possibles : erreur classique de champ (detectee par django)
         # chanmp vide (ex: polmorphicforeignkey jamais initialisee par un click sur les boxes)
@@ -97,28 +99,39 @@ def model_post_form(request, formName, isRootForm=False, formId=''):
         # clés uniques?
         # lien en foreign key interdite
 
+        ModelForm, _, _ = getInfoFromFormConf(formConf)
+
         form = ModelForm(request.POST)
         if form.is_valid():  # Nous vérifions que les données envoyées sont valides
             #todo: gerer le isRootForm
             # form.save()
             return JsonResponse({'success': '/success'})
+        else:
+            return JsonResponse({'error': '/VatFerFoutrConnar'})
     else:
-        htmlResponse, _ = getForm(request, isRootForm, formName, formNames[formName],formId, objectId,modifiable, objectMayNotExist, False)
+        htmlResponse, _ = getHtmlForm(request, isRootForm, formName, formConf,formId, objectId,modifiable, objectMayNotExist, False)
         return HttpResponse(htmlResponse)
 
 def removeEndOfString(string, suffix):
     return re.findall("(.*?)"+suffix+"$", string)[0]
 
-def getForm(request, isRootForm, formName, formConf, formId, objectId, modifiable, objectMayNotExist, hideIfObjectIdNotFound):
+def getInfoFromFormConf(formConf):
+    conf = formConf['class']().get_conf()
+    return conf['form'], conf['conf'], conf['templates']
 
-    try: #todo: remove (old version)
-        if 'view' in formConf:
-            ModelForm, conf, templates = eval(formConf['view']+"(request)")
-        else:
-            raise Exception('')
-    except:
-        conf = formConf['class']().get_conf()
-        ModelForm, conf, templates = conf['form'], conf['conf'], conf['templates']
+
+def getHtmlForm(request, isRootForm, formName, formConf, formId, objectId, modifiable, objectMayNotExist, hideIfObjectIdNotFound):
+
+    #try: #todo: remove (old version)
+    #    if 'view' in formConf:
+    #        ModelForm, conf, templates = eval(formConf['view']+"(request)")
+    #    else:
+    #        raise Exception('')
+    #except:
+    #    conf = formConf['class']().get_conf()
+    #    ModelForm, conf, templates = conf['form'], conf['conf'], conf['templates']
+
+    ModelForm, conf, templates = getInfoFromFormConf(formConf)
 
     print('____________________',templates, formConf['class'])
 
@@ -142,62 +155,61 @@ def getForm(request, isRootForm, formName, formConf, formId, objectId, modifiabl
         #    if form.is_valid(): # Nous vérifions que les données envoyées sont valides
                 #form.save()
         #        return JsonResponse({'success': '/success'})
+    # else
 
-    #else:
-    if 1:
-        returnEmptyForm = True
-        if objectId:
-            Model = formConf['class']().get_conf()['form'].Meta.model
+    returnEmptyForm = True
+    # try to find the object in database from the object_id (if provided)
+    if objectId:
+        Model = formConf['class']().get_conf()['form'].Meta.model
+        try:
+            object=Model.objects.get(id=objectId)
+            returnEmptyForm = False
+        except:
+            if objectMayNotExist:
+                returnEmptyForm = True
+            else:
+                raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formConf['model']+' in the database')
 
-            try:
-                object=Model.objects.get(id=objectId)
-                returnEmptyForm = False
-            except:
-                if objectMayNotExist:
-                    returnEmptyForm = True
-                else:
-                    raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formConf['model']+' in the database')
+    # if object_id is not provided OR if the object_id was not found
+    if returnEmptyForm:
+        form = ModelForm
+    else:
+        form = ModelForm(data=object.__dict__)
+        form = ModelForm(instance=object)
 
-        if returnEmptyForm:
-            form = ModelForm
-        else:
-            form = ModelForm(data=object.__dict__)
-            print("________________________________")
-            form = ModelForm(instance=object)
+    pageLoadedAt = dt.datetime.now().isoformat()
+    maxInputLength = 40 # todo: used in the php source but not implemented here
 
-        pageLoadedAt = dt.datetime.now().isoformat()
-        maxInputLength = 40 # todo: used in the php source but not implemented here
+    if returnEmptyForm or modifiable:
+        try:
+            get_template(modifiableTemplate)
+            template = modifiableTemplate
+        except TemplateDoesNotExist:
+            template = 'core_forms/modelforms/modifiable/defaultForm.html'
+    else:
+        try:
+            get_template(unmodifiableTemplate)
+            template = unmodifiableTemplate
+        except TemplateDoesNotExist:
+            #template = 'rien de prévu encore!'
+            template = 'core_forms/modelforms/unmodifiable/defaultForm.html'
 
-        if returnEmptyForm or modifiable:
-            try:
-                get_template(modifiableTemplate)
-                template = modifiableTemplate
-            except TemplateDoesNotExist:
-                template = 'core_forms/modelforms/modifiable/defaultForm.html'
-        else:
-            try:
-                get_template(unmodifiableTemplate)
-                template = unmodifiableTemplate
-            except TemplateDoesNotExist:
-                #template = 'rien de prévu encore!'
-                template = 'core_forms/modelforms/unmodifiable/defaultForm.html'
+    doNotDisplay = hideIfObjectIdNotFound and returnEmptyForm
 
-        doNotDisplay = hideIfObjectIdNotFound and returnEmptyForm
+    print("template:",template, form)
 
-        print("template:",template, form)
+    vars = {
+        'isRootForm': isRootForm,
+        'request': request,
+        'formId': formId,
+        'form': form,
+        'formName': formName,
+        'pageLoadedAt': pageLoadedAt,
+        'conf': conf,
+        'doNotDisplay': doNotDisplay
+    }
 
-        vars = {
-            'isRootForm': isRootForm,
-            'request': request,
-            'formId': formId,
-            'form': form,
-            'formName': formName,
-            'pageLoadedAt': pageLoadedAt,
-            'conf': conf,
-            'doNotDisplay': doNotDisplay
-        }
-
-        return loader.render_to_string(template, vars, request=request), not returnEmptyForm
+    return loader.render_to_string(template, vars, request=request), not returnEmptyForm
 
 
 
@@ -489,15 +501,15 @@ def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,request):
         }]
 
     forms = []
-    formIds = []
+    formInfo = []
     groupId = formId
     isVisible = 'false'  # JS string
 
     for b in boxList:
         formName = b['id']
         fid = formId+'_'+formName
-        formIds += [fid]
-        formAsHtml, isObjectIdFound = getForm(request, False, formName, formNames[formName], fid , objectId, False, True, True)
+        formInfo += [{'fid':fid,'fname': formName}]
+        formAsHtml, isObjectIdFound = getHtmlForm(request, False, formName, formNames[formName], fid , objectId, False, True, True)
         forms += [{'html':formAsHtml}]
         if (objectId is not None) and isObjectIdFound:
             b['checked'] = True
@@ -516,11 +528,11 @@ def foreignKeyWrapper(request):
 
 def foreignKey(formId,objectId,formName,parentFormId,request):
 
-    formIds = [formId]
+    formInfo = [{'fid':formId,'fname': formName}]
     groupId = formId
     isVisible = 'true' # JS string
 
-    formAsHtml, isObjectIdFound = getForm(request, False, formName, formNames[formName], formId , objectId, False, False, False)
+    formAsHtml, isObjectIdFound = getHtmlForm(request, False, formName, formNames[formName], formId , objectId, False, False, False)
 
     return loader.render_to_string('core_forms/constructform/foreignKey.html', locals(), request=request)
 
@@ -537,12 +549,12 @@ def manyToManyWrapper(request):
 
 def manyToMany(formId,formName,contentId,parentFormId,initVal,request):
 
-    formIds = []
+    formInfo = []
     forms = []
     groupId = formId
     isVisible = 'true'  # JS string
 
-    emptyForm, _ = getForm(
+    emptyForm, _ = getHtmlForm(
         request,
         False,
         formName,
@@ -556,7 +568,7 @@ def manyToMany(formId,formName,contentId,parentFormId,initVal,request):
     if not initVal is None:
         for i, objectId in enumerate(initVal):
             fid = formId + '_' + str(i)
-            forms += [getForm(
+            forms += [getHtmlForm(
                 request,
                 False,
                 formName,
@@ -567,10 +579,10 @@ def manyToMany(formId,formName,contentId,parentFormId,initVal,request):
                 False,  # idem
                 False,
             )[0]]
-            formIds += [fid]
+            formInfo += [{'fid': fid,'fname': formName}]
     else:
         forms += [emptyForm]
-        formIds += [formId + '_0']
+        formInfo += [{'fid': formId + '_0' ,'fname': formName}]
 
     return loader.render_to_string('core_forms/constructform/manyToMany.html', locals(), request=request)
 

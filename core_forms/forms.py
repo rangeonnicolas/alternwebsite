@@ -3,6 +3,8 @@ from django import forms
 import api2.models as api2
 from core_model.models import *
 
+#TODO: changer ts les exclude en mettant le nom des fileds (secu:https://docs.djangoproject.com/fr/1.9/topics/forms/modelforms/#selecting-the-fields-to-use)
+#TODO: vor les fncs de fabrique : https://docs.djangoproject.com/fr/1.9/topics/forms/modelforms/#modelform-factory-function
 class AlternativeForm(forms.ModelForm):
     class Meta:
         model = Alternative

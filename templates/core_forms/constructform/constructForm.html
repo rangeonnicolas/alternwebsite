@@ -1,7 +1,7 @@
 <script type="text/javascript">
-    var fids = [{% for fid in formIds %}'{{ fid }}',{% endfor %}];
-    for(fid in fids)
-        updateFormTree('{{ parentFormId }}',fids[fid],'{{ groupId }}',formTreePtrs,formTree,{{ isVisible }});
+    var formInfo = [{% for fi in formInfo %}{fid: '{{ fi.fid }}', fname: '{{ fi.fname }}'},{% endfor %}];
+    for(fi in formInfo)
+        updateFormTree('{{ parentFormId }}',formInfo[fi].fid,formInfo[fi].fname,'{{ groupId }}',formTreePtrs,formTree,{{ isVisible }});
 </script>
 {% block content %}
 {% endblock %}

@@ -104,21 +104,24 @@
         if(node['is_visible']){
                     $.ajax({
                         type: 'POST',
-                        url: url,
+                        url: url + node['form_name'],
                         data: $('#'+node['form_id']).serialize(),
                         success: function(response) {
                             //$('#' + formIdStr).append(response); // update the DIV
                         }
                     });
         }
+        ###########!!!!!!!!!! prendre en compte cela:  C’est une opération triviale avec une bibliothèque JavaScript comme jQuery, il suffit d’utiliser $(el).text(errorText) plutôt que .html().
+        ########### a la page https://docs.djangoproject.com/fr/1.9/ref/forms/api/
         return true;
     }
 
-    function updateFormTree(parentFormId, childFormId, groupId, formTreePtrs, formTree, is_visible) {
+    function updateFormTree(parentFormId, formId, formName, groupId, formTreePtrs, formTree, is_visible) {
         var ind,ptr,
             node = {
-                form: $('#' + childFormId),
-                form_id: childFormId,
+                form: $('#' + formId),
+                form_id: formId,
+                form_name: formName,
                 children: [],
                 status: "being_edited",
                 is_visible: is_visible,
@@ -131,7 +134,7 @@
             formTreePtrs[parentFormId].children.push(node);
             //ptr = formTreePtrs[parentFormId].children[ind - 1];
         }
-        formTreePtrs[childFormId] = node;
+        formTreePtrs[formId] = node;
     }
 
 
