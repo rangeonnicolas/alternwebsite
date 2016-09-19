@@ -3,18 +3,23 @@
 {% block content %}
 
 <div id='{{ formId }}_div' class='nestedBox formBox'>
+    <div id="{{ formId }}_modify_polymorphic" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+                Suggérer une correction sur cet objet (bouton a activer!!!)
+    </div>
     <div id='{{ formId }}_control'>A cette ligne il faut dire que faire quand on clique sur ajouter
-        <a class='addElemToManyToMany' alt='Ajouter' href='#'>Ajouter</a>
+        <a id='{{ formId }}_control_add' class='addElemToManyToMany' alt='Ajouter' href="#" onclick="return false;">Ajouter</a>
     </div>
     <div id='{{ contentId }}'>
-        {% for formAsHtml in forms %}
+        {% for f in forms %}
             {% autoescape off %}
-                {{ formAsHtml }}
+                <div id="{{ f.id }}_container">
+                {{ f.formAsHtml }}
+                </div>
             {% endautoescape %}
         {% endfor %}
     </div>
     <div id='{{ formId }}_templateForm' style="display:none">
-        {{ emptyForm }}
+        {{ templateForm }}
     </div>
 
 </div>

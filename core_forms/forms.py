@@ -6,94 +6,66 @@ from core_model.models import *
 #TODO: changer ts les exclude en mettant le nom des fileds (secu:https://docs.djangoproject.com/fr/1.9/topics/forms/modelforms/#selecting-the-fields-to-use)
 #TODO: vor les fncs de fabrique : https://docs.djangoproject.com/fr/1.9/topics/forms/modelforms/#modelform-factory-function
 class AlternativeForm(forms.ModelForm):
+    name = forms.CharField(max_length=100)
     class Meta:
-        model = Alternative
+        model = TestAlternative
         exclude = []
 
 class HabitForm(forms.ModelForm):
     class Meta:
-        model = Habit
+        model = TestHabit
         exclude = []
 
 class UseAKindOfEntityForm(forms.ModelForm):
     class Meta:
-        model = UseAKindOfEntity
+        model = TestUseAKindOfEntity
         exclude = []
 
 class EntityThatHavePropertiesForm(forms.ModelForm):
     class Meta:
-        model = EntityThatHaveProperties
+        model = TestEntityThatHaveProperties
         exclude = []
 
 class ProductForm(forms.ModelForm):
     class Meta:
-        model = Product
+        model = TestProduct
         exclude = []
 
 class CompanyForm(forms.ModelForm):
     class Meta:
-        model = Company
+        model = TestCompany
         exclude = []
 
 class AssociationForm(forms.ModelForm):
     class Meta:
-         model = Association
+         model = TestAssociation
          exclude = []
 
 class BehaviourForm(forms.ModelForm):
     class Meta:
-        model = Behaviour
+        model = TestBehaviour
+        exclude = []
+
+class OtherBehaviourForm(forms.ModelForm):
+    class Meta:
+        model = TestOtherBehaviour
         exclude = []
 
 class TopicForm(forms.ModelForm):
+
+    #def clean_name(self):
+    #    if self.cleaned_data['name'] == 'jj':
+    #        raise forms.ValidationError(
+    #            "oh non!"
+    #        )
+    #    return "bobo"
+
+    #def clean(self):
+        #cleaned_data = super(TopicForm, self).clean()
+        #raise forms.ValidationError(
+        #        "Did not send for 'help' in the subject despite "
+        #        "CC'ing yourself."
+        #    )
     class Meta:
-        model = Topic
-        exclude = []
-
-
-###################################################################
-
-class Api2AlternativeForm(forms.ModelForm):
-    class Meta:
-        model = api2.Alternative
-        exclude = []
-
-class Api2ConsumeAProductForm(forms.ModelForm):
-    class Meta:
-        model = api2.ConsumeAProduct
-        exclude = []
-
-class Api2HabitForm(forms.ModelForm):
-    class Meta:
-        model = api2.Habit
-        exclude = []
-
-class Api2ProductForm(forms.ModelForm):
-    class Meta:
-        model = api2.Product
-        exclude = []
-
-class Api2SourceForm(forms.ModelForm):
-    class Meta:
-        model = api2.Source
-        exclude = []
-
-class Api2NewspaperForm(forms.ModelForm):
-    class Meta:
-        model = api2.Newspaper
-        exclude = []
-
-class Api2BehaviourForm(forms.ModelForm):
-    class Meta:
-        model = api2.Behaviour
-        exclude = []
-
-class Api2hasImpactOnForm(forms.ModelForm):
-    class Meta:
-        model = api2.HasImpactOn
-        exclude = []
-
-class Api2AuthorForm(forms.ModelForm):
-    class Meta:
-        model = api2.Author
+        model = TestTopic
         exclude = []

@@ -3,9 +3,23 @@ from core_model.models import Model
 from core_model.model.relations import EntityThatHaveProperties
 
 from core_model.model.topics import Topic
+from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 
 class Behaviour(Model):
-    other = models.TextField(default='') #todo: sure?
+    #other = models.TextField(default='') #todo: sure?
+    pass
+
+class OtherBehaviour(Behaviour):
+    title_en = models.CharField(max_length=255)
+    description_en = models.TextField()
+
+    def clean(self):
+        if self.title_en == 'fuck':
+            raise ValidationError(
+                _('Unauthorised work'),
+                code='unauthorised'
+            )
 
 class Habit(Behaviour):
     label_en = models.CharField(max_length=255)

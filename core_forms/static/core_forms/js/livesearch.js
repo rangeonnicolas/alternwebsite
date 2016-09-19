@@ -251,7 +251,7 @@ function search_query(search_objects, bypass_check_last_value, reset_current_pag
 
                                 // set html result and total pages
                                 var tmp = $(whereToDisplayTheResult.find('.whereToAddTheResultContent')).selector; // it looks dirty but I didn't find any other way to do... :(
-                                $(tmp).html(resultObj.html);
+                                $(tmp).html(resultObj.html); //todo: security?
 
                                 /*
                                  If the number of results is zero, hide the footer (pagination)
@@ -353,7 +353,7 @@ var select_result = function (ev) {
     //hide_result();
     console.log("attention cette fonction s'exécute plusieures fois, une fois par appel ajax :p");
 
-    getFormWithAjax(ls[formIdStr]['formName'],formIdStr,null, formIdStr,function(){},{},true,ev.data['url'],49,false)
+    getFormWithAjax(ls[formIdStr]['formName'],formIdStr,null, 'liiiiiiiiiilaliiiiiiiiilalouuuuuuuuu!!!!!!!!!!!!!!!!' ,formIdStr,function(){},{},true,ev.data['url'],49,false)
 };
 
 function remove_footer(formIdStr,url) {

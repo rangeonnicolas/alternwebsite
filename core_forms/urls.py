@@ -1,8 +1,12 @@
 from django.conf.urls import url
 from core_forms.views import *
+from django.views.generic import TemplateView
+from django.views.static import serve
+from altws.settings import STATIC_ROOT
 
 urlpatterns = [
-    url(r'^postform/(?P<formName>\w*)$', model_post_form),
+    url(r'^postform/(?P<formName>\w*)$', post_form),
+    url(r'^getform/(?P<formName>\w*)$', get_form),
 
     #url(r'^source/?$',model_post_form, {'formName': 'source_test', 'formId': 'foo'}),
     #url(r'^js/modelforms.js$',formJs),
@@ -15,6 +19,7 @@ urlpatterns = [
     url(r'^getformpart/foreignKey/$'                            ,foreignKeyWrapper),
     url(r'^getformpart/manytomany/$'                            ,manyToManyWrapper),
 
-    url(r'^dev/alternative/?$', model_post_form, {'formName': 'alternative', 'formId': 'foo', 'isRootForm': True}),
-    url(r'^dev/ethp/?$', model_post_form, {'formName': 'entityThatHaveProperties', 'formId': 'foo', 'isRootForm': True}),
+    url(r'^dev/alternative/?$', get_form, {'formName': 'alternative', 'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
+    url(r'^dev/ethp/?$', get_form, {'formName': 'entityThatHaveProperties', 'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
+    url(r'^tests/$', TemplateView.as_view(template_name='core_forms/tests/tests.html')),
 ]

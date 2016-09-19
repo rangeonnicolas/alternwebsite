@@ -3,28 +3,41 @@
 {% block content %}
 <div id='{{ formId }}_div' class='nestedBox formBox'>
 
+            <div id="{{ formId }}_modify_polymorphic" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+                Suggérer une correction sur cet objet (bouton a activer!!!)
+            </div>
+
+            <div id="{{ formId }}_delete" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+                Supprimer (si champ peut être vide)
+            </div>
+
             <form id='{{ formId }}_radioboxes'>
                 {% for b in boxList %}
                     <INPUT type="radio" name="{{ formId }}_radiogroup" value="{{ b.id }}" {% if b.checked %}checked{% endif %}>{{ b.label }}<br/>
                 {% endfor %}
             </form>
 
-            <div id='{{ formId }}_content'>
+            <div id='{{ formId }}_content'> <!-- todo: renommer en pool-->
 
-                {% for form in forms %}
+                {% for f in forms %}
                     {% autoescape off %}
-                        {{ form.html }}
+                        <div id="{{ f.id }}_container">
+                        {{ f.formAsHtml }}
+                        </div>
                     {% endautoescape %}
                 {% endfor %}
 
             </div>
 
             <script type="text/javascript">
+                {% autoescape off %}
                 $('input[name={{ formId }}_radiogroup]:radio').click(
                     function() {
-                        showFormContent(this, '{{ groupId }}', formTreePtrs);
+                        showFormContent(this, '{{ formId }}_content',{{ fieldOfParentForm }}, formTreePtrs);
                     }
                 );
+                {% endautoescape %}
+                {% comment %} avant content {% endcomment %}
             </script>
 </div>
 {% endblock %}

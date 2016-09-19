@@ -1,0 +1,8 @@
+{% extends 'core_forms/constructform/constructForm.html' %}
+
+{% block content %}
+                    {% comment %} pas de div avec 'formiId_container' ! {% endcomment %}
+                    {% autoescape off %}
+                        {{ formAsHtml }}
+                    {% endautoescape %}
+{% endblock %}

@@ -26,8 +26,12 @@ class Association(Entity): #todo: verify term
 # Behaviour : reglarly verify the "other" field
 # Association: must always have a country
 # Association: trans-country association: be aware of duplicates (ex: Unicef France, Unicef [international])
+# OtherBehaviour: review them regularily to moderate it
 
 # automations:
 # Entity : is_leaf
 # Entity : type
 # RelationSet : first_level
+
+# secu:
+# limiter la taille des fields (notemment les textfields)

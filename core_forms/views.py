@@ -6,28 +6,100 @@ import datetime as dt
 import dateutil.parser as p
 import json
 import re
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse,HttpResponse,Http404
+from django.http.request import QueryDict
 from django.forms.models import modelform_factory
 from django.utils.safestring import SafeString
 from django.template.utils import import_string
 from django.template.loader import get_template, TemplateDoesNotExist
+from django.conf import settings
 from django.template import loader
-
 from core_model.model import *
-
-
-
-
-
+import django
 
 #def formJs(request):
 #    # todo: mettre ça en fichier statique
 #    return render(request,'core_forms/form.js')
 
+
+class CoreFormConf:
+    form_conf = {}
+    def get_conf(self):
+        form_conf = json.dumps(self.form_conf)
+        # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf
+        # will be printed in a JS script, not as a HtmL string
+        form_conf = SafeString(form_conf)
+
+        if not hasattr(self,'form'):
+            self.form = eval(removeEndOfString(self.__class__.__name__ ,'Conf') + 'Form') #todo: uggly
+        return {'form':self.form, 'conf':form_conf, 'templates':None} #todo: remove the None if never used
+
+
+
+
+#apps = django.conf.settings.INSTALLED_APPS
+#for app in apps:
+#    print(app)
+#    try:
+#        eval('from '+app+'.nestedForms import *')
+#    except:
+#        pass
+from core_forms.nestedForms import *
+
+def get_from_request(query, field, type_of_field, defaultValue = None):
+    if type_of_field == 'isoDate':
+        cleaned = clean(query.get(field), isoDate= True)
+    else:
+        cleaned = clean(query.get(field))
+
+    if cleaned is None:
+        return defaultValue
+
+    if type_of_field == 'int':
+        cleaned = int(cleaned)
+    if type_of_field == "json":
+        return json.loads(cleaned)
+    else:
+        return cleaned
+
+
+def clean(object, isJson=False, jsonIsStillAString= True, isoDate=False):
+    if isoDate:
+        REGEXP = '[^\d\w-.:]'
+    else:
+        REGEXP = '[^\d\w_ ]'
+
+    if type(object) == str and (not isJson or not jsonIsStillAString):
+        if object == '':
+            return None
+        return re.sub(REGEXP,'',object)
+    elif object is None:
+        return None
+    elif isJson:
+        if type(object) == str:
+            try:
+                js = json.loads(object)
+                return clean(js, isJson=True, jsonIsStillAString=False)
+                return clean(js, isJson=True, jsonIsStillAString=False)
+            except:
+                raise Exception("json seems to be corrupted")
+        elif type(object) == list:
+            for i, elem in enumerate(object):
+                object[i] = clean(elem, isJson=True, jsonIsStillAString=False)
+            return object
+        elif type(object) == dict:
+            for key in object:
+                object[key] = clean(object[key], isJson=True, jsonIsStillAString=False)
+            return object
+        elif type(object) == int or type(object) == float:
+            return object
+
+
+
 def process_livesearch(request, formName):
 
     # A layer of security against those Bots that submit a form quickly
-    if verifyBotSearched(request.POST['_page_loaded_at']) < 3:
+    if verifyBotSearched(get_from_request(request.POST,'_page_loaded_at','isoDate')) < 3:
         return JsonResponse({'status':'failed','message':'too fast!'})
 
     try:
@@ -63,54 +135,140 @@ def verifyBotSearched(time):
     form submit"""
     return (dt.datetime.now() - p.parse(time)).seconds
 
-def model_post_form(request, formName, isRootForm=False, formId=''):
+def get_some_fields(request_dict, formName, isRootForm= False, formId= None):
+
+    if formId is None:
+        formId = get_from_request(request_dict,'formId','str')
+
+    if formId is None:
+        return False, None, None, None, None, None, None, None, JsonResponse({'status': 'requestError',
+                             'errors': 'formId is not provided'})  # todo: revoie les codes d'erreur (requestError') et leur gestion coté js
+
+    parentFormId = get_from_request(request_dict,'parentFormId','str')
+    fieldOfParentForm = get_from_request(request_dict,'fieldOfParentForm','str')  # todo: fieldOfParentForm est peut etre obsolete (innutile)
+    qunitTesting = get_from_request(request_dict,'qunitTesting','json',False)
+    callbackQunitFunction = get_from_request(request_dict,'callbackQunitFunction','str')
+
+    isRootForm = isRootForm or get_from_request(request_dict,'isRootForm','json',False)
+
+    if (parentFormId is None) and not isRootForm:
+        return False, None, None, None, None, None, None, None, JsonResponse(
+                {'status': 'requestError', 'errors': 'isRootForm is not true and parentFormId is not provided'})
+
+    if isRootForm:
+        parentFormId = None
+        fieldOfParentForm = None
 
     try:
-        formId = request.GET["formId"]
-    except:
-        pass
-
-    try:
-        objectId = request.GET["objectId"]
-    except:
-        objectId = None
-
-    try:
-        modifiable = request.GET["modifiable"]
-    except:
-        modifiable = False
-
-    try:
-        objectMayNotExist = request.GET["objectMayNotExist"]
-    except:
-        objectMayNotExist = False
-
-    try:
-        formNames[formName]
+        formConf = formNames[formName]
     except KeyError:
-        return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
+        return False, None, None, None, None, None, None, None, JsonResponse({'status': 'requestError', 'errors': 'config {0} doesn\'t exists'.format(formName)})
 
-    formConf = formNames[formName]
+
+    return True, formId, formConf, parentFormId, fieldOfParentForm, isRootForm, qunitTesting, callbackQunitFunction, None
+
+
+
+def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCall= False):
+
+    if request.method == 'GET':
+
+        isOk, formId, formConf, parentFormId, fieldOfParentForm, isRootForm, qunitTesting, callbackQunitFunction, error = get_some_fields(request.GET,formName,isRootForm,formId)
+        if not isOk:
+            return error
+
+        objectId = get_from_request(request.GET,'objectId','str')
+        editableIfObjectExists = get_from_request(request.GET,'modifiable','json', False)
+        objectIdMayNotExistForThisModel = get_from_request(request.GET,'objectMayNotExist','json',False)
+
+        if objectId:
+            objectId = int(objectId)
+
+        formAsHtml, _ , isEditable, validatedValue = getHtmlForm(
+            request= request,
+            formName= formName,
+            formConf= formConf,
+            formId= formId,
+            parentFormId= parentFormId,
+            fieldOfParentForm= fieldOfParentForm,
+            isRootForm=isRootForm,
+            objectId= objectId,
+            editableIfObjectExists= editableIfObjectExists,
+            objectIdMayNotExistForThisModel= objectIdMayNotExistForThisModel,
+            qunitTesting=qunitTesting,
+            callbackQunitFunction=callbackQunitFunction
+        )
+
+        formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+
+        #formTreeUpdatedByClient = False
+        inValidationProcess= False
+
+        return constructFormAndRender(request, 'core_forms/constructform/singleForm.html', locals())
+    else:
+        raise Http404 # or forbidden?
+
+
+
+def post_form(request, formName):
 
     if request.method == 'POST':
-        # erreurs possibles : erreur classique de champ (detectee par django)
+        # OK erreurs possibles : erreur classique de champ (detectee par django)
         # chanmp vide (ex: polmorphicforeignkey jamais initialisee par un click sur les boxes)
         # doublons : veux-ton modifier l'objet deja existant ou un nouveau? normalement géré par le ajaxlivesearch (?)
         # clés uniques?
-        # lien en foreign key interdite
+        # cas ou il y a un plantage sur un submit et qu'un meme objet est re-envoyé une seconde fois
+        # OK lien en foreign key interdite ==> a voir lors de la creation du modele (contraintes de modele)
+        # en js: ojets crees et deja reutilisables sans acces serveur
+
+        isOk, formId, formConf, parentFormId, fieldOfParentForm, isRootForm, qunitTesting, callbackQunitFunction, error = get_some_fields(request.POST,formName)
+        if not isOk:
+            return error
 
         ModelForm, _, _ = getInfoFromFormConf(formConf)
 
-        form = ModelForm(request.POST)
+        form = ModelForm(request.POST) #todo: secu: si plus de fields que prévu? + prendre chaque field et les passer dans clean!!
+
         if form.is_valid():  # Nous vérifions que les données envoyées sont valides
             #todo: gerer le isRootForm
-            # form.save()
-            return JsonResponse({'success': '/success'})
+            createdObject = form.save()
+
+            createdObjectAsHtml, _, _, validatedValue = getHtmlForm(
+                request= request,
+                formName= formName,
+                formConf= formConf,
+                formId= formId,
+                parentFormId= parentFormId,
+                fieldOfParentForm= fieldOfParentForm,
+                isRootForm= isRootForm,
+                objectId= createdObject.id,
+                qunitTesting=qunitTesting,
+                callbackQunitFunction=callbackQunitFunction
+            )
+            #pender a l'actualisation du formTreeeeeee!!!!!!!'
+
+            vars = {
+                'formId': formId,
+                'formAsHtml': createdObjectAsHtml,
+                'firstRootFormCall': False,
+                'formInfo': [{'fid': formId, 'fname': formName, 'isEditable': False, 'validatedValue': validatedValue}],
+                'parentFormId': parentFormId,
+                'fieldOfParentForm': fieldOfParentForm,
+                #'formTreeUpdatedByClient': True,
+                'inValidationProcess': True,
+                #'validatedValue': {'objectId': createdObject.id,'fieldOfParentForm': fieldOfParentForm}
+            }
+
+            html = constructFormAsHtml(request, 'core_forms/constructform/singleForm.html', vars)
+
+            return JsonResponse({'status': 'success', 'inbase_object': createdObject.id, 'html': html})
         else:
-            return JsonResponse({'error': '/VatFerFoutrConnar'})
+            return JsonResponse({'status':'error', 'errors': form.errors}, safe=False)
+            #formAsHtml = form
+            #return render(request, 'core_forms/constructform/singleForm.html', locals())
     else:
-        htmlResponse, _ = getHtmlForm(request, isRootForm, formName, formConf,formId, objectId,modifiable, objectMayNotExist, False)
-        return HttpResponse(htmlResponse)
+        raise Http404 #or forbidden
+
 
 def removeEndOfString(string, suffix):
     return re.findall("(.*?)"+suffix+"$", string)[0]
@@ -120,7 +278,20 @@ def getInfoFromFormConf(formConf):
     return conf['form'], conf['conf'], conf['templates']
 
 
-def getHtmlForm(request, isRootForm, formName, formConf, formId, objectId, modifiable, objectMayNotExist, hideIfObjectIdNotFound):
+def getHtmlForm(
+        request,
+        formName,
+        formConf,
+        formId,
+        parentFormId,
+        fieldOfParentForm,
+        isRootForm=False,
+        objectId= None,
+        editableIfObjectExists= False,
+        objectIdMayNotExistForThisModel= False,
+        hideIfObjectIdNotFound= False,
+        qunitTesting= False,
+        callbackQunitFunction= None):
 
     #try: #todo: remove (old version)
     #    if 'view' in formConf:
@@ -133,39 +304,26 @@ def getHtmlForm(request, isRootForm, formName, formConf, formId, objectId, modif
 
     ModelForm, conf, templates = getInfoFromFormConf(formConf)
 
-    print('____________________',templates, formConf['class'])
-
     if templates is None:
-        try: #todo: remove (old version)
-            modifiableTemplate   = 'core_forms/modelforms/modifiable/' + formConf['view'] + '.html'
-            unmodifiableTemplate = 'core_forms/modelforms/unmodifiable/' + formConf['view'] + '.html'
-        except KeyError:
-            n = removeEndOfString(formConf['class'].__name__,'Conf')
-            modifiableTemplate   = 'core_forms/modelforms/modifiable/' + str.lower(n) + '.html'
-            unmodifiableTemplate = 'core_forms/modelforms/unmodifiable/' + str.lower(n) + '.html'
+        n = removeEndOfString(formConf['class'].__name__,'Conf')
+        modifiableTemplate   = 'core_forms/modelforms/modifiable/' + str.lower(n) + '.html'
+        unmodifiableTemplate = 'core_forms/modelforms/unmodifiable/' + str.lower(n) + '.html'
     else:
         modifiableTemplate = templates[0]
         unmodifiableTemplate = templates[1]
 
-    #if method == 'POST':
-        #if request.is_ajax():
-        #if 1:
-        #    form = ModelForm(post)
-
-        #    if form.is_valid(): # Nous vérifions que les données envoyées sont valides
-                #form.save()
-        #        return JsonResponse({'success': '/success'})
-    # else
 
     returnEmptyForm = True
     # try to find the object in database from the object_id (if provided)
     if objectId:
         Model = formConf['class']().get_conf()['form'].Meta.model
         try:
-            object=Model.objects.get(id=objectId)
+            object=Model.objects.get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
             returnEmptyForm = False
+            #objectIdFound = True
         except:
-            if objectMayNotExist:
+            #objectIdFound = False
+            if objectIdMayNotExistForThisModel:
                 returnEmptyForm = True
             else:
                 raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formConf['model']+' in the database')
@@ -174,307 +332,52 @@ def getHtmlForm(request, isRootForm, formName, formConf, formId, objectId, modif
     if returnEmptyForm:
         form = ModelForm
     else:
-        form = ModelForm(data=object.__dict__)
+        #form = ModelForm(data=object.__dict__)
         form = ModelForm(instance=object)
 
     pageLoadedAt = dt.datetime.now().isoformat()
     maxInputLength = 40 # todo: used in the php source but not implemented here
 
-    if returnEmptyForm or modifiable:
+    isEditable = returnEmptyForm or editableIfObjectExists
+
+    if isEditable: #todo: factorisable
         try:
             get_template(modifiableTemplate)
             template = modifiableTemplate
         except TemplateDoesNotExist:
-            template = 'core_forms/modelforms/modifiable/defaultForm.html'
+            template = 'core_forms/modelforms/defaultForm.html'
     else:
         try:
             get_template(unmodifiableTemplate)
             template = unmodifiableTemplate
         except TemplateDoesNotExist:
-            #template = 'rien de prévu encore!'
-            template = 'core_forms/modelforms/unmodifiable/defaultForm.html'
+            template = 'core_forms/modelforms/defaultForm.html'
 
     doNotDisplay = hideIfObjectIdNotFound and returnEmptyForm
 
-    print("template:",template, form)
+    if not isEditable and fieldOfParentForm is not None:
+        validatedValue = objectId
+    else:
+        validatedValue = None
 
     vars = {
         'isRootForm': isRootForm,
-        'request': request,
+        #'request': request,
         'formId': formId,
         'form': form,
         'formName': formName,
         'pageLoadedAt': pageLoadedAt,
         'conf': conf,
-        'doNotDisplay': doNotDisplay
+        'doNotDisplay': doNotDisplay,
+        'isEditable': isEditable,
+        'objectId': objectId,
+        'parentFormId': json.dumps(parentFormId),
+        'fieldOfParentForm': json.dumps(fieldOfParentForm),
+        'qunitTesting': qunitTesting,
+        'callbackQunitFunction': callbackQunitFunction,
     }
-
-    return loader.render_to_string(template, vars, request=request), not returnEmptyForm
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##################################################### new model ########################################################
-class CoreFormConf:
-    form_conf = {}
-    def get_conf(self):
-        form_conf = json.dumps(self.form_conf)
-        # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf
-        # will be printed in a JS script, not as a HtmL string
-        form_conf = SafeString(form_conf)
-
-        if not hasattr(self,'form'):
-            self.form = eval(removeEndOfString(self.__class__.__name__ ,'Conf') + 'Form') #todo: uggly
-        return {'form':self.form, 'conf':form_conf, 'templates':None} #todo: remove the None if never used
-
-class HabitConf(CoreFormConf):
-    form_conf = {
-        'fields': {}
-    }
-    form = HabitForm
-
-class UseAKindOfEntityConf(CoreFormConf):
-    form_conf = {
-        'fields': {
-            'entity_with_properties': {
-                'type': 'foreignKey',
-                'formName': 'entityThatHaveProperties'#todo: change the name of this field?
-            }
-        }
-    }
-    form = UseAKindOfEntityForm
-
-class EntityThatHavePropertiesConf(CoreFormConf):
-    form_conf = {
-        'fields':{
-            'target_entity':{
-                'type': 'polymorphicForeignKey',
-                'classes': [
-                    ['product','Un produit'],
-                    ['company','Une marque'],
-                    ['company', 'Une Banque'],
-                    ['company', 'Un magasin'],
-                    ['company', 'Un organisme'],
-                    ['association','Une association']
-                ]
-            },
-        }
-    }
-
-class AlternativeConf(CoreFormConf):
-    form_conf = \
-        {
-            'fields': {
-                #'from_behaviour': {
-                #    'type': 'polymorphicForeignKey',
-                #    'classes': [  # todo change the name of this field
-                #        ['habit', 'Une habitude de vie'],
-                #        ['useAKindOfEntity', 'Utiliser...']
-                #    ]
-                #},
-                'to_behaviour': {
-                    'type': 'polymorphicForeignKey',
-                    'classes': [
-                        ['habit', 'Une habitude de vie'],
-                        ['useAKindOfEntity', 'Utiliser...'],
-                        ['behaviour', 'Autre:']
-                    ]
-                },
-                'topics': {
-                    'type': 'manyToMany',
-                    'formName' : 'topic'
-                }
-            }
-        }
-    form = AlternativeForm
-
-class ProductConf(CoreFormConf):
-    form_conf = {}
-    form = ProductForm
-
-class CompanyConf(CoreFormConf):
-    pass
-
-class AssociationConf(CoreFormConf):
-    pass
-
-class BehaviourConf(CoreFormConf):
-    pass
-
-class TopicConf(CoreFormConf):
-    pass
-
-
-
-
-
-
-
-
-###################################################### old model #######################################################
-
-
-
-
-###################################################### old model #######################################################
-
-
-
-
-
-
-def alternative1(request):
-
-    form_conf = \
-        {
-            'fields':{
-                'to_rel' : {
-                    'type': 'polymorphicForeignKey',
-                    'classes': [                                            #changer le nom
-                        ['habit_1','Une habitude de vie'],
-                        ['consumeaproduct_1','Consommer un meilleur produit']
-                    ]
-                },
-                'from_rel' : {
-                    'type': 'foreignKey',
-                    'formName': 'hasImpactOn_1'
-                },
-                'sources' : {
-                    'type': 'manyToMany',
-                    'formName': 'source_1'
-                }
-            }
-        }
-    #modifiableTemplate   = 'core_forms/m/alternative.html'
-    #unmodifiableTemplate = 'core_forms/u/alternative.html'
-
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = AlternativeForm
-
-    #form2 = AlternativeForm()
-    #modelName= 'Alternative'
-    #return render(request, 'core_forms/source.html', locals())
-    return form, form_conf, None
-
-def consumeaproduct1(request):
-
-    form_conf = {
-        'fields':{
-                'product' : {
-                    'type': 'foreignKey',
-                    'formName': 'product_1'
-                }
-            },
-        }
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = ConsumeAProductForm
-    return form, form_conf, None
-
-def hasImpactOn1(request):
-
-    form_conf = {}
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = hasImpactOnForm
-    return form, form_conf, None
-
-def habit1(request):
-
-    form_conf = {
-        'ajax':{
-            'searchOn': ['topic','name']
-        }
-    }
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = HabitForm
-    return form, form_conf, None
-
-def product1(request):
-
-    form_conf = {
-        'ajax':{
-            'searchOn': ['name']
-        }
-    }
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = ProductForm
-    return form, form_conf, None
-
-def source1(request):
-
-    form_conf = {
-        'fields':{
-                'newspaper' : {
-                    'type': 'foreignKey',
-                    'formName': 'newspaper_1'
-                },
-            },
-        'ajax':{
-            'searchOn': ['title','url']
-        }
-    }
-
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = SourceForm
-    return form, form_conf, None
-
-def sourceTest(request): #todo: a retirer
-
-    form_conf = {
-    }
-
-    form_conf = json.dumps(form_conf)
-    form_conf = SafeString(form_conf) # when rendered in the template, the quotes are transformed in '&quot;'. This is not what we want as form_conf will be printed in a JS script, not as a HtmL string
-
-    form = SourceTestForm
-    return form, form_conf, None
-
-
-def newspaper1(request):
-
-    form = NewspaperForm
-    return form, 'null', None
+    # todo:mignifier le html!!! et le js dans le html(partout)
+    return loader.render_to_string(template, vars, request=request), not returnEmptyForm, isEditable, validatedValue #todo: remove 'isEditable' if never used
 
 
 
@@ -484,145 +387,174 @@ def newspaper1(request):
 
 def polymorphicForeignKeyWrapper(request):
 
-    formId = request.POST.get('formId')
-    nbBoxes = request.POST.get('nbBoxes')
-    objectId = request.POST.get('objectId')
-    parentFormId = request.POST.get('parentFormId')
+    formId = get_from_request(request.GET,'formId','str')
+    nbBoxes = get_from_request(request.GET,'nbBoxes','int')
+    objectId = get_from_request(request.GET,'objectId','str')
+    parentFormId = get_from_request(request.GET,'parentFormId','str')
+    fieldOfParentForm = get_from_request(request.GET,'fieldOfParentForm','str')
+    qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
+    callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
-    return HttpResponse(polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,request))
+    return polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,request):
+def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
     boxList = []
-    for i in range(int(nbBoxes)):
+    for i in range(nbBoxes):
         boxList += [{
-            'id':    request.POST.getlist('boxList['+ str(i) +'][id]')[0],
-            'label': request.POST.getlist('boxList['+ str(i) +'][label]')[0]
+            'id':    clean(request.GET.getlist('boxList['+ str(i) +'][id]')[0]),
+            'label': clean(request.GET.getlist('boxList['+ str(i) +'][label]')[0])
         }]
 
     forms = []
     formInfo = []
-    groupId = formId
-    isVisible = 'false'  # JS string
+    #formTreeUpdatedByClient = False
+
+    noObjectFound = True
 
     for b in boxList:
         formName = b['id']
         fid = formId+'_'+formName
-        formInfo += [{'fid':fid,'fname': formName}]
-        formAsHtml, isObjectIdFound = getHtmlForm(request, False, formName, formNames[formName], fid , objectId, False, True, True)
-        forms += [{'html':formAsHtml}]
+        formAsHtml, isObjectIdFound, isEditable, validatedValue = getHtmlForm(
+            request=request,
+            formName=formName,
+            formConf=formNames[formName],
+            formId=fid,
+            parentFormId= parentFormId,
+            fieldOfParentForm=fieldOfParentForm,
+            objectId=objectId,
+            objectIdMayNotExistForThisModel=True,
+            hideIfObjectIdNotFound=True,
+            qunitTesting=qunitTesting,
+            callbackQunitFunction=callbackQunitFunction
+        )
+        forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
+        formInfo += [{'fid': fid, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
         if (objectId is not None) and isObjectIdFound:
             b['checked'] = True
+            noObjectFound = False
 
-    return loader.render_to_string('core_forms/constructform/polymorphicForeignKey.html', locals(), request=request)
+    if (objectId is not None) and noObjectFound:
+        raise Http404('objectId is provided and no object belonging to one of the belonging classes was found') #todo: un peu aggressif. Plutot envoyer un mail de warning
 
+    checkBoxesAreEditable = (objectId is not None) and not noObjectFound
+    inValidationProcess = False
+
+    return constructFormAndRender(request, 'core_forms/constructform/polymorphicForeignKey.html', locals())
 
 def foreignKeyWrapper(request):
 
-    formId = request.POST.get('formId')
-    formName = request.POST.get('formName')
-    objectId = request.POST.get('objectId')
-    parentFormId = request.POST.get('parentFormId')
+    formId = get_from_request(request.GET,'formId','str')
+    formName = get_from_request(request.GET,'formName','str')
+    objectId = get_from_request(request.GET,'objectId','str')
+    parentFormId = get_from_request(request.GET,'parentFormId','str')
+    fieldOfParentForm = get_from_request(request.GET,'fieldOfParentForm','str')
+    qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
+    callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
-    return HttpResponse(foreignKey(formId,objectId,formName,parentFormId,request))
+    return foreignKey(formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-def foreignKey(formId,objectId,formName,parentFormId,request):
+def foreignKey(formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
-    formInfo = [{'fid':formId,'fname': formName}]
-    groupId = formId
-    isVisible = 'true' # JS string
+    #formTreeUpdatedByClient = False
 
-    formAsHtml, isObjectIdFound = getHtmlForm(request, False, formName, formNames[formName], formId , objectId, False, False, False)
+    formAsHtml, _, isEditable, validatedValue = getHtmlForm(
+        request=request,
+        formName=formName,
+        formConf=formNames[formName],
+        formId=formId,
+        parentFormId= parentFormId,
+        fieldOfParentForm=fieldOfParentForm,
+        objectId=objectId,
+        qunitTesting=qunitTesting,
+        callbackQunitFunction=callbackQunitFunction
+    )
+    formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
 
-    return loader.render_to_string('core_forms/constructform/foreignKey.html', locals(), request=request)
+    inValidationProcess = False
+
+    return constructFormAndRender(request, 'core_forms/constructform/foreignKey.html', locals())
 
 def manyToManyWrapper(request):
 
-    formId = request.POST.get('formId')
-    formName = request.POST.get('formName')
-    contentId = request.POST.get('contentId')
-    parentFormId = request.POST.get('parentFormId')
-    initVal = json.loads(request.POST.get('initVal'))
+    formId = get_from_request(request.GET,'formId','str')
+    formName = get_from_request(request.GET,'formName','str')
+    contentId = get_from_request(request.GET,'contentId','str')
+    initVal = get_from_request(request.GET,'initVal','json')
+    parentFormId = get_from_request(request.GET,'parentFormId','str')
+    fieldOfParentForm = get_from_request(request.GET,'fieldOfParentForm','str')
+    qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
+    callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
+    return manyToMany(formId,formName,contentId,parentFormId,initVal,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-    return HttpResponse(manyToMany(formId,formName,contentId,parentFormId,initVal,request))
-
-def manyToMany(formId,formName,contentId,parentFormId,initVal,request):
+def manyToMany(formId,formName,contentId,parentFormId,initialValues,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
     formInfo = []
     forms = []
-    groupId = formId
-    isVisible = 'true'  # JS string
+    #formTreeUpdatedByClient = False
 
-    emptyForm, _ = getHtmlForm(
-        request,
-        False,
-        formName,
-        formNames[formName],
-        formId + '_0',
-        None,
-        False,  # verifier que l'argument "modifiable" doiven etre tjrs a false?
-        False,  # idem
-        False,
+    print("#" * 2000)
+
+    templateForm, _, _, _ = getHtmlForm(
+        request=request,
+        formName=formName,
+        formConf=formNames[formName],
+        formId=formId + '_STRINGTOBEREPLACED',
+        parentFormId=parentFormId,
+        fieldOfParentForm=fieldOfParentForm,
+        qunitTesting=qunitTesting,
+        callbackQunitFunction=callbackQunitFunction
     )
-    if not initVal is None:
-        for i, objectId in enumerate(initVal):
-            fid = formId + '_' + str(i)
-            forms += [getHtmlForm(
-                request,
-                False,
-                formName,
-                formNames[formName],
-                fid,
-                objectId,
-                False,  # verifier que l'argument "modifiable" doiven etre tjrs a false?
-                False,  # idem
-                False,
-            )[0]]
-            formInfo += [{'fid': fid,'fname': formName}]
-    else:
-        forms += [emptyForm]
-        formInfo += [{'fid': formId + '_0' ,'fname': formName}]
 
-    return loader.render_to_string('core_forms/constructform/manyToMany.html', locals(), request=request)
+    if not initialValues is None:
+        print("_" * 2000, initialValues)
+        for i, objectId in enumerate(initialValues):
+            fid = formId + '_' + str(i)
+            formAsHtml, _, isEditable, validatedValue = getHtmlForm(
+                request= request,
+                formName= formName,
+                formConf= formNames[formName],
+                formId= fid,
+                parentFormId= parentFormId,
+                fieldOfParentForm=fieldOfParentForm,
+                objectId= objectId,
+                qunitTesting=qunitTesting,
+                callbackQunitFunction=callbackQunitFunction
+            )
+            forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
+            formInfo += [{'fid': fid,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+    else:
+        fid = formId + '_0'
+        print("|" * 2000, fid)
+        formAsHtml, _, isEditable, validatedValue = getHtmlForm( # todo: isEditable = True toujours non?
+            request=request,
+            formName=formName,
+            formConf=formNames[formName],
+            formId=fid,
+            parentFormId=parentFormId,
+            fieldOfParentForm=fieldOfParentForm,
+            qunitTesting=qunitTesting,
+            callbackQunitFunction=callbackQunitFunction
+        )
+        forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
+        formInfo += [{'fid': fid ,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+
+    inValidationProcess = False
+
+    return constructFormAndRender(request, 'core_forms/constructform/manyToMany.html', locals())
+
+def constructFormAsHtml(request, template, vars):
+    for var in ['formInfo', 'parentFormId', 'fieldOfParentForm', 'inValidationProcess']:
+        vars[var] = json.dumps(vars[var])
+    return loader.render_to_string(template, vars, request= request)
+
+def constructFormAndRender(request, template, vars):
+
+    return HttpResponse(constructFormAsHtml(request, template, vars))
 
 #########################################################################################################
 
 
-
-formNames = {
-    'habit_1':           {'model': 'Habit'          , 'view': 'habit1'              },
-    'consumeaproduct_1': {'model': 'ConsumeAProduct', 'view': 'consumeaproduct1' },
-    'alternative_1':     {'model': 'Alternative',     'view': 'alternative1'},
-    'product_1':         {'model': 'Product',         'view': 'product1'},
-    'source_1':          {'model': 'Source',          'view': 'source1'},
-    'newspaper_1':       {'model': 'Newspaper',       'view': 'newspaper1'},
-    'topic_1':           {'model': 'Topic',           'view': 'topic1'},
-    'ressource_1':       {'model': 'Ressource',       'view': 'ressource1'},
-    'component_1':       {'model': 'Component',       'view': 'component1'},
-    'phenomenon_1':      {'model': 'Phenomenon',      'view': 'phenomenon1'},
-    'policy_1':          {'model': 'Policy',          'view': 'policy1'},
-    'company_1':         {'model': 'Company',         'view': 'company1'},
-    'language_1':        {'model': 'Language',        'view': 'language1'},
-    'author_1':          {'model': 'Author',          'view': 'author1'},
-    'relationType_1':    {'model': 'RelationType',    'view': 'relationType1'},
-    'relation_1':        {'model': 'Relation',        'view': 'relation1'},
-    'bank_1':            {'model': 'Bank',            'view': 'bank1'},
-    'impactCateg_1':     {'model': 'ImpactCateg',     'view': 'impactCateg1'},
-    'hasImpactOn_1':     {'model': 'HasImpactOn',     'view': 'hasImpactOn1'},
-    'mainImpact_1':      {'model': 'MainImpact',      'view': 'mainImpact1'},
-    'alternativeToMainImpact_1':       {'model': 'AlternativeToMainImpact',       'view': 'alternativeToMainImpact1'},
-    'source_test':         {'view': 'sourceTest'},
-    ######################################################### newmodel ###############################################
-    'alternative':              {'class': AlternativeConf},
-    'entityThatHaveProperties': {'class': EntityThatHavePropertiesConf},
-    'habit':                    {'class': HabitConf},
-    'useAKindOfEntity':         {'class': UseAKindOfEntityConf},
-    'product':                  {'class': ProductConf},
-    'company':                  {'class': CompanyConf},
-    'association':              {'class': AssociationConf},
-    'behaviour':                {'class': BehaviourConf},
-    'topic':                    {'class': TopicConf},
-}
 
 

@@ -18,3 +18,4 @@ class Topic(Model):
 
     slug = property(_get_slug, _set_slug)
     # todo: use the decorator @property instead
+

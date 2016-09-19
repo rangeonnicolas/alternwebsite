@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <title></title>
 
-    <script src="{{ STATIC_URL }}core/js/jquery/jquery-1.11.3.min.js" type="text/javascript"></script>
-    <script src="{{ STATIC_URL }}js/form.js" type="text/javascript"></script>
+    <script src="{% static 'core/js/jquery/jquery-1.11.3.min.js' %}" type="text/javascript"></script>
+    <script src="{% static 'js/form.js' %}" type="text/javascript"></script>
     <script type="text/javascript">
         var modelFormUrl = " url 'core_forms.vieel_post_form' '' ";
         var form_conf = {{ form_conf }};

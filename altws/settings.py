@@ -48,6 +48,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.locale.LocaleMiddleware',
 	'django.middleware.common.BrokenLinkEmailsMiddleware'
 )
 
@@ -86,7 +87,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
 		'OPTIONS': {
-				'context_processors': [
+			'context_processors': [
 				"django.contrib.auth.context_processors.auth",
 				"django.template.context_processors.debug",
 				"django.template.context_processors.i18n",
@@ -95,9 +96,9 @@ TEMPLATES = [
 				"django.template.context_processors.tz",
 				"django.contrib.messages.context_processors.messages",
 				"core.context_processors.analytics",],
-		'debug': True
-	},
-	'DIRS': (os.path.join(BASE_DIR, 'templates'),)
+			'debug': True
+		},
+		'DIRS': (os.path.join(BASE_DIR, 'templates'),)
     },
 ]
 

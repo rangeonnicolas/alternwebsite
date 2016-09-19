@@ -12,3 +12,4 @@ from core_model.model.topics import *
 from core_model.model.entities import *
 from core_model.model.languages import *
 from core_model.model.sources import *
+from core_model.model.fakeModels import *

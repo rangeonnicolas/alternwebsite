@@ -1,0 +1,123 @@
+<div model="{{ formName }}" style="{% if doNotDisplay %}display:none{% endif %}"> <!-- todo: renommer 'model' en formName (pour le framework, on élagrit à des forms qui ne ssont pas des modeles)-->
+    {% if isEditable %}
+        <script type="text/javascript">
+            {% autoescape off %}
+            allFormsConf['{{ formId }}'] = {{ conf }};
+            $(document).ready(function() {
+                applyFormConfiguration(
+                    '{{  formId   }}',
+                    '{{ formName }}',
+                    "{% url 'core_forms.views.post_form' '' %}",
+                    "{% url 'core_forms.views.get_form' '' %}",
+                    "{% url 'core_forms.views.process_livesearch_resultdiv' formId %}"
+                    {% if qunitTesting %}
+                    ,{{ callbackQunitFunction }}
+                    {% endif %}
+                );
+            });
+            {% endautoescape %}
+        </script>
+    {% else %}
+        <script type="text/javascript">
+        {% autoescape off %}
+            var data = {
+                'formIdStr':   "{{  formId   }}",
+                'formName':    "{{ formName  }}",
+                'url':         "{% url 'core_forms.views.get_form' '' %}",
+                'objectId':    "{{   objectId   }}",
+                'parentFormId': {{ parentFormId }},
+                'fieldOfParentForm': {{ fieldOfParentForm }},
+                'whereToAdd':  "{{    formId    }}_container"
+            };
+            function modify(e){
+                var params = e.data;
+                getFormWithAjax(
+                    params['formName'],
+                    params['formIdStr'],
+                    params['parentFormId'],
+                    params['fieldOfParentForm'],
+                    params['whereToAdd'],
+                    function(){},
+                    {},
+                    true,
+                    params['url'],
+                    params['objectId'],
+                    false,
+                    false,
+                    true,
+                    replace=true
+                    {% if isRootForm %}
+                    ,isRootForm = true
+                    {% endif %}
+                    )
+            }
+            $(document).ready(function() {
+                $('#{{ formId }}_modify').on('click',data,modify);
+            });
+            {% endautoescape %}
+        </script>
+    {% endif %}
+
+    {% if isEditable %}
+        <div id="{{ formId }}_cancel" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+            Annuler modification
+        </div>
+
+        <form id="{{ formId }}" action="" method="post" class="formBox" style="position:relative">
+            <input type="hidden" name="_page_loaded_at" id="{{ formId }}_page_loaded_at" value="{{pageLoadedAt}}">
+            {% csrf_token %}
+            {% block formContent %}
+            {{ form.as_p }}
+            {% endblock %}
+            <!--<div style="border:1px solid black; display:inline-block">trucmuche</div>-->
+            <!--input type="hidden" id="{{ formId }}_was_originally_empty" value="{{returnEmptyForm}}" {% if not returnEmptyForm %}objectId="{{objectId}}"{% endif %}>
+            -->
+            {% if isRootForm %}
+            <input id="submit" type="submit" value="Submit" />
+            {% endif %}
+        </form>
+
+    {% else %}
+
+        {% comment%}
+                            {% if validatedValue %}
+                            <input type="hidden" value="{{ validatedValue.objectId }}" name="{{ validatedValue.fieldOfParentForm }}"> <!-- ! should neven be enclosed in an other 'form' tag that is not his 'parentForm' -->
+                            {% endif %}
+        {% endcomment %}
+
+        <div id="{{ formId }}_modify" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+            Suggérer une correction sur cet objet
+        </div>
+        <div id="{{ formId }}_modify2" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+            Remplacer ou Supprimer
+        </div>
+
+        <div id="{{ formId }}" class="formBox" style="{% if doNotDisplay %}display:none{% endif %}">
+
+            {% for field in form %}
+                <div class="fieldWrapper">
+                {{ field.label_tag }} {{ field.value }}
+                </div>
+            {% endfor %}
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+
+
+
+{% comment %}
+
+    <link rel="stylesheet" href="{% static 'core_forms/css/fontello.css' %}">
+    <link rel="stylesheet" href="{% static 'core_forms/css/animation.css' %}">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="{% static 'core_forms/css/fontello-ie7.css' %}">
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="{% static 'core_forms/css/style.css' %}">
+
+{% endcomment %}
+

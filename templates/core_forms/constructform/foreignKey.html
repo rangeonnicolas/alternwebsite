@@ -1,9 +1,11 @@
 {% extends 'core_forms/constructform/constructForm.html' %}
 
 {% block content %}
-<div id='{{ formId }}_content' class='nestedBox formBox'>
+<!--<div id='{{ formId }}_content' class='nestedBox formBox'>-->
+    <div id="{{ formId }}_container" class='nestedBox formBox'>
                     {% autoescape off %}
                         {{ formAsHtml }}
                     {% endautoescape %}
-</div>
+        </div>
+<!--</div>-->
 {% endblock %}
