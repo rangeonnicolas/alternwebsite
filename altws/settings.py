@@ -56,6 +56,8 @@ ROOT_URLCONF = 'altws.urls'
 
 WSGI_APPLICATION = 'altws.wsgi.application'
 
+DATABASE_ROUTERS = ['core_model.routers.routers.TestsRouter']
+
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
@@ -119,13 +121,18 @@ if ~( 'USE_DEFAULT_SETTINGS' in locals() or 'USE_DEFAULT_SETTINGS' in globals())
 if USE_DEFAULT_SETTINGS:
 	DATABASES = {
 	    'default': {
-		'ENGINE': 'django.db.backends.postgresql_psycopg2',
-		'NAME': 'django',
-		'USER': 'django',
-		'PASSWORD': 'mypassword2', #todo : hide from the git repo
-		'HOST': 'localhost',
-		'PORT': '',
-	    }
+			'ENGINE': 'django.db.backends.postgresql_psycopg2',
+			'NAME': 'django',
+			'USER': 'django',
+			'PASSWORD': 'mypassword2', #todo : hide from the git repo
+			'HOST': 'localhost',
+			'PORT': '',
+	    },
+		'tests': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': os.path.join(BASE_DIR, 'tests.sqlite3'),
+		}
+
 	}
 
 	# SECURITY WARNING: don't run with debug turned on in production!

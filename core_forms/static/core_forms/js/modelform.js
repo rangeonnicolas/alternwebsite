@@ -1,6 +1,6 @@
     'use strict';
 
-    function applyFormConfiguration(formIdStr, formName, url_post, url_get, url_livesearch, callbackQunitFunction=null) { //todo: donner un nom plus explicite que url
+    function applyFormConfiguration(formId, formName, urlPost, urlGet, urlLivesearch, formTreePtrs, formTree, callbackQunitFunction=null) { //todo: donner un nom plus explicite que url
 
         if(callbackQunitFunction != null){
             if(callbackQunitFunction.name ==''){
@@ -9,76 +9,85 @@
             }
         }
 
-        $('#' + formIdStr).submit(function() { // catch the form's submit event
-            submit(formTree,url_post,callbackQunitFunction);
+        $('#' + formId).submit(function() { // catch the form's submit event
+            submit(formTree,urlPost,callbackQunitFunction);
             return false;
         });
 
-        if (formIdStr in allFormsConf) {
-            var formConf = allFormsConf[formIdStr];
+        if (formId in allFormsConf) {
+            var formConf = allFormsConf[formId];
             if (formConf != null) {
                 if ('fields' in formConf) {
-
                     for (var fieldId in formConf['fields']) {
                         var field = formConf['fields'][fieldId],
-                            fieldToReplace = getFormField(formIdStr, fieldId),
-                            childFormId = formIdStr + '_' + fieldId;
-
+                            fieldToReplace = selectFieldOfForm(formId, fieldId),
+                            childFormId = formId + '_' + fieldId;
                         if (field['type'] == 'polymorphicForeignKey') {
-                            polymorphicForeignKey(fieldToReplace, childFormId, field, url_get, formIdStr, fieldId, callbackQunitFunction);
+                            polymorphicForeignKey(fieldToReplace, childFormId, field, urlGet, formId, fieldId, callbackQunitFunction);
                         } else if (field['type'] == 'foreignKey') {
-                            foreignKey(fieldToReplace, childFormId, field, url_get, formIdStr, fieldId, callbackQunitFunction);
+                            foreignKey(fieldToReplace, childFormId, field, urlGet, formId, fieldId, callbackQunitFunction);
                         } else if (field['type'] == 'manyToMany') {
-                            manyToMany(fieldToReplace, childFormId, field, url_post, formIdStr, fieldId, formTreePtrs, callbackQunitFunction)
+                            manyToMany(fieldToReplace, childFormId, field, urlPost, formId, fieldId, formTreePtrs, formTree, callbackQunitFunction)
                         }
                     }
+                    //todo: warn if the conf file isn't correct (field doesn't exist)
                 }
 
-                if ('ajax' in formConf) {
+                if ('livesearch' in formConf) {
 
-                    pushAjaxFormConf(formIdStr, formName);
+                    updateLivesearchConf(formId, formName, urlLivesearch);
 
                     var fieldGroup = [];
-                    for (var i = 0; i < formConf['ajax']['searchOn'].length; i++) {
-                        fieldGroup.push($('#' + formIdStr + ' #id_' + (formConf['ajax']['searchOn'][i])));
+                    for (var i in formConf['livesearch']['searchOn']) {
+
+                        var fieldName = formConf['livesearch']['searchOn'][i],
+                            query = selectFieldOfForm(formId, fieldName),
+                            field = $(query);
+                        if(field.length == 0){
+                            throw Error('Field ' + fieldName + ' doen\'t exist on form '+ formId);
+                        }
+                        fieldGroup.push(field);
                     }
 
-
-                    for (var i = 0; i < formConf['ajax']['searchOn'].length; i++) {
+                    for (var i in fieldGroup) {
 
                         initFieldsForAjax(
-                            fieldGroup[i], {
-                                'fieldGroup': fieldGroup,
+                            fieldGroup[i],
+                            {
+                                'fieldGroup': fieldGroup, //todo: si jamais ce champ n'est pas necessaire alors on peut merger les 2 boucles for
                                 'latest_value': '',
                                 'value': ''
                             },
-                            $('#' + formIdStr + '_ls_result_div'),
-                            formIdStr,
-                            url_livesearch
+                            $('#' + formId + '_ls_result_div'),
+                            formId,
+                            'lalalala!!!!'
                         );
                     }
 
+
+/*
                     // ajout de la zone d'affichage des resultats de la recherche en dessous du formulaire
                     $.ajax({
-                        type: 'GET', // GET or POST
-                        url: url_liveserach, // the file to call
-                        data: callbackQunitFunction? '&qunitTesting=true&callbackQunitFunction'+callbackQunitFunction.name : '',
+                        type: 'GET',
+                        url: urlLsResultDiv,
+                        data: callbackQunitFunction? '&qunitTesting=true&callbackQunitFunction='+callbackQunitFunction.name : '',
                         success: function(response) {
-                            $('#' + formIdStr).append(response); // update the DIV # todo: security : "C’est une opération triviale avec une biblioth" at https://docs.djangoproject.com/fr/1.9/ref/forms/api/
+                            $('#' + formId).append(response); // update the DIV # todo: security : "C’est une opération triviale avec une biblioth" at https://docs.djangoproject.com/fr/1.9/ref/forms/api/
                         },
                         complete: function(jqXHR, textStatus){
                             if(callbackQunitFunction != null)
-                                callbackQunitFunction(jqXHR.responseText, textStatus, this);
+                                callbackQunitFunction(jqXHR.responseJSON, textStatus, this);
                         }
                     });
+                    */
                 }
             }
         }
     }
 
-    function submit(tree, url_post, callbackQunitFunction= null){
+    function submit(tree, urlPost, callbackQunitFunction= null){
         for(var el in tree){
-            recursiveSubmit(tree[el],url_post,callbackQunitFunction); //todo: formTree has a strange structure at its root... no need to have a list as a root
+            recursiveSubmit(tree[el],urlPost,callbackQunitFunction); //todo: formTree has a strange structure at its root... no need to have a list as a root
         }
     }
 
@@ -89,27 +98,27 @@
         return count;
     }
 
-    function recursiveSubmit(node,url_post, callbackQunitFunction = null){
+    function recursiveSubmit(node,urlPost, callbackQunitFunction = null){
         var stop = false;
         if(countAttributes(node.children) == 0){
-            submitOneForm(node,url_post,callbackQunitFunction);
-            //submitOneForm(node,url_post, undefined, callbackQunitFunction);
+            submitOneForm(node,urlPost,callbackQunitFunction);
+            //submitOneForm(node,urlPost, undefined, callbackQunitFunction);
         }else{
             for(var child in node.children){
                 if(needsToBeSubmited(node.children[child])){
-                    recursiveSubmit(node.children[child],url_post,callbackQunitFunction);
+                    recursiveSubmit(node.children[child],urlPost,callbackQunitFunction);
                     stop = true;
                 }
             }
             // submission of 'node' doesn't come here. it comes in a 'script' tag included in the html code returned by the server (when calling 'updateFormTree' function with parameter 'inValidationProcess' = true)
             if(!stop)
-                //submitOneForm(node,url_post,undefined,callbackQunitFunction);
-                submitOneForm(node,url_post,callbackQunitFunction);
+                //submitOneForm(node,urlPost,undefined,callbackQunitFunction);
+                submitOneForm(node,urlPost,callbackQunitFunction);
             }
 
     }
 
-    function notifyParentForm(parentFormId, url_post, formTreePtrs, callbackQunitFunction=null){
+    function notifyParentForm(parentFormId, urlPost, formTreePtrs, callbackQunitFunction){
         if(parentFormId != null){
             var parent = formTreePtrs[parentFormId],
                 parentIsReadyForSubmission = true,
@@ -127,10 +136,10 @@
                     if(child['validatedValue'] != null)
                         data_from_children += '&' + child['fieldOfParentForm'] + '=' + child['validatedValue'];
                 }*/
-                submitOneForm(parent, url_post, callbackQunitFunction);
+                submitOneForm(parent, urlPost, callbackQunitFunction);console.log('on submit '+parentFormId, callbackQunitFunction)
             }
         }else{
-            //todo: specifier quelquechose
+            //todo: call a function given in parameter
         }
     }
 
@@ -138,7 +147,7 @@
         var dataStr = $('#'+node['form_id']).serialize();
         for(var c in node.children){
                     var child = node.children[c];
-                    if(child['validatedValue'] != null)
+                    if(child['validatedValue'] != null & child['is_visible'])
                         dataStr += '&' + child['fieldOfParentForm'] + '=' + child['validatedValue'];
         }
         return dataStr;
@@ -149,8 +158,8 @@
         return node['is_visible'] & node['submissionStatus'] == "being_edited";
     }
 
-    function submitOneForm(node,url_post, callbackQunitFunction= null){
-    //function submitOneForm(node,url_post,additional_data='', callbackQunitFunction= null){
+    function submitOneForm(node,urlPost, callbackQunitFunction= null){
+    //function submitOneForm(node,urlPost,additional_data='', callbackQunitFunction= null){
         if(needsToBeSubmited(node)){ //todo: redondant
             var dataString = getFormData(node) + '&formId=' + node['form_id'];// todo: supposes that no form contains a field called formId
             //var dataString = $('#'+node['form_id']).serialize() + additional_data + '&formId=' + node['form_id'];
@@ -161,18 +170,20 @@
             }
                     $.ajax({
                         type: 'POST',
-                        url: url_post + node['form_name'],
+                        url: urlPost + node['form_name'],
                         /*data: {
                             'formId': node['form_id'],
                             'csrfmiddlewaretoken': $("#foo>input[name=csrfmiddlewaretoken]").val(),
                             'formData': formDataAsJson($('#'+node['form_id']))
                         },*/
-                        data: dataString + (callbackQunitFunction? '&qunitTesting=true&callbackQunitFunction'+callbackQunitFunction.name : ''),
+                        data: dataString + (callbackQunitFunction? '&qunitTesting=true&callbackQunitFunction='+callbackQunitFunction.name : ''),
                         success: function(response) {
                             if(response.status == "success"){
-                                $('#' + node['form_id'] + '_container').replaceWith(response.html); //todo: optimisation: voir si le code js renvoyé en réponse ne peut pas etre anticipé et donc réduire la réponse
-                                //updateFormTree([{'fid':node['form_id'], 'fname':node['form_name'],'isEditable':false}],node['parentFormId'],node['fieldOfParentForm']);
-                                //notifyParentForm(node);
+                                if(node['parentFormId'] != null)
+                                    $('#' + node['form_id'] + '_container').replaceWith(response.html); //todo: optimisation: voir si le code js renvoyé en réponse ne peut pas etre anticipé et donc réduire la réponse
+                                else
+                                    if(base_url != null) // todo: define base_url!!!!!!!!
+                                        window.location.replace(urlJoin(base_url, formTree[0].form_name) + '?objectId=' + response.inbase_object.toString() ); // todo: doens't work (and also useless) if several formTrees. + please unittest it
                             }else if(response.status == "error"){
                                 var field, errorDiv, errorDivId;
 
@@ -197,7 +208,7 @@
                                     }
                                 }
                             }
-                            //$('#' + formIdStr).append(response); // update the DIV
+                            //$('#' + formId).append(response); // update the DIV
 
                         },
                         error: function(){
@@ -205,7 +216,7 @@
                         },
                         complete: function(jqXHR, textStatus){
                             if(callbackQunitFunction != null)
-                                callbackQunitFunction(jqXHR.responseText, textStatus, this);
+                                callbackQunitFunction(jqXHR.responseJSON, textStatus, this);
                         }
                     });
         }
@@ -250,15 +261,16 @@
     }
     */
 
-    function updateFormTree(formInfo, parentFormId, fieldOfParentForm, inValidationProcess, url_post, formTreePtrs){
+    function updateFormTree(formInfo, parentFormId, fieldOfParentForm, inValidationProcess, urlPost, formTreePtrs, formTree, callbackQunitFunction=null){
                 for(var fi in formInfo)
-                    addOrUpdateFormTreeNode(parentFormId,formInfo[fi].fid,formInfo[fi].fname,fieldOfParentForm,formTreePtrs,formTree,formInfo[fi].isEditable, formInfo[fi].validatedValue);
-                updateVisibilityInfo(formTreePtrs);
+                    addOrUpdateFormTreeNode(parentFormId,formInfo[fi].fid,formInfo[fi].fname,fieldOfParentForm,formTreePtrs,formTree,formInfo[fi].isEditable, formInfo[fi].validatedValue, formInfo[fi].objectBeingModified);
+                //updateVisibilityInfo(formTreePtrs);
+                //console.log("inValidationProcess?",inValidationProcess,formTree,formTreePtrs);
                 if(inValidationProcess)
-                    notifyParentForm(parentFormId, url_post, formTreePtrs);
+                    notifyParentForm(parentFormId, urlPost, formTreePtrs, callbackQunitFunction);
     }
 
-    function addOrUpdateFormTreeNode(parentFormId, formId, formName, fieldOfParentForm, formTreePtrs, formTree, isEditable=true, validatedValue=null) {
+    function addOrUpdateFormTreeNode(parentFormId, formId, formName, fieldOfParentForm, formTreePtrs, formTree, isEditable=true, validatedValue=null, objectBeingModified=null) {
         // todo: a optimiser: en cas d'update, tout le noeud est reforme, alors qu'il ne suffit que d'acutaliser submissionstatus et re reinitialiser children a []
         var ind,ptr,listToCheck,index,
             node = {
@@ -267,8 +279,10 @@
                 form_name: formName,
                 children: {},
                 submissionStatus : isEditable ? "being_edited" : "uneditable_inbase_object",
-                is_visible: false,
+                //is_visible: false,
+                is_visible: $('#'+formId).is(":visible"),
                 validatedValue: validatedValue,
+                objectBeingModified: objectBeingModified
             };
         if(parentFormId==null){ // in case of rootForm
             node['parentFormId'] = null;
@@ -281,7 +295,6 @@
         }
 
         index = indexOfNode(node,listToCheck);
-        console.log(index);
         if(parentFormId==null){
             index = indexOfNode(node,listToCheck);
             if(index == -1)
@@ -321,12 +334,11 @@
                 exists = true;
             }
         return(exists)
-    }*/
+    }
 
     function getFormField(formId, fieldId) {
-        'use strict';
         return $('#' + formId + ' #id_' + fieldId)
-    }
+    }*/
 
     function showFormContent(elem, containerId, fieldOfParentForm, formTreePtrs) { //todo: parametres obsoletes?
         var radioButtonValue = $(elem).val();
@@ -344,9 +356,7 @@
         }
     }
 
-    function polymorphicForeignKey(fieldToReplace, childFormId, fieldConf, url_get, parentFormId, fieldOfParentForm, callbackQunitFunction = null) {
-        'use strict';
-
+    function polymorphicForeignKey(fieldToReplace, childFormId, fieldConf, urlGet, parentFormId, fieldOfParentForm, callbackQunitFunction = null) {
         var boxList = []; var objectId = fieldToReplace.val();
         for (var c in fieldConf['classes']) {
             boxList.push({
@@ -372,9 +382,8 @@
         plop('/coreforms/getformpart/polymorphicForeignKey/', data, success, childFormId, undefined, callbackQunitFunction);
     }
 
-    function foreignKey(fieldToReplace, childFormId, fieldConf, url_get, parentFormId, fieldOfParentForm, callbackQunitFunction= null) {
-        'use strict';
-
+    function foreignKey(fieldToReplace, childFormId, fieldConf, urlGet, parentFormId, fieldOfParentForm, callbackQunitFunction= null) {
+console.log(fieldOfParentForm, fieldToReplace);
         var objectId = fieldToReplace.val();
         //var whereToAddTheForm = childFormId + '_content';
         var data = {
@@ -393,8 +402,7 @@
         plop('/coreforms/getformpart/foreignKey/', data, success, childFormId, undefined, callbackQunitFunction);
     }
 
-    function manyToMany(fieldToReplace, childFormId, fieldConf, url_post, parentFormId, fieldOfParentForm, formTreePtrs, callbackQunitFunction=null) { //todo: params obsoletes?
-        'use strict';
+    function manyToMany(fieldToReplace, childFormId, fieldConf, urlPost, parentFormId, fieldOfParentForm, formTreePtrs, formTree, callbackQunitFunction=null) { //todo: params obsoletes?
 
         var contentId = childFormId + "_pool", //avant content
             initialValuesOfTheManyToManyField = fieldToReplace.val(),
@@ -419,11 +427,12 @@
                     'formName': formName,
                     'formId': childFormId,
                     //'contentId': contentId,
-                    'urlPost': url_post,
+                    'urlPost': urlPost,
                     'parentFormId': parentFormId,
                     'fieldOfParentForm': fieldOfParentForm,
-                    'formTreePtrs': formTreePtrs
-                    //'callbackQunitFunction': callbackQunitFunction,
+                    'formTreePtrs': formTreePtrs,
+                    'formTree': formTree,
+                    'callbackQunitFunction': callbackQunitFunction,
                 },
                 manuallyAddFormToManyToMany); //todo: pas besoin de faire une requete ajax: le formulaire vide a ajouter a deja ete renvoyé et se trouve dans une div cachée dont l'id est formId + '_templateForm'
 
@@ -434,15 +443,16 @@
 
 
     function manuallyAddFormToManyToMany(event) {
-        'use strict';
 
         var evtData = event.data,
             formId = evtData['formId'],
             formName = evtData['formName'],
-            url_post = evtData['urlPost'],
+            urlPost = evtData['urlPost'],
             parentFormId = evtData['parentFormId'],
             fieldOfParentForm = evtData['fieldOfParentForm'],
             formTreePtrs = evtData['formTreePtrs'],
+            formTree = evtData['formTree'],
+            callbackQunitFunction = evtData['callbackQunitFunction'],
             idOfTheFormToAdd,
             templateForm,
             clonedTemplateForm,
@@ -460,7 +470,7 @@
         clonedTemplateForm.show();
 
         formInfo = [{validatedValue: null, isEditable: true, fname: formName, fid: idOfTheFormToAdd}];
-        updateFormTree(formInfo, parentFormId, fieldOfParentForm, false, url_post, formTreePtrs);
+        updateFormTree(formInfo, parentFormId, fieldOfParentForm, false, urlPost, formTreePtrs, formTree, callbackQunitFunction);
 
     }
 
@@ -469,7 +479,7 @@
                 var id = $(elem).attr('id'), newId;
                 if(id){
                             newId = id.replace(before, after)
-                            console.log("L'id est:", id," . Le nouvel id est:" , newId);
+                            //console.log("L'id est:", id," . Le nouvel id est:" , newId);
                             $(elem).attr('id', newId);
                 }
             })
@@ -509,23 +519,23 @@
             success: success,
             complete: function(jqXHR, textStatus){
                 if(callbackQunitFunction != null)
-                    callbackQunitFunction(jqXHR.responseText, textStatus, this);
+                    callbackQunitFunction(jqXHR.responseJSON, textStatus, this);
             }
         });
         //addOrUpdateFormTreeNode(parentFormId, formId, formTreePtrs, formTree);
     }
 
-/*
+
     function getFormWithAjax(
         formName,
         newFormId,
         parentFormId,
         fieldOfParentForm,
         whereToAddTheForm,
-        successHandler,
-        successHandlerParams,
+        //successHandler,
+        //successHandlerParams,
         deleteExistingContent,
-        url_get,
+        urlGet,
         objectId,
         hide,
         objectMayNotExist,
@@ -575,11 +585,11 @@
                 $('#' + newFormId).hide();
                 where.show();
             }
-            successHandler(successHandlerParams);
+            //successHandler(successHandlerParams);
         }
-        plop(url_get + formName, data, success, newFormId, undefined, callbackQunitFunction);
+        plop(urlGet + formName, data, success, newFormId, undefined, callbackQunitFunction);
     }
-*/
+
     //si ouverture: attention aux ids qui pourraient avoir des doublons (ex: un champ appele 'to_rel' avec un champ 'to' incluant un champ 'rel' qui donneraient 'to_rel' tous les 2. Mettre si possible des entiers)
 
 /*
@@ -601,6 +611,96 @@
     }
 */
 
+
+            function modifyInbaseElement(e){
+                var params = e.data;
+                getFormWithAjax(
+                    params['formName'],
+                    params['formId'],
+                    params['parentFormId'],
+                    params['fieldOfParentForm'],
+                    params['whereToAdd'],
+                    //function(){},
+                    //{},
+                    true,
+                    params['url'],
+                    params['objectId'],
+                    false,
+                    false,
+                    true,
+                    true,
+                    params['isRootForm'],
+                    params['callbackQunitFunction']
+                )
+            }
+
+            function cancelInbaseElementModification(e){ //todo: not optimised (sends a server query whose answer can be predicted)
+                var params = e.data;
+                getFormWithAjax(
+                    params['formName'],
+                    params['formId'],
+                    params['parentFormId'],
+                    params['fieldOfParentForm'],
+                    params['whereToAdd'],
+                    //function(){},
+                    //{},
+                    true,
+                    params['url'],
+                    params['objectId'],
+                    false,
+                    false,
+                    false,
+                    true,
+                    params['isRootForm'],
+                    params['callbackQunitFunction']
+                )
+            }
+/*
+            function deleteAForm(e){
+                var params = e.data,
+                    formTree = params['formTree'],
+                    formTreePtrs = params['formTreePtrs'],
+                    formId = params['formId'],
+
+                    parentFormNode = formTreePtrs[formTreePtrs[formId].parentFormId]
+                ;
+                console.log(parentFormNode);
+
+                delete formTreePtrs[formId];
+                delete parentFormNode.children[formId];
+                //getFormField(formId, fieldId);
+
+                console.log('youhou!!!');
+                //getFormField(formId, fieldId)
+            }*/
+
+
+// from http://stackoverflow.com/questions/2676178/joining-relative-urls
+function urlJoin(url, concat) {
+  var url1 = url.split('/');
+  var url2 = concat.split('/');
+  var url3 = [ ];
+  for (var i = 0, l = url1.length; i < l; i ++) {
+    if (url1[i] == '..') {
+      url3.pop();
+    } else if (url1[i] == '.') {
+      continue;
+    } else {
+      url3.push(url1[i]);
+    }
+  }
+  for (var i = 0, l = url2.length; i < l; i ++) {
+    if (url2[i] == '..') {
+      url3.pop();
+    } else if (url2[i] == '.') {
+      continue;
+    } else {
+      url3.push(url2[i]);
+    }
+  }
+  return url3.join('/');
+}
+
     function getCookie(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
@@ -617,6 +717,8 @@
         return cookieValue;
     }
     var csrftoken = getCookie('csrftoken');
+
+    //todo: verifier que les formTree sont tjrs en parametre
 
 
 

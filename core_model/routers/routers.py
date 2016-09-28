@@ -18,7 +18,7 @@ class TestsRouter(object):
         """
         Redirects all models starting with 'Test...' to the test db.
         """
-        return self.common_test(model._meta.app_label, model._meta.model_name)
+        return self.common_test(model._meta.app_label,model._meta.model_name)
 
     def allow_relation(self, obj1,obj2, ** hints):
         """

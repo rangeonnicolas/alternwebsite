@@ -11,6 +11,7 @@ class AlternativeForm(forms.ModelForm):
         model = TestAlternative
         exclude = []
 
+
 class HabitForm(forms.ModelForm):
     class Meta:
         model = TestHabit

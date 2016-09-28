@@ -15,6 +15,7 @@ from django.template.loader import get_template, TemplateDoesNotExist
 from django.conf import settings
 from django.template import loader
 from core_model.model import *
+import core_model.model as mdls
 import django
 
 #def formJs(request):
@@ -49,6 +50,8 @@ from core_forms.nestedForms import *
 def get_from_request(query, field, type_of_field, defaultValue = None):
     if type_of_field == 'isoDate':
         cleaned = clean(query.get(field), isoDate= True)
+    elif type_of_field == 'json':
+        cleaned = clean(query.get(field), isJson= True)
     else:
         cleaned = clean(query.get(field))
 
@@ -57,12 +60,13 @@ def get_from_request(query, field, type_of_field, defaultValue = None):
 
     if type_of_field == 'int':
         cleaned = int(cleaned)
-    if type_of_field == "json":
-        return json.loads(cleaned)
-    else:
-        return cleaned
+    #if type_of_field == "json":
+    #    return json.loads(cleaned)
+    #else:
 
+    return cleaned
 
+#todo: this HAS to be tested (also with object="false",isJson=True)
 def clean(object, isJson=False, jsonIsStillAString= True, isoDate=False):
     if isoDate:
         REGEXP = '[^\d\w-.:]'
@@ -73,13 +77,14 @@ def clean(object, isJson=False, jsonIsStillAString= True, isoDate=False):
         if object == '':
             return None
         return re.sub(REGEXP,'',object)
+    if type(object) == bool:
+        return object
     elif object is None:
         return None
     elif isJson:
         if type(object) == str:
             try:
                 js = json.loads(object)
-                return clean(js, isJson=True, jsonIsStillAString=False)
                 return clean(js, isJson=True, jsonIsStillAString=False)
             except:
                 raise Exception("json seems to be corrupted")
@@ -94,7 +99,12 @@ def clean(object, isJson=False, jsonIsStillAString= True, isoDate=False):
         elif type(object) == int or type(object) == float:
             return object
 
-
+def whichDatabase(request_dict):
+    inTest = get_from_request(request_dict,'qunitTesting','json',False)
+    if inTest:
+        return 'tests'
+    else:
+        return 'default'
 
 def process_livesearch(request, formName):
 
@@ -126,9 +136,8 @@ def process_livesearch(request, formName):
     })
 
 
-def process_livesearch_resultdiv(request, id):
-
-    return render(request, 'core_forms/livesearch/resultDiv.html', locals())
+#def process_livesearch_resultdiv(request, formId):
+#    return render(request, 'core_forms/livesearch/resultDiv.html', locals())
 
 def verifyBotSearched(time):
     """returns the number of seconds between the loading of the page and the
@@ -171,6 +180,8 @@ def get_some_fields(request_dict, formName, isRootForm= False, formId= None):
 
 def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCall= False):
 
+    database = whichDatabase(request.GET)
+
     if request.method == 'GET':
 
         isOk, formId, formConf, parentFormId, fieldOfParentForm, isRootForm, qunitTesting, callbackQunitFunction, error = get_some_fields(request.GET,formName,isRootForm,formId)
@@ -181,11 +192,12 @@ def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCa
         editableIfObjectExists = get_from_request(request.GET,'modifiable','json', False)
         objectIdMayNotExistForThisModel = get_from_request(request.GET,'objectMayNotExist','json',False)
 
-        if objectId:
+        if objectId is not None:
             objectId = int(objectId)
 
-        formAsHtml, _ , isEditable, validatedValue = getHtmlForm(
+        formAsHtml, _ , isEditable, validatedValue, objectBeingModified = getHtmlForm(
             request= request,
+            database=database,
             formName= formName,
             formConf= formConf,
             formId= formId,
@@ -199,7 +211,7 @@ def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCa
             callbackQunitFunction=callbackQunitFunction
         )
 
-        formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+        formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
 
         #formTreeUpdatedByClient = False
         inValidationProcess= False
@@ -211,6 +223,8 @@ def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCa
 
 
 def post_form(request, formName):
+
+    database = whichDatabase(request.POST)
 
     if request.method == 'POST':
         # OK erreurs possibles : erreur classique de champ (detectee par django)
@@ -229,12 +243,23 @@ def post_form(request, formName):
 
         form = ModelForm(request.POST) #todo: secu: si plus de fields que prévu? + prendre chaque field et les passer dans clean!!
 
-        if form.is_valid():  # Nous vérifions que les données envoyées sont valides
-            #todo: gerer le isRootForm
-            createdObject = form.save()
+        #errors = form.errors
+        #for field in errors:
+        #    print('field: ' + field + " " + str(errors[field].__dict__['data'][0].__dict__))
 
-            createdObjectAsHtml, _, _, validatedValue = getHtmlForm(
+        if form.is_valid():  # Nous vérifions que les données envoyées sont valides
+
+            #todo: gerer le isRootForm
+
+            createdObject = form.save()
+            #createdObject = form.save(commit=False)
+            #createdObject.save(using=database)
+            #if database != 'default':                   #todo: this is strange. But is_valid() method (6lines before) checkes the foreign keys in the 'default' database. So we have to replicate every object into 'default' so that is_valid() doesn't fail
+            #    createdObject.save(using='default')
+
+            createdObjectAsHtml, _, _, validatedValue, objectBeingModified = getHtmlForm(
                 request= request,
+                database= database,
                 formName= formName,
                 formConf= formConf,
                 formId= formId,
@@ -251,11 +276,13 @@ def post_form(request, formName):
                 'formId': formId,
                 'formAsHtml': createdObjectAsHtml,
                 'firstRootFormCall': False,
-                'formInfo': [{'fid': formId, 'fname': formName, 'isEditable': False, 'validatedValue': validatedValue}],
+                'formInfo': [{'fid': formId, 'fname': formName, 'isEditable': False, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}],
                 'parentFormId': parentFormId,
                 'fieldOfParentForm': fieldOfParentForm,
                 #'formTreeUpdatedByClient': True,
                 'inValidationProcess': True,
+                'qunitTesting': qunitTesting,
+                'callbackQunitFunction': callbackQunitFunction,
                 #'validatedValue': {'objectId': createdObject.id,'fieldOfParentForm': fieldOfParentForm}
             }
 
@@ -277,9 +304,9 @@ def getInfoFromFormConf(formConf):
     conf = formConf['class']().get_conf()
     return conf['form'], conf['conf'], conf['templates']
 
-
 def getHtmlForm(
         request,
+        database,
         formName,
         formConf,
         formId,
@@ -312,12 +339,12 @@ def getHtmlForm(
         modifiableTemplate = templates[0]
         unmodifiableTemplate = templates[1]
 
-
     returnEmptyForm = True
     # try to find the object in database from the object_id (if provided)
-    if objectId:
+    if objectId is not None:
         Model = formConf['class']().get_conf()['form'].Meta.model
         try:
+            #object=Model.objects.using(database).get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
             object=Model.objects.get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
             returnEmptyForm = False
             #objectIdFound = True
@@ -326,7 +353,7 @@ def getHtmlForm(
             if objectIdMayNotExistForThisModel:
                 returnEmptyForm = True
             else:
-                raise Exception('Object identifier provided in the "objectId" parameter doesn\'t match any object of type '+formConf['model']+' in the database')
+                raise Exception('Object identifier ('+str(objectId)+') provided as the "objectId" parameter doesn\'t match any object of type '+str(Model)+' in the database '+ database)
 
     # if object_id is not provided OR if the object_id was not found
     if returnEmptyForm:
@@ -357,8 +384,17 @@ def getHtmlForm(
 
     if not isEditable and fieldOfParentForm is not None:
         validatedValue = objectId
+
+        #if qunitTesting:        # todo: horrible! remove!
+        #    validatedValue = 65 # todo: horrible! remove!
+
     else:
         validatedValue = None
+
+    if isEditable and objectId is not None and not objectIdMayNotExistForThisModel:
+        objectBeingModified = objectId
+    else:
+        objectBeingModified = None
 
     vars = {
         'isRootForm': isRootForm,
@@ -373,11 +409,12 @@ def getHtmlForm(
         'objectId': objectId,
         'parentFormId': json.dumps(parentFormId),
         'fieldOfParentForm': json.dumps(fieldOfParentForm),
+        'objectBeingModified': objectBeingModified,
         'qunitTesting': qunitTesting,
         'callbackQunitFunction': callbackQunitFunction,
     }
     # todo:mignifier le html!!! et le js dans le html(partout)
-    return loader.render_to_string(template, vars, request=request), not returnEmptyForm, isEditable, validatedValue #todo: remove 'isEditable' if never used
+    return loader.render_to_string(template, vars, request=request), not returnEmptyForm, isEditable, validatedValue, objectBeingModified #todo: remove 'isEditable' if never used
 
 
 
@@ -387,6 +424,8 @@ def getHtmlForm(
 
 def polymorphicForeignKeyWrapper(request):
 
+    database = whichDatabase(request.GET)
+
     formId = get_from_request(request.GET,'formId','str')
     nbBoxes = get_from_request(request.GET,'nbBoxes','int')
     objectId = get_from_request(request.GET,'objectId','str')
@@ -395,9 +434,9 @@ def polymorphicForeignKeyWrapper(request):
     qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
     callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
-    return polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
+    return polymorphicForeignKey(database,formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
+def polymorphicForeignKey(database,formId,nbBoxes,objectId,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
     boxList = []
     for i in range(nbBoxes):
@@ -411,12 +450,18 @@ def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm
     #formTreeUpdatedByClient = False
 
     noObjectFound = True
+    formNameList = []
 
     for b in boxList:
         formName = b['id']
+        if formName in formNameList:
+            if not qunitTesting:    #todo: horrible! delete please!
+                raise Http404('formName "{0}" was asked more than once in parameter boxList'.format(formName)) #todo: raise a BadRequest instead of a 404
+        formNameList += [formName]
         fid = formId+'_'+formName
-        formAsHtml, isObjectIdFound, isEditable, validatedValue = getHtmlForm(
+        formAsHtml, isObjectIdFound, isEditable, validatedValue, objectBeingModified = getHtmlForm(
             request=request,
+            database=database,
             formName=formName,
             formConf=formNames[formName],
             formId=fid,
@@ -429,7 +474,7 @@ def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm
             callbackQunitFunction=callbackQunitFunction
         )
         forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
-        formInfo += [{'fid': fid, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+        formInfo += [{'fid': fid, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
         if (objectId is not None) and isObjectIdFound:
             b['checked'] = True
             noObjectFound = False
@@ -444,6 +489,8 @@ def polymorphicForeignKey(formId,nbBoxes,objectId,parentFormId,fieldOfParentForm
 
 def foreignKeyWrapper(request):
 
+    database = whichDatabase(request.GET)
+
     formId = get_from_request(request.GET,'formId','str')
     formName = get_from_request(request.GET,'formName','str')
     objectId = get_from_request(request.GET,'objectId','str')
@@ -452,14 +499,15 @@ def foreignKeyWrapper(request):
     qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
     callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
-    return foreignKey(formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
+    return foreignKey(database,formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-def foreignKey(formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
+def foreignKey(database,formId,objectId,formName,parentFormId,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
     #formTreeUpdatedByClient = False
 
-    formAsHtml, _, isEditable, validatedValue = getHtmlForm(
+    formAsHtml, _, isEditable, validatedValue, objectBeingModified = getHtmlForm(
         request=request,
+        database=database,
         formName=formName,
         formConf=formNames[formName],
         formId=formId,
@@ -469,13 +517,15 @@ def foreignKey(formId,objectId,formName,parentFormId,fieldOfParentForm,request,q
         qunitTesting=qunitTesting,
         callbackQunitFunction=callbackQunitFunction
     )
-    formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+    formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
 
     inValidationProcess = False
 
     return constructFormAndRender(request, 'core_forms/constructform/foreignKey.html', locals())
 
 def manyToManyWrapper(request):
+
+    database = whichDatabase(request.GET)
 
     formId = get_from_request(request.GET,'formId','str')
     formName = get_from_request(request.GET,'formName','str')
@@ -486,18 +536,17 @@ def manyToManyWrapper(request):
     qunitTesting = get_from_request(request.GET,'qunitTesting','json',False)
     callbackQunitFunction = get_from_request(request.GET,'callbackQunitFunction','str')
 
-    return manyToMany(formId,formName,contentId,parentFormId,initVal,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
+    return manyToMany(database,formId,formName,contentId,parentFormId,initVal,fieldOfParentForm,request,qunitTesting,callbackQunitFunction)
 
-def manyToMany(formId,formName,contentId,parentFormId,initialValues,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
+def manyToMany(database,formId,formName,contentId,parentFormId,initialValues,fieldOfParentForm,request,qunitTesting,callbackQunitFunction):
 
     formInfo = []
     forms = []
     #formTreeUpdatedByClient = False
 
-    print("#" * 2000)
-
-    templateForm, _, _, _ = getHtmlForm(
+    templateForm, _, _, _, _ = getHtmlForm(
         request=request,
+        database=database,
         formName=formName,
         formConf=formNames[formName],
         formId=formId + '_STRINGTOBEREPLACED',
@@ -507,12 +556,12 @@ def manyToMany(formId,formName,contentId,parentFormId,initialValues,fieldOfParen
         callbackQunitFunction=callbackQunitFunction
     )
 
-    if not initialValues is None:
-        print("_" * 2000, initialValues)
+    if initialValues is not None:
         for i, objectId in enumerate(initialValues):
             fid = formId + '_' + str(i)
-            formAsHtml, _, isEditable, validatedValue = getHtmlForm(
+            formAsHtml, _, isEditable, validatedValue, objectBeingModified = getHtmlForm(
                 request= request,
+                database= database,
                 formName= formName,
                 formConf= formNames[formName],
                 formId= fid,
@@ -523,12 +572,12 @@ def manyToMany(formId,formName,contentId,parentFormId,initialValues,fieldOfParen
                 callbackQunitFunction=callbackQunitFunction
             )
             forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
-            formInfo += [{'fid': fid,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+            formInfo += [{'fid': fid,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
     else:
         fid = formId + '_0'
-        print("|" * 2000, fid)
-        formAsHtml, _, isEditable, validatedValue = getHtmlForm( # todo: isEditable = True toujours non?
+        formAsHtml, _, isEditable, validatedValue, objectBeingModified = getHtmlForm( # todo: isEditable = True toujours non?
             request=request,
+            database=database,
             formName=formName,
             formConf=formNames[formName],
             formId=fid,
@@ -538,7 +587,7 @@ def manyToMany(formId,formName,contentId,parentFormId,initialValues,fieldOfParen
             callbackQunitFunction=callbackQunitFunction
         )
         forms += [{'id': fid,'formAsHtml':formAsHtml,'fname': formName}]
-        formInfo += [{'fid': fid ,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue}]
+        formInfo += [{'fid': fid ,'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
 
     inValidationProcess = False
 
@@ -553,7 +602,37 @@ def constructFormAndRender(request, template, vars):
 
     return HttpResponse(constructFormAsHtml(request, template, vars))
 
+#################################################################################################################
+from django.core.management import call_command
+FIXTURE_OUTPUT = 'coreformsFixture_' #todo: change the directory where it is saved
+
+def save_fixture(request):
+    fileFixture = FIXTURE_OUTPUT + dt.datetime.now().isoformat()[:19] + '.json'
+    testModels = []
+    for possibleModel in mdls.fakeModels.__dict__:
+        if possibleModel.startswith('Test'):
+            testModels += ['core_model.' + possibleModel]
+
+    call_command('dumpdata','-o',fileFixture,*testModels,database='default')
+
+    return JsonResponse({'status':'ok','file': fileFixture})
+
+def load_fixture(request):
+
+    fileName = request.GET.get('file')
+
+    if fileName is None:
+        return JsonResponse({'status':'error','message':'Please provide GET parameter "file"'})
+
+    call_command('migrate', database='tests')  # todo: how to catch error?
+
+    call_command('loaddata', fileName, database='tests') # todo: how to catch error?
+
+    return JsonResponse({'status':'ok? (not sure)','file': fileName})
+
 #########################################################################################################
+
+# todo: renvoyer les requetes http si elles ont echouées la premiere fois
 
 
 

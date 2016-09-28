@@ -1,4 +1,8 @@
-"""This file contains models dedicated only to unit tests"""
+"""
+This file contains models dedicated only to unit tests
+All the models taht begin with Test are saved in a distinct
+database (see DATABASE_ROUTERS in the setting.py file)
+"""
 
 from django.db import models
 from core_model.models import Model
@@ -26,7 +30,7 @@ class TestHabit(TestBehaviour):
     label_en = models.CharField(max_length=255)
 
 class TestEntity(Model):
-    parents = models.ManyToManyField('TestEntity', related_name="children")
+    parents = models.ManyToManyField('TestEntity', blank=True, related_name="children")
     is_leaf = models.BooleanField()
     name = models.CharField(max_length= 500)
 
@@ -36,7 +40,7 @@ class TestRelation(Model):
 
 class TestEntityThatHaveProperties(Model):
     target_entity = models.ForeignKey(TestEntity, related_name='ethp')
-    properties = models.ManyToManyField(TestRelation)
+    properties = models.ManyToManyField(TestRelation, blank=True)
     first_level = models.BooleanField(default= False)
 
 class TestUseAKindOfEntity(TestBehaviour):
@@ -60,11 +64,18 @@ class TestTopic(Model):
 
     slug = property(_get_slug, _set_slug)
 
+
+class TestLanguage(Model):
+    label_en = models.CharField(max_length=255)
+    code = models.CharField(max_length=255)
+
+
 class TestAlternative(Model):
     """A Behaviour can be an alternative to an other behaviour"""
-    from_behaviours = models.ManyToManyField(TestBehaviour, related_name="alternatives")
+    from_behaviours = models.ManyToManyField(TestBehaviour, blank=True, related_name="alternatives")
     to_behaviour = models.ForeignKey(TestBehaviour, related_name="is_alternative_to")
     topics = models.ManyToManyField(TestTopic) #todo: maybe it's not the best way to do
+    #language =  models.ForeignKey(TestLanguage)
     foo = models.BooleanField()
 
 
@@ -79,9 +90,7 @@ class TestAssociation(TestEntity): #todo: verify term
     lang = models.ForeignKey('TestLanguage', null=True) #todo: null=True?
     country = models.ManyToManyField('TestCountry')
 
-class TestLanguage(Model):
-    label_en = models.CharField(max_length=255)
-    code = models.CharField(max_length=255)
+
 
 class TestCountry(Model):
     label_en = models.CharField(max_length=255)

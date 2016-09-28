@@ -53,10 +53,10 @@
 {% endif %}
 
 <div id="{{ formId }}_container" name={% autoescape off %}{{ fieldOfParentForm }}{% endautoescape %}> <!-- todo: what happens when parentofrmid is null? :)-->
-    <script type="text/javascript">
+    <script class="update_formtree" type="text/javascript">
         {% autoescape off %}
         $(document).ready(function() {
-            updateFormTree({{ formInfo }},{{ parentFormId }},{{ fieldOfParentForm }},{{ inValidationProcess }},'{% url 'core_forms.views.post_form' '' %}',formTreePtrs);
+            updateFormTree({{ formInfo }},{{ parentFormId }},{{ fieldOfParentForm }},{{ inValidationProcess }},'{% url 'core_forms.views.post_form' '' %}',formTreePtrs, formTree {% if qunitTesting %},{{ callbackQunitFunction }}{% endif %});
         });
         {% endautoescape %}
     </script>

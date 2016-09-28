@@ -1,40 +1,103 @@
-function check_html(elems, original_jquery_string="", each_tag_is_unique=true){
-    "use strict"
-    var elem,tag,str,returned,result,child;
-    for(var e in elems){
+function check_html(elems, original_jquery_string = "", each_tag_is_unique =
+    true) {
+    var elem, tag, str, returned, result, child;
+    for (var e in elems) {
         elem = elems[e];
         str = original_jquery_string + ' ';
-        if('tag' in elem){
+        if ('tag' in elem) {
             str += elem.tag;
         }
-        for(var a in elem.attr){
+        for (var a in elem.attr) {
             str += '[' + a + '="' + elem.attr[a] + '"]'
         }
         result = $(str);
-        if(result.length == 1 | (!each_tag_is_unique & result.length > 1)){
-                returned = check_html(
-                    elem.children,
-                    str,
-                    each_tag_is_unique)
-                if(returned.status == 'error')
-                    return returned;
-        }else
-            if(($(str).length == 0))
-                return({status:'error', message:'No html tag found for the following jquery query:'+str});
-            else
-                return({status:'error', message:'Multiple tags corresponding to the jquery query: '+str+ '.Set parameter each_tag_is_unique=false to allow it.'});
+        if (result.length == 1 | (!each_tag_is_unique & result.length > 1)) {
+            returned = check_html(
+                elem.children,
+                str,
+                each_tag_is_unique)
+            if (returned.status == 'error')
+                return returned;
+        } else
+        if (($(str).length == 0))
+            return ({
+                status: 'error',
+                message: 'No html tag found for the following jquery query:' +
+                    str
+            });
+        else
+            return ({
+                status: 'error',
+                message: 'Multiple tags corresponding to the jquery query: ' +
+                    str +
+                    '.Set parameter each_tag_is_unique=false to allow it.'
+            });
     }
-    return({status:'ok',message:'ok'})
+    return ({
+        status: 'ok',
+        message: 'ok'
+    })
 }
 
+function trimSpaces(s) {
+    s = s.replace(/(^\s*)|(\s*$)/gi, "");
+    s = s.replace(/\s{2,}/gi, " ");
+    //s = s.replace(/\n /,"\n");
+    //s = s.replace(/\n{3,}/,"\n");
+    return s
+}
 
+function getHtmlFixtureFromServer(url, callback=null) {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function(response) {
+            $('#qunit-fixture').html(response);
+            if(callback!=null)
+                callback(response);
+        },
+    })
+}
 
+function get_clone(){
+return function clone(obj) {
+    return $.extend(true, {}, obj)
+}
+}
 
-
+function control_steps(response, status, ajaxObject, current_step, steps,
+    cnt_validated_urls_for_current_step) {
+    if (current_step.val > steps.length)
+        throw Error('We are currently in step ' + current_step.val +
+            ', but this step in not configured in variable "steps"');
+    var urls_of_this_step = steps[current_step.val - 1].urls,
+        control_function = steps[current_step.val - 1].control,
+        after_step_function = steps[current_step.val - 1].whenFinished,
+        url = ajaxObject.url;
+    console.log("step " + current_step.val + ", called: " + url);
+    if (urls_of_this_step.indexOf(url) >= 0) {
+        console.log("this url was expected");
+        cnt_validated_urls_for_current_step.val++;
+        if (control_function)
+            control_function(url, urls_of_this_step, response, status,
+                ajaxObject);
+        if (cnt_validated_urls_for_current_step.val == urls_of_this_step.length) {
+            if (after_step_function)
+                after_step_function(urls_of_this_step);
+            current_step.val++;
+            cnt_validated_urls_for_current_step.val = 0;
+            console.log("All the expected urls are sent, going to step ",current_step.val)
+        }
+    } else {
+        console.log("Becarreful, in step " + current_step.val +
+            ", this url was called without being expected by the test: " +
+            url);
+    }
+};
 // jQuery Deparam - v0.1.0 - 6/14/2011
 // http://benalman.com/
 // Copyright (c) 2011 Ben Alman; Licensed MIT, GPL
-
+function set_deparam(){
 (function($) {
   // Creating an internal undef value is safer than using undefined, in case it
   // was ever overwritten.
@@ -142,3 +205,4 @@ function check_html(elems, original_jquery_string="", each_tag_is_unique=true){
   };
 
 }(jQuery));
+}

@@ -3,7 +3,9 @@ from core_forms.forms import *
 
 class HabitConf(CoreFormConf):
     form_conf = {
-        'fields': {}
+        'livesearch': {
+            'searchOn': ['label_en']
+        }
     }
     #form = HabitForm
 
@@ -26,9 +28,9 @@ class EntityThatHavePropertiesConf(CoreFormConf):
                 'classes': [
                     ['product','Un produit'],
                     ['company','Une marque'],
-                    ['company', 'Une Banque'],
-                    ['company', 'Un magasin'],
-                    ['company', 'Un organisme'],
+                    #['company', 'Une Banque'],
+                    #['company', 'Un magasin'],
+                    #['company', 'Un organisme'],
                     ['association','Une association']
                 ]
             },
@@ -39,13 +41,6 @@ class AlternativeConf(CoreFormConf):
     form_conf = \
         {
             'fields': {
-                #'from_behaviour': {
-                #    'type': 'polymorphicForeignKey',
-                #    'classes': [  # todo change the name of this field
-                #        ['habit', 'Une habitude de vie'],
-                #        ['useAKindOfEntity', 'Utiliser...']
-                #    ]
-                #},
                 'to_behaviour': {
                     'type': 'polymorphicForeignKey',
                     'classes': [
@@ -80,7 +75,11 @@ class OtherBehaviourConf(CoreFormConf):
     pass
 
 class TopicConf(CoreFormConf):
-    pass
+    form_conf = {
+        'livesearch': {
+            'searchOn': ['name','description_en'],
+        }
+    }
 
 
 formNames = {

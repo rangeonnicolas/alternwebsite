@@ -12,14 +12,17 @@ urlpatterns = [
     #url(r'^js/modelforms.js$',formJs),
     #url(r'^js/livesearch.js$',formJs),
 
-    url(r'^livesearch/process/(?P<formName>\w*)$',process_livesearch),
-    url(r'^livesearch/resultdiv/(?P<id>\w*)$',process_livesearch_resultdiv),
+    url(r'^livesearch/(?P<formName>\w*)$',process_livesearch),
+    #url(r'^livesearch/resultdiv/(?P<formId>\w*)$',process_livesearch_resultdiv),
 
     url(r'^getformpart/polymorphicForeignKey/$'                 ,polymorphicForeignKeyWrapper),
     url(r'^getformpart/foreignKey/$'                            ,foreignKeyWrapper),
     url(r'^getformpart/manytomany/$'                            ,manyToManyWrapper),
 
-    url(r'^dev/alternative/?$', get_form, {'formName': 'alternative', 'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
-    url(r'^dev/ethp/?$', get_form, {'formName': 'entityThatHaveProperties', 'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
+    url(r'^dev/alternative/?$', get_form, {'formName': 'alternative',              'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
+    url(r'^dev/ethp/?$',        get_form, {'formName': 'entityThatHaveProperties', 'formId': 'foo', 'isRootForm': True, 'firstRootFormCall': True}),
+
     url(r'^tests/$', TemplateView.as_view(template_name='core_forms/tests/tests.html')),
+    url(r'^tests/savefixture$', save_fixture),
+    url(r'^tests/loadfixture$', load_fixture),
 ]

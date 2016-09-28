@@ -1,69 +1,69 @@
 <div model="{{ formName }}" style="{% if doNotDisplay %}display:none{% endif %}"> <!-- todo: renommer 'model' en formName (pour le framework, on élagrit à des forms qui ne ssont pas des modeles)-->
-    {% if isEditable %}
-        <script type="text/javascript">
-            {% autoescape off %}
-            allFormsConf['{{ formId }}'] = {{ conf }};
-            $(document).ready(function() {
-                applyFormConfiguration(
-                    '{{  formId   }}',
-                    '{{ formName }}',
-                    "{% url 'core_forms.views.post_form' '' %}",
-                    "{% url 'core_forms.views.get_form' '' %}",
-                    "{% url 'core_forms.views.process_livesearch_resultdiv' formId %}"
-                    {% if qunitTesting %}
-                    ,{{ callbackQunitFunction }}
-                    {% endif %}
-                );
-            });
-            {% endautoescape %}
-        </script>
-    {% else %}
-        <script type="text/javascript">
+    <script type="text/javascript">
         {% autoescape off %}
-            var data = {
-                'formIdStr':   "{{  formId   }}",
-                'formName':    "{{ formName  }}",
-                'url':         "{% url 'core_forms.views.get_form' '' %}",
-                'objectId':    "{{   objectId   }}",
-                'parentFormId': {{ parentFormId }},
-                'fieldOfParentForm': {{ fieldOfParentForm }},
-                'whereToAdd':  "{{    formId    }}_container"
-            };
-            function modify(e){
-                var params = e.data;
-                getFormWithAjax(
-                    params['formName'],
-                    params['formIdStr'],
-                    params['parentFormId'],
-                    params['fieldOfParentForm'],
-                    params['whereToAdd'],
-                    function(){},
-                    {},
-                    true,
-                    params['url'],
-                    params['objectId'],
-                    false,
-                    false,
-                    true,
-                    replace=true
-                    {% if isRootForm %}
-                    ,isRootForm = true
-                    {% endif %}
-                    )
-            }
-            $(document).ready(function() {
-                $('#{{ formId }}_modify').on('click',data,modify);
-            });
-            {% endautoescape %}
-        </script>
-    {% endif %}
+
+                    var data = {
+                        formId:   "{{  formId   }}",
+                        formName:    "{{ formName  }}",
+                        url:         "{% url 'core_forms.views.get_form' '' %}",
+                        parentFormId: {{ parentFormId }},
+                        fieldOfParentForm: {{ fieldOfParentForm }},
+                        whereToAdd:  "{{    formId    }}_container"
+                        {% if objectId != None %}
+                        ,objectId:    "{{   objectId   }}"
+                        {% endif %}
+                        {% if isRootForm %}
+                        ,isRootForm:  true
+                        {% endif %}
+                        {% if qunitTesting %}
+                        ,callbackQunitFunction : {{ callbackQunitFunction }}
+                        {% endif %}
+                    };
+                    //$(document).ready(function() {
+                    //    $('#{{ formId }}_delete').on('click',data,deleteAForm);
+                    //});
+
+            {% if isEditable %}
+                    allFormsConf['{{ formId }}'] = {{ conf }};
+
+                    $(document).ready(function() {
+                        applyFormConfiguration(
+                            '{{  formId   }}',
+                            '{{ formName }}',
+                            "{% url 'core_forms.views.post_form' '' %}",
+                            "{% url 'core_forms.views.get_form' '' %}",
+                            "{% url 'core_forms.views.process_livesearch' formName %}",
+                    {#        "{% url 'core_forms.views.process_livesearch_resultdiv' formId %}",  #}
+                            formTreePtrs, formTree
+                            {% if qunitTesting %}
+                            ,{{ callbackQunitFunction }}
+                            {% endif %}
+                        );
+                        $('#{{ formId }}_cancel').on('click',data,cancelInbaseElementModification);
+                    });
+
+
+            {% else %}
+                    $(document).ready(function() {
+                        $('#{{ formId }}_modify').on('click',data,modifyInbaseElement);
+                    });
+            {% endif %}
+        {% endautoescape %}
+    </script>
 
     {% if isEditable %}
-        <div id="{{ formId }}_cancel" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
+        {% if objectBeingModified != None %}
+        <div id="{{ formId }}_cancel" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">{# todo: ask confirmation to the user #}
             Annuler modification
         </div>
+        {% endif %}
 
-        <form id="{{ formId }}" action="" method="post" class="formBox" style="position:relative">
+        <form id="{{ formId }}" action="" method="post" class="formBox" style="position:relative;background-color:{% if objectBeingModified != None %}yellow{% else %}white{% endif %};">
+            {% if not isRootForm %}
+            <!--<div id="{{ formId }}_delete" style="float:right;border:1px solid black;background-color:grey;padding:0 3px;display:inline-block">{# todo: ask confirmation to the user #}
+                X
+            </div>-->
+            {% endif %}
             <input type="hidden" name="_page_loaded_at" id="{{ formId }}_page_loaded_at" value="{{pageLoadedAt}}">
             {% csrf_token %}
             {% block formContent %}
@@ -80,7 +80,7 @@
     {% else %}
 
         {% comment%}
-                            {% if validatedValue %}
+                            {% if validatedValue != None %}
                             <input type="hidden" value="{{ validatedValue.objectId }}" name="{{ validatedValue.fieldOfParentForm }}"> <!-- ! should neven be enclosed in an other 'form' tag that is not his 'parentForm' -->
                             {% endif %}
         {% endcomment %}
@@ -92,8 +92,12 @@
             Remplacer ou Supprimer
         </div>
 
-        <div id="{{ formId }}" class="formBox" style="{% if doNotDisplay %}display:none{% endif %}">
-
+        <div id="{{ formId }}" class="formBox" style="{% if doNotDisplay %}display:none{% endif %};background-color:#EEE">
+            {% if not isRootForm %}
+            <!--<div id="{{ formId }}_delete" style="float:right;border:1px solid black;background-color:grey;padding:0 3px;display:inline-block">{# todo: ask confirmation to the user #}
+                X
+            </div>-->
+            {% endif %}
             {% for field in form %}
                 <div class="fieldWrapper">
                 {{ field.label_tag }} {{ field.value }}

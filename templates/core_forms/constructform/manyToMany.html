@@ -6,17 +6,20 @@
     <div id="{{ formId }}_modify_polymorphic" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">
                 Suggérer une correction sur cet objet (bouton a activer!!!)
     </div>
-    <div id='{{ formId }}_control'>A cette ligne il faut dire que faire quand on clique sur ajouter
-        <a id='{{ formId }}_control_add' class='addElemToManyToMany' alt='Ajouter' href="#" onclick="return false;">Ajouter</a>
-    </div>
     <div id='{{ contentId }}'>
         {% for f in forms %}
             {% autoescape off %}
                 <div id="{{ f.id }}_container">
-                {{ f.formAsHtml }}
+                    <div id="{{ formId }}_delete" style="float:right;border:1px solid black;background-color:grey;padding:0 3px;display:inline-block">{# todo: ask confirmation to the user #}
+                        X
+                    </div>
+                    {{ f.formAsHtml }}
                 </div>
             {% endautoescape %}
         {% endfor %}
+    </div>
+    <div id='{{ formId }}_control'>
+        <a id='{{ formId }}_control_add' class='addElemToManyToMany' alt='Ajouter' href="#" onclick="return false;">Ajouter</a>
     </div>
     <div id='{{ formId }}_templateForm' style="display:none">
         {{ templateForm }}
