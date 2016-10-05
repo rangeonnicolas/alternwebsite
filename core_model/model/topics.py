@@ -16,6 +16,9 @@ class Topic(Model):
     def _set_slug(self, slug):
         pass
 
+    def __str__(self):
+        return self.name
+
     slug = property(_get_slug, _set_slug)
     # todo: use the decorator @property instead
 

@@ -13,11 +13,31 @@ from core_model.models import Model
 #from django.utils.translation import ugettext as _
 
 class TestBehaviour(Model):
-    pass
+
+    def getChild(self):
+        child = None
+        childClass = None
+        for canditateClass in [c.lower() for c in ["TestUseAKindOfEntity", "TestOtherBehaviour", "TestHabit"]]:
+            print(canditateClass)
+            try:
+                child = self.__getattribute__(canditateClass)
+                childClass = canditateClass
+                print('oui!!',canditateClass)
+            except:
+                pass
+
+        return (child, childClass)
+
+    def __str__(self):
+        child, childClass = self.getChild()
+        return str(child)
 
 class TestOtherBehaviour(TestBehaviour):
     title_en = models.CharField(max_length=255)
     description_en = models.TextField()
+
+    def __str__(self):
+        return self.title_en
 
     def clean(self):
         if self.title_en == 'fuck':
@@ -29,22 +49,37 @@ class TestOtherBehaviour(TestBehaviour):
 class TestHabit(TestBehaviour):
     label_en = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.label_en
+
 class TestEntity(Model):
     parents = models.ManyToManyField('TestEntity', blank=True, related_name="children")
     is_leaf = models.BooleanField()
     name = models.CharField(max_length= 500)
 
+    def __str__(self):
+        return self.name
+
 class TestRelation(Model):
     from_entity = models.ManyToManyField(TestEntity, related_name= "to_relations")
     to_entity = models.ManyToManyField(TestEntity, related_name= "from_relations")
+
+    def __str__(self):
+        return str(self.from_entity) + ' -> ' + str(self.to_entity)
 
 class TestEntityThatHaveProperties(Model):
     target_entity = models.ForeignKey(TestEntity, related_name='ethp')
     properties = models.ManyToManyField(TestRelation, blank=True)
     first_level = models.BooleanField(default= False)
 
+    def __str__(self):
+        return str(self.target_entity)
+
 class TestUseAKindOfEntity(TestBehaviour):
     entity_with_properties = models.ForeignKey(TestEntityThatHaveProperties)
+
+    def __str__(self):
+        return str(self.entity_with_properties)
 
 
 
@@ -64,10 +99,16 @@ class TestTopic(Model):
 
     slug = property(_get_slug, _set_slug)
 
+    def __str__(self):
+        return self.name
+
 
 class TestLanguage(Model):
     label_en = models.CharField(max_length=255)
     code = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.label_en
 
 
 class TestAlternative(Model):
@@ -77,6 +118,9 @@ class TestAlternative(Model):
     topics = models.ManyToManyField(TestTopic) #todo: maybe it's not the best way to do
     #language =  models.ForeignKey(TestLanguage)
     foo = models.BooleanField()
+
+    def __str__(self):
+        return ','.join([str(b) for b in self.from_behaviours.all()]) + ' -> ' + str(self.to_behaviour)
 
 
 class TestProduct(TestEntity):
@@ -95,5 +139,8 @@ class TestAssociation(TestEntity): #todo: verify term
 class TestCountry(Model):
     label_en = models.CharField(max_length=255)
     code = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.label_en
 
 

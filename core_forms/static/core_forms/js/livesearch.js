@@ -20,32 +20,41 @@ function updateLivesearchConf(formId, formName, url){  //todo: formId innulitle 
         //next_page_id: "ls_next_page",
         //previous_page_id: "ls_previous_page",
         slide_speed: "fast",
-        //type_delay: 350,
+        type_delay: 350,
         //select_column_index: 0,
         selected_row: undefined,
     };
 }
+
+                function getFieldGroup(formId, fieldName, searchOn){
+                    var fieldGroup = [];
+                    for (var i in searchOn) {
+
+                        var fieldName = searchOn[i],
+                            query = selectFieldOfForm(formId, fieldName),
+                            field = $(query);
+                        if(field.length == 0){
+                            throw Error('Field ' + fieldName + ' doen\'t exist on form '+ formId);
+                        }
+                        fieldGroup.push(field);
+                    }
+
+                    return fieldGroup
+                }
 
 function pressedEnterKey(event){
     var keycode = event.keyCode || event.which;
     return keycode === 13;
 }
 
-function initFieldsForAjax(queryField, fieldGroup, whereToDisplayTheResult, formId, url){
+function initFieldsForAjax(ls,queryCaches,queryField, fieldName, fieldGroup, whereToDisplayTheResult, formId, url){
 
     // Trigger search when typing is started
     $(queryField).on('keyup', function (event) {
 
-        var tmp = getQueryToSendFromFieldGroup(fieldGroup, true, formId),
-            queryToSend = tmp[0],
-            totalLength = tmp[1];
-
-        console.log(queryToSend);
-
         // If enter key is pressed check if the user want to selected hovered row
-        if (!pressedEnterKey(event) && totalLength>0){
-            search_query(fieldGroup, true, true, queryToSend, formId, whereToDisplayTheResult,url);
-            console.log("remoover le bypasscheckvalue... pour reelement faire la verif du last_value!"); //todo
+        if (!pressedEnterKey(event)){
+            search_query(ls,queryCaches,filter_by_lengths,fieldGroup, formId, fieldName, whereToDisplayTheResult,url);
         }else {
             if(totalLength > 0){
                 /*if ((whereToDisplayTheResult.is(":visible") || whereToDisplayTheResult.is(":animated")) && whereToDisplayTheResult.find("tr").length !== 0) {
@@ -76,8 +85,10 @@ function initFieldsForAjax(queryField, fieldGroup, whereToDisplayTheResult, form
     // Move among the rows, by pressing or keep pressing arrow up and down
     $(queryField).on('keydown', function (event) {
 
-        var tmp = getQueryToSendFromFieldGroup(fieldGroup, true, formId);
-        //var queryToSend = tmp[0];
+        var fieldsInfo = extractFieldsInfo(fieldGroup);
+
+        var tmp = getRequestDictFromFieldGroup(fieldsInfo, filterWords);
+        //var requestDict = tmp[0];
         var totalLength = tmp[1];
 
         var keycode = event.keyCode || event.which;
@@ -136,13 +147,9 @@ function initFieldsForAjax(queryField, fieldGroup, whereToDisplayTheResult, form
     // Show result when is focused
     $(queryField).on('focus', function () {
 
-        var tmp = getQueryToSendFromFieldGroup(fieldGroup, true, formId);
-        var queryToSend = tmp[0];
-        var totalLength = tmp[1];
-
         // check if the result is not empty show it
         if (totalLength>0 && (queryField.is(":hidden") || queryField.is(":animated")) && queryField.find("tr").length !== 0) {
-            search_query(fieldGroup, false, true, queryToSend, formId, whereToDisplayTheResult,url);
+            search_query(ls,caches,filter_by_lengths,fieldGroup, formId, fieldName, whereToDisplayTheResult,url);
             show_result(whereToDisplayTheResult);
 
         }
@@ -173,83 +180,222 @@ function initFieldsForAjax(queryField, fieldGroup, whereToDisplayTheResult, form
 
 }
 
+///////////// Code dedicated to accent removing,
+///////////// taken from here : http://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
+var Latinise={};Latinise.latin_map={"Á":"A","Ă":"A","Ắ":"A","Ặ":"A","Ằ":"A","Ẳ":"A","Ẵ":"A","Ǎ":"A","Â":"A","Ấ":"A","Ậ":"A","Ầ":"A","Ẩ":"A","Ẫ":"A","Ä":"A","Ǟ":"A","Ȧ":"A","Ǡ":"A","Ạ":"A","Ȁ":"A","À":"A","Ả":"A","Ȃ":"A","Ā":"A","Ą":"A","Å":"A","Ǻ":"A","Ḁ":"A","Ⱥ":"A","Ã":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ḃ":"B","Ḅ":"B","Ɓ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ć":"C","Č":"C","Ç":"C","Ḉ":"C","Ĉ":"C","Ċ":"C","Ƈ":"C","Ȼ":"C","Ď":"D","Ḑ":"D","Ḓ":"D","Ḋ":"D","Ḍ":"D","Ɗ":"D","Ḏ":"D","ǲ":"D","ǅ":"D","Đ":"D","Ƌ":"D","Ǳ":"DZ","Ǆ":"DZ","É":"E","Ĕ":"E","Ě":"E","Ȩ":"E","Ḝ":"E","Ê":"E","Ế":"E","Ệ":"E","Ề":"E","Ể":"E","Ễ":"E","Ḙ":"E","Ë":"E","Ė":"E","Ẹ":"E","Ȅ":"E","È":"E","Ẻ":"E","Ȇ":"E","Ē":"E","Ḗ":"E","Ḕ":"E","Ę":"E","Ɇ":"E","Ẽ":"E","Ḛ":"E","Ꝫ":"ET","Ḟ":"F","Ƒ":"F","Ǵ":"G","Ğ":"G","Ǧ":"G","Ģ":"G","Ĝ":"G","Ġ":"G","Ɠ":"G","Ḡ":"G","Ǥ":"G","Ḫ":"H","Ȟ":"H","Ḩ":"H","Ĥ":"H","Ⱨ":"H","Ḧ":"H","Ḣ":"H","Ḥ":"H","Ħ":"H","Í":"I","Ĭ":"I","Ǐ":"I","Î":"I","Ï":"I","Ḯ":"I","İ":"I","Ị":"I","Ȉ":"I","Ì":"I","Ỉ":"I","Ȋ":"I","Ī":"I","Į":"I","Ɨ":"I","Ĩ":"I","Ḭ":"I","Ꝺ":"D","Ꝼ":"F","Ᵹ":"G","Ꞃ":"R","Ꞅ":"S","Ꞇ":"T","Ꝭ":"IS","Ĵ":"J","Ɉ":"J","Ḱ":"K","Ǩ":"K","Ķ":"K","Ⱪ":"K","Ꝃ":"K","Ḳ":"K","Ƙ":"K","Ḵ":"K","Ꝁ":"K","Ꝅ":"K","Ĺ":"L","Ƚ":"L","Ľ":"L","Ļ":"L","Ḽ":"L","Ḷ":"L","Ḹ":"L","Ⱡ":"L","Ꝉ":"L","Ḻ":"L","Ŀ":"L","Ɫ":"L","ǈ":"L","Ł":"L","Ǉ":"LJ","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ń":"N","Ň":"N","Ņ":"N","Ṋ":"N","Ṅ":"N","Ṇ":"N","Ǹ":"N","Ɲ":"N","Ṉ":"N","Ƞ":"N","ǋ":"N","Ñ":"N","Ǌ":"NJ","Ó":"O","Ŏ":"O","Ǒ":"O","Ô":"O","Ố":"O","Ộ":"O","Ồ":"O","Ổ":"O","Ỗ":"O","Ö":"O","Ȫ":"O","Ȯ":"O","Ȱ":"O","Ọ":"O","Ő":"O","Ȍ":"O","Ò":"O","Ỏ":"O","Ơ":"O","Ớ":"O","Ợ":"O","Ờ":"O","Ở":"O","Ỡ":"O","Ȏ":"O","Ꝋ":"O","Ꝍ":"O","Ō":"O","Ṓ":"O","Ṑ":"O","Ɵ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Õ":"O","Ṍ":"O","Ṏ":"O","Ȭ":"O","Ƣ":"OI","Ꝏ":"OO","Ɛ":"E","Ɔ":"O","Ȣ":"OU","Ṕ":"P","Ṗ":"P","Ꝓ":"P","Ƥ":"P","Ꝕ":"P","Ᵽ":"P","Ꝑ":"P","Ꝙ":"Q","Ꝗ":"Q","Ŕ":"R","Ř":"R","Ŗ":"R","Ṙ":"R","Ṛ":"R","Ṝ":"R","Ȑ":"R","Ȓ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꜿ":"C","Ǝ":"E","Ś":"S","Ṥ":"S","Š":"S","Ṧ":"S","Ş":"S","Ŝ":"S","Ș":"S","Ṡ":"S","Ṣ":"S","Ṩ":"S","Ť":"T","Ţ":"T","Ṱ":"T","Ț":"T","Ⱦ":"T","Ṫ":"T","Ṭ":"T","Ƭ":"T","Ṯ":"T","Ʈ":"T","Ŧ":"T","Ɐ":"A","Ꞁ":"L","Ɯ":"M","Ʌ":"V","Ꜩ":"TZ","Ú":"U","Ŭ":"U","Ǔ":"U","Û":"U","Ṷ":"U","Ü":"U","Ǘ":"U","Ǚ":"U","Ǜ":"U","Ǖ":"U","Ṳ":"U","Ụ":"U","Ű":"U","Ȕ":"U","Ù":"U","Ủ":"U","Ư":"U","Ứ":"U","Ự":"U","Ừ":"U","Ử":"U","Ữ":"U","Ȗ":"U","Ū":"U","Ṻ":"U","Ų":"U","Ů":"U","Ũ":"U","Ṹ":"U","Ṵ":"U","Ꝟ":"V","Ṿ":"V","Ʋ":"V","Ṽ":"V","Ꝡ":"VY","Ẃ":"W","Ŵ":"W","Ẅ":"W","Ẇ":"W","Ẉ":"W","Ẁ":"W","Ⱳ":"W","Ẍ":"X","Ẋ":"X","Ý":"Y","Ŷ":"Y","Ÿ":"Y","Ẏ":"Y","Ỵ":"Y","Ỳ":"Y","Ƴ":"Y","Ỷ":"Y","Ỿ":"Y","Ȳ":"Y","Ɏ":"Y","Ỹ":"Y","Ź":"Z","Ž":"Z","Ẑ":"Z","Ⱬ":"Z","Ż":"Z","Ẓ":"Z","Ȥ":"Z","Ẕ":"Z","Ƶ":"Z","Ĳ":"IJ","Œ":"OE","ᴀ":"A","ᴁ":"AE","ʙ":"B","ᴃ":"B","ᴄ":"C","ᴅ":"D","ᴇ":"E","ꜰ":"F","ɢ":"G","ʛ":"G","ʜ":"H","ɪ":"I","ʁ":"R","ᴊ":"J","ᴋ":"K","ʟ":"L","ᴌ":"L","ᴍ":"M","ɴ":"N","ᴏ":"O","ɶ":"OE","ᴐ":"O","ᴕ":"OU","ᴘ":"P","ʀ":"R","ᴎ":"N","ᴙ":"R","ꜱ":"S","ᴛ":"T","ⱻ":"E","ᴚ":"R","ᴜ":"U","ᴠ":"V","ᴡ":"W","ʏ":"Y","ᴢ":"Z","á":"a","ă":"a","ắ":"a","ặ":"a","ằ":"a","ẳ":"a","ẵ":"a","ǎ":"a","â":"a","ấ":"a","ậ":"a","ầ":"a","ẩ":"a","ẫ":"a","ä":"a","ǟ":"a","ȧ":"a","ǡ":"a","ạ":"a","ȁ":"a","à":"a","ả":"a","ȃ":"a","ā":"a","ą":"a","ᶏ":"a","ẚ":"a","å":"a","ǻ":"a","ḁ":"a","ⱥ":"a","ã":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ḃ":"b","ḅ":"b","ɓ":"b","ḇ":"b","ᵬ":"b","ᶀ":"b","ƀ":"b","ƃ":"b","ɵ":"o","ć":"c","č":"c","ç":"c","ḉ":"c","ĉ":"c","ɕ":"c","ċ":"c","ƈ":"c","ȼ":"c","ď":"d","ḑ":"d","ḓ":"d","ȡ":"d","ḋ":"d","ḍ":"d","ɗ":"d","ᶑ":"d","ḏ":"d","ᵭ":"d","ᶁ":"d","đ":"d","ɖ":"d","ƌ":"d","ı":"i","ȷ":"j","ɟ":"j","ʄ":"j","ǳ":"dz","ǆ":"dz","é":"e","ĕ":"e","ě":"e","ȩ":"e","ḝ":"e","ê":"e","ế":"e","ệ":"e","ề":"e","ể":"e","ễ":"e","ḙ":"e","ë":"e","ė":"e","ẹ":"e","ȅ":"e","è":"e","ẻ":"e","ȇ":"e","ē":"e","ḗ":"e","ḕ":"e","ⱸ":"e","ę":"e","ᶒ":"e","ɇ":"e","ẽ":"e","ḛ":"e","ꝫ":"et","ḟ":"f","ƒ":"f","ᵮ":"f","ᶂ":"f","ǵ":"g","ğ":"g","ǧ":"g","ģ":"g","ĝ":"g","ġ":"g","ɠ":"g","ḡ":"g","ᶃ":"g","ǥ":"g","ḫ":"h","ȟ":"h","ḩ":"h","ĥ":"h","ⱨ":"h","ḧ":"h","ḣ":"h","ḥ":"h","ɦ":"h","ẖ":"h","ħ":"h","ƕ":"hv","í":"i","ĭ":"i","ǐ":"i","î":"i","ï":"i","ḯ":"i","ị":"i","ȉ":"i","ì":"i","ỉ":"i","ȋ":"i","ī":"i","į":"i","ᶖ":"i","ɨ":"i","ĩ":"i","ḭ":"i","ꝺ":"d","ꝼ":"f","ᵹ":"g","ꞃ":"r","ꞅ":"s","ꞇ":"t","ꝭ":"is","ǰ":"j","ĵ":"j","ʝ":"j","ɉ":"j","ḱ":"k","ǩ":"k","ķ":"k","ⱪ":"k","ꝃ":"k","ḳ":"k","ƙ":"k","ḵ":"k","ᶄ":"k","ꝁ":"k","ꝅ":"k","ĺ":"l","ƚ":"l","ɬ":"l","ľ":"l","ļ":"l","ḽ":"l","ȴ":"l","ḷ":"l","ḹ":"l","ⱡ":"l","ꝉ":"l","ḻ":"l","ŀ":"l","ɫ":"l","ᶅ":"l","ɭ":"l","ł":"l","ǉ":"lj","ſ":"s","ẜ":"s","ẛ":"s","ẝ":"s","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ᵯ":"m","ᶆ":"m","ń":"n","ň":"n","ņ":"n","ṋ":"n","ȵ":"n","ṅ":"n","ṇ":"n","ǹ":"n","ɲ":"n","ṉ":"n","ƞ":"n","ᵰ":"n","ᶇ":"n","ɳ":"n","ñ":"n","ǌ":"nj","ó":"o","ŏ":"o","ǒ":"o","ô":"o","ố":"o","ộ":"o","ồ":"o","ổ":"o","ỗ":"o","ö":"o","ȫ":"o","ȯ":"o","ȱ":"o","ọ":"o","ő":"o","ȍ":"o","ò":"o","ỏ":"o","ơ":"o","ớ":"o","ợ":"o","ờ":"o","ở":"o","ỡ":"o","ȏ":"o","ꝋ":"o","ꝍ":"o","ⱺ":"o","ō":"o","ṓ":"o","ṑ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","õ":"o","ṍ":"o","ṏ":"o","ȭ":"o","ƣ":"oi","ꝏ":"oo","ɛ":"e","ᶓ":"e","ɔ":"o","ᶗ":"o","ȣ":"ou","ṕ":"p","ṗ":"p","ꝓ":"p","ƥ":"p","ᵱ":"p","ᶈ":"p","ꝕ":"p","ᵽ":"p","ꝑ":"p","ꝙ":"q","ʠ":"q","ɋ":"q","ꝗ":"q","ŕ":"r","ř":"r","ŗ":"r","ṙ":"r","ṛ":"r","ṝ":"r","ȑ":"r","ɾ":"r","ᵳ":"r","ȓ":"r","ṟ":"r","ɼ":"r","ᵲ":"r","ᶉ":"r","ɍ":"r","ɽ":"r","ↄ":"c","ꜿ":"c","ɘ":"e","ɿ":"r","ś":"s","ṥ":"s","š":"s","ṧ":"s","ş":"s","ŝ":"s","ș":"s","ṡ":"s","ṣ":"s","ṩ":"s","ʂ":"s","ᵴ":"s","ᶊ":"s","ȿ":"s","ɡ":"g","ᴑ":"o","ᴓ":"o","ᴝ":"u","ť":"t","ţ":"t","ṱ":"t","ț":"t","ȶ":"t","ẗ":"t","ⱦ":"t","ṫ":"t","ṭ":"t","ƭ":"t","ṯ":"t","ᵵ":"t","ƫ":"t","ʈ":"t","ŧ":"t","ᵺ":"th","ɐ":"a","ᴂ":"ae","ǝ":"e","ᵷ":"g","ɥ":"h","ʮ":"h","ʯ":"h","ᴉ":"i","ʞ":"k","ꞁ":"l","ɯ":"m","ɰ":"m","ᴔ":"oe","ɹ":"r","ɻ":"r","ɺ":"r","ⱹ":"r","ʇ":"t","ʌ":"v","ʍ":"w","ʎ":"y","ꜩ":"tz","ú":"u","ŭ":"u","ǔ":"u","û":"u","ṷ":"u","ü":"u","ǘ":"u","ǚ":"u","ǜ":"u","ǖ":"u","ṳ":"u","ụ":"u","ű":"u","ȕ":"u","ù":"u","ủ":"u","ư":"u","ứ":"u","ự":"u","ừ":"u","ử":"u","ữ":"u","ȗ":"u","ū":"u","ṻ":"u","ų":"u","ᶙ":"u","ů":"u","ũ":"u","ṹ":"u","ṵ":"u","ᵫ":"ue","ꝸ":"um","ⱴ":"v","ꝟ":"v","ṿ":"v","ʋ":"v","ᶌ":"v","ⱱ":"v","ṽ":"v","ꝡ":"vy","ẃ":"w","ŵ":"w","ẅ":"w","ẇ":"w","ẉ":"w","ẁ":"w","ⱳ":"w","ẘ":"w","ẍ":"x","ẋ":"x","ᶍ":"x","ý":"y","ŷ":"y","ÿ":"y","ẏ":"y","ỵ":"y","ỳ":"y","ƴ":"y","ỷ":"y","ỿ":"y","ȳ":"y","ẙ":"y","ɏ":"y","ỹ":"y","ź":"z","ž":"z","ẑ":"z","ʑ":"z","ⱬ":"z","ż":"z","ẓ":"z","ȥ":"z","ẕ":"z","ᵶ":"z","ᶎ":"z","ʐ":"z","ƶ":"z","ɀ":"z","ﬀ":"ff","ﬃ":"ffi","ﬄ":"ffl","ﬁ":"fi","ﬂ":"fl","ĳ":"ij","œ":"oe","ﬆ":"st","ₐ":"a","ₑ":"e","ᵢ":"i","ⱼ":"j","ₒ":"o","ᵣ":"r","ᵤ":"u","ᵥ":"v","ₓ":"x"};
+String.prototype.latinise=function(){return this.replace(/[^A-Za-z0-9\[\] ]/g,function(a){return Latinise.latin_map[a]||a})};
+String.prototype.latinize=String.prototype.latinise;
+String.prototype.isLatin=function(){return this==this.latinise()}
+/////////////
+/////////////
 
+function normalizeAndSplit(s){
+    var wordList, finalList=[];
 
-
-function getQueryToSendFromFieldGroup(fieldGroup, include_csrf_and_loaded_at, formId){
-
-    var queryToSend = {},
-        i,
-        totalLength=0,
-        fieldGroup=fieldGroup['fieldGroup']; //todo: changer nom fieldgroup
-
-    for(var i in fieldGroup){
-        var val = $.trim(fieldGroup[i].val());
-        queryToSend[fieldGroup[i][0].name] = val;
-        if(val){
-            totalLength += val.length;
+    s = s.toLowerCase();
+    s = s.latinize();   // removing accents
+    s = s.replace(/[^a-z0-9]/gi,' ');
+    wordList = s.split(' ');
+    for(var w in wordList){
+        if(wordList[w].length > 0){
+            finalList.push(wordList[w])
         }
     }
+    return finalList
+}
 
-    if(include_csrf_and_loaded_at){
-        //queryToSend['csrfmiddlewaretoken'] = $("#" + formId + ">input[name=csrfmiddlewaretoken]").val();
-        queryToSend['csrfmiddlewaretoken'] = selectFieldOfForm(formId,'csrfmiddlewaretoken').val();
-        queryToSend['_page_loaded_at'] = selectFieldOfForm(formId,'_page_loaded_at').val();
+function filterWords(word){
+    if(typeof word != "string")
+        return false
+    if(stringIsAnInteger(word))
+        return true
+    return word.length > 1;
+}
+
+function stringIsAnInteger(s){
+    return parseInt(s).toString() == s;
+}
+
+function getRequestDictFromFieldGroup(fieldsInfo, filterWords){
+
+    var fieldValue, fieldName, wordList,
+        requestDict = {},
+        fieldsToSearchOn = {},
+        fieldLengths = {};
+
+    for(var f in fieldsInfo){
+        fieldName = fieldsInfo[f].name;
+        fieldValue = fieldsInfo[f].val;
+
+        wordList = normalizeAndSplit(fieldValue);
+        wordList = wordList.filter(filterWords);
+
+        fieldsToSearchOn[fieldName] = wordList;
+        fieldLengths[fieldName] = wordList.map(s => s.length);
     }
 
-    return [queryToSend,totalLength];
+    return [fieldsToSearchOn,fieldLengths]
+}
+
+function arraySum(arr){
+    return arr.reduce((a,b)=>a+b,0);
+}
+
+function filterLengths(fieldsToSearchOn,totalLengths){
+    var lengthsList;
+    for (var field in totalLengths){
+        lengthsList = totalLengths[field];
+        if(arraySum(lengthsList) > 2)
+            return true;
+    }
+    return false;
+}
+
+function filterLengths2(wordList,lengthsList){
+    return arraySum(lengthsList) > 2;
 }
 
 
-function show_result(result) {
-    result.slideDown(ls.slide_speed);
+
+//todo: needs to be tested
+function extractFieldsInfo(fieldGroup){
+            var fieldsInfo = [];
+            for(var f in fieldGroup){
+                fieldsInfo.push({
+                    name: fieldGroup[f][0].name,
+                    val: $.trim(fieldGroup[f].val())
+                })
+            }
+            return fieldsInfo;
 }
 
-function hide_result(result) {
-    result.slideUp(ls.slide_speed);
+function findInCache(fieldsToSearchOn, cache){
+    for(var elem in cache)
+        if(deepEquals(cache[elem].query,fieldsToSearchOn))
+            return cache[elem].response;
+    return null;
 }
-
 
 /*
  get the search input object (not just its value)
  */
-function search_query(search_objects, bypass_check_last_value, reset_current_page, queryToSend, formId, whereToDisplayTheResult,url) {
+function search_query(
+    ls,
+    queryCaches,
+    allow_server_request,
+    allow_server_request_singlefield,
+    fieldGroup,
+    formId,
+    fieldName,
+    whereToDisplayTheResult,
+    url,
+    beingTested = false // when running unit tests
+    ){
 
-    console.log("Yop Yop Yop! il est temps de checker search_objects.latest_value!:", search_objects.latest_value,search_objects);
+            var ind, requestDict, totalLengths, foundInCache,fieldsToSearchOn,totalLengths,
+                isPart1Allowed = false,
+                isPart2Allowed = false,
+                singleField = {},
+                responseFromCache = [null,null],
+                fieldsInfo = extractFieldsInfo(fieldGroup);
 
-        // If the previous value is different from the new one perform the search
-        // Otherwise ignore that. This is useful when user change cursor position on the search field
-        if (bypass_check_last_value || search_objects.latest_value !== search_objects.value) {
-            //if (reset_current_page) {
-                // Reset the current page (label and hidden input)
-            //    current_page.val("1");
-            //    current_page_lbl.html("1");
-            //}
-            console.log("verifier le comportement ici");
+            [fieldsToSearchOn,totalLengths] = getRequestDictFromFieldGroup(fieldsInfo, filterWords);
+            singleField[fieldName] = fieldsToSearchOn[fieldName];
 
-            // Reset selected row if there is any
-            //search_object.selected_row = undefined;
+            foundInCache = findInCache(fieldsToSearchOn, queryCaches.byFieldsToSearchOn);
+            if(foundInCache == null)
+                isPart1Allowed = allow_server_request(fieldsToSearchOn,totalLengths);//todo: chelou
+            else
+                responseFromCache[0] = foundInCache;
 
+
+            foundInCache = findInCache(singleField, queryCaches.bySingleField);
+            if(foundInCache == null)
+                isPart2Allowed = allow_server_request_singlefield(fieldsToSearchOn[fieldName],totalLengths[fieldName]);//todo: chelou
+            else
+                responseFromCache[1] = foundInCache;
+
+            construct_and_send_query(
+                ls,isPart1Allowed,isPart2Allowed,responseFromCache,fieldsToSearchOn,singleField,fieldName,formId,
+                whereToDisplayTheResult,url,beingTested);
+
+            // this return is only used for unit tests
+            return [responseFromCache,isPart1Allowed,isPart2Allowed,singleField];
+}
+
+function construct_and_send_query(
+    ls,
+    isPart1Allowed,
+    isPart2Allowed,
+    responseFromCache,
+    fieldsToSearchOn,
+    singleField,
+    fieldName,
+    formId,
+    whereToDisplayTheResult,
+    url,
+    beingTested = false // when running unit tests
+    ){
+
+    var sent_to_server;
+
+    if(isPart1Allowed || isPart2Allowed){
+
+        var query = {
+                'csrfmiddlewaretoken': selectFieldOfForm(formId,'csrfmiddlewaretoken').val(),
+                '_page_loaded_at': selectFieldOfForm(formId,'_page_loaded_at').val() //todo: camelcase ?????
+            };
+
+        if(isPart1Allowed)
+            query['fieldsToSearchOn'] = JSON.stringify(fieldsToSearchOn);
+        else
+            query['fieldsToSearchOn'] = JSON.stringify(singleField);
+
+        if(isPart2Allowed)
+            query['currentField'] = fieldName;
+
+        if(!beingTested)
+            send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisplayTheResult, url);
+        sent_to_server = true;
+
+                //if (reset_current_page) {
+                    // Reset the current page (label and hidden input)
+                //    current_page.val("1");
+                //    current_page_lbl.html("1");
+                //}
+                // Reset selected row if there is any
+                //search_object.selected_row = undefined;
+                console.log("verifier le comportement ici");
+    }else{
+        if(!beingTested)
+            on_search_success(null,responseFromCache,whereToDisplayTheResult, formId, url);
+        sent_to_server = false;
+    }
+
+    if(beingTested)
+        // this return is only used for unit tests
+        return [query,sent_to_server];
+}
+
+function send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisplayTheResult, url){
             /*
              If a search is in the queue to be executed while another one is coming,
              prevent the last one
              */
-            if (search_objects.timeoutId) {
-                clearTimeout(search_objects.timeoutId);
+            if (ls.timeoutId !== false) { // using '!==' in case timeoutId = O
+                clearTimeout(ls.timeoutId);
             }
 
             var send_query_wrapper = function(){
-                send_query_to_server(formId, queryToSend, whereToDisplayTheResult, url);
+                send_query_to_server(formId, query, responseFromCache, whereToDisplayTheResult, url);
+                ls.timeoutId = false;
             }
 
             // Start search after the type delay
-            search_objects.timeoutId = setTimeout(send_query_wrapper, ls.type_delay);
-
-        }
-    //aaasearch_object.latest_value = search_object.value;
+            ls.timeoutId = setTimeout(send_query_wrapper, ls.type_delay);
 }
 
-function send_query_to_server(formId, queryToSend, whereToDisplayTheResult, url) {
+function send_query_to_server(formId, request, responseFromCache, whereToDisplayTheResult, url) {
                 // Sometimes requests with no search value get through, double check the length to avoid it
                 //if ($.trim(query.val()).length) {
                     // Display loading icon
@@ -258,15 +404,18 @@ function send_query_to_server(formId, queryToSend, whereToDisplayTheResult, url)
                     $.ajax({
                         type: "post",
                         url: ls[formId].urlLiveSearch,
-                        data: queryToSend,//$(ls.form_id).serialize(),
+                        data: request,
                         dataType: "json",
-                        success:  function(response){on_search_success(response, whereToDisplayTheResult, formId, url)},
-                        error:    function()        {on_search_error(            whereToDisplayTheResult, formId, url)},
-                        complete: function()        {on_search_complete(         whereToDisplayTheResult)}
+                        success:  function(serverResponse){on_search_success(serverResponse,responseFromCache,whereToDisplayTheResult, formId, url)},
+                        error:    function(){on_search_error(whereToDisplayTheResult, formId, url)},
+                        complete: function(){on_search_complete(whereToDisplayTheResult)}
                     });
 }
 
-function on_search_success(response, whereToDisplayTheResult, formId, url){
+function on_search_success(response, /* "héhé!!! "*/e , whereToDisplayTheResult, formId, url){
+
+                               //AJOUT AU CACHE!!!!
+/*
                             if (response.status === 'success') {
                                 var resultObj = $.parseJSON(response.result);
 
@@ -274,16 +423,16 @@ function on_search_success(response, whereToDisplayTheResult, formId, url){
                                 var tmp = $(whereToDisplayTheResult.find('.whereToAddTheResultContent')).selector; // it looks dirty but I didn't find any other way to do... :(
                                 $(tmp).html(resultObj.html); //todo: security?
 
-                                /*
-                                 If the number of results is zero, hide the footer (pagination)
-                                 also unbind click and select_result handler
-                                 */
+
+                                 //If the number of results is zero, hide the footer (pagination)
+                                 //also unbind click and select_result handler
+
                                 if (resultObj.number_of_results === 0) {
                                     remove_footer(formId,url);
                                 } else {
-                                    /*
-                                     If total number of pages is 1 there is no point to have navigation / paging
-                                     */
+
+                                     //If total number of pages is 1 there is no point to have navigation / paging
+
                                     if (resultObj.total_pages > 1) {
                                         $("#" + formId + '_ajax_navigation').show();
                                         $("#" + formId + "_ls_last_page_lbl").html(resultObj.total_pages);
@@ -293,11 +442,11 @@ function on_search_success(response, whereToDisplayTheResult, formId, url){
                                         $("#" + formId + '_ajax_navigation').hide();
                                     }
 
-                                    /*
-                                     Display select options based on the total number of results
-                                     There is no point to have a option with the value of 10 when there is
-                                     only 5 results
-                                     */
+
+                                     //Display select options based on the total number of results
+                                     //There is no point to have a option with the value of 10 when there is
+                                     //only 5 results
+
                                     //remove_select_options(resultObj.number_of_results);
 
                                     //console.log("où là____")
@@ -315,8 +464,9 @@ function on_search_success(response, whereToDisplayTheResult, formId, url){
 
                                 remove_footer(formId,url);
                             }
-
+*/
 }
+
 
  function on_search_error(whereToDisplayTheResult, formId, url) { // todo: tester!
                             console.log("Bato!");
@@ -359,6 +509,14 @@ var select_result = function (ev) {
         ,false)
 };
 
+function show_result(result) {
+    result.slideDown(ls.slide_speed);
+}
+
+function hide_result(result) {
+    result.slideUp(ls.slide_speed);
+}
+
 function remove_footer(formId,url) {
 
     var footer = $("#" + formId + "_ls_result_footer");
@@ -382,4 +540,27 @@ function show_footer(formId) {
     result.find("table").removeClass("border_radius");
 }
 
-
+//////// from : http://altitudelabs.com/blog/javascript-how-equal-are-2-values/
+function isPrimitive( value ) {
+  return (value === void 0 || value === null || typeof value === "number" || typeof value === "boolean" || typeof value === "string");
+}
+function deepEquals( first, second ) {
+  if ( isPrimitive(first) && isPrimitive(second) )
+    return first === second;
+  else if ( isPrimitive(first) || isPrimitive(second) )
+    return false;
+  else {
+    var firstKeys = Object.keys( first );
+    var secondKeys = Object.keys( second );
+    if ( firstKeys.length !== secondKeys.length )
+      return false;
+    else {
+      for ( var prop in first )
+        if ( second[prop] === undefined )
+          return false;
+        else if (!deepEquals(first[prop], second[prop]))
+          return false;
+      return true;
+    }
+  }
+}

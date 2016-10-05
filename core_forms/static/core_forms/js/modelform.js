@@ -34,36 +34,25 @@
                 }
 
                 if ('livesearch' in formConf) {
-
+/*
                     updateLivesearchConf(formId, formName, urlLivesearch);
 
-                    var fieldGroup = [];
-                    for (var i in formConf['livesearch']['searchOn']) {
-
-                        var fieldName = formConf['livesearch']['searchOn'][i],
-                            query = selectFieldOfForm(formId, fieldName),
-                            field = $(query);
-                        if(field.length == 0){
-                            throw Error('Field ' + fieldName + ' doen\'t exist on form '+ formId);
-                        }
-                        fieldGroup.push(field);
-                    }
+                    var fieldGroup = getFieldGroup(formId, fieldName, formConf['livesearch']['searchOn']);
 
                     for (var i in fieldGroup) {
 
                         initFieldsForAjax(
+                            ls,
+                            ls_caches,
                             fieldGroup[i],
-                            {
-                                'fieldGroup': fieldGroup, //todo: si jamais ce champ n'est pas necessaire alors on peut merger les 2 boucles for
-                                'latest_value': '',
-                                'value': ''
-                            },
+                            fieldName,
+                            fieldGroup, //todo: si jamais ce champ n'est pas necessaire alors on peut merger les 2 boucles for
                             $('#' + formId + '_ls_result_div'),
                             formId,
                             'lalalala!!!!'
                         );
                     }
-
+*/
 
 /*
                     // ajout de la zone d'affichage des resultats de la recherche en dessous du formulaire

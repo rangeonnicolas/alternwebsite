@@ -17,6 +17,8 @@ from django.template import loader
 from core_model.model import *
 import core_model.model as mdls
 import django
+from django.views.decorators.csrf import csrf_protect
+from django.db.models import Q
 
 #def formJs(request):
 #    # todo: mettre ça en fichier statique
@@ -69,7 +71,7 @@ def get_from_request(query, field, type_of_field, defaultValue = None):
 #todo: this HAS to be tested (also with object="false",isJson=True)
 def clean(object, isJson=False, jsonIsStillAString= True, isoDate=False):
     if isoDate:
-        REGEXP = '[^\d\w-.:]'
+        REGEXP = '[^\d\w\-.:]'
     else:
         REGEXP = '[^\d\w_ ]'
 
@@ -106,43 +108,69 @@ def whichDatabase(request_dict):
     else:
         return 'default'
 
+@csrf_protect
 def process_livesearch(request, formName):
+    return JsonResponse({})
+#
+#     # A layer of security against those Bots that submit a form quickly
+#     loadedAt = get_from_request(request.POST,'_page_loaded_at','isoDate')
+#     if loadedAt is None:
+#         return JsonResponse({'status': 'failed', 'message': 'missing "_page_loaded_at" parameter'})
+#     elif verifyBotSearched(loadedAt) < 3:
+#         return JsonResponse({'status': 'failed', 'message':'too fast!'})
+#
+#     # todo: controler les caracteres non accentues
+#
+#     try:
+#         formConf = formNames[formName]
+#     except KeyError:
+#         return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
+#
+#     _,_,_,Model = getInfoFromFormConf(formConf)
+#
+#     fieldsToSearchOn = json.dumps(request.POST.get('fieldsToSearchOn'))
+#     currentField = request.POST.get('currentField')
+#
+#     query = {}
+#     for field in request.POST:
+#         if field not in ['_page_loaded_at','csrfmiddlewaretoken']:
+#             query[field + '__icontains'] = request.POST[field]
+#
+#
+#     theQ = Q()
+#     for q in [Q(name__icontains='clmo'), Q(name__icontains='clo'), Q(name__icontains='clo'), Q(name__icontains='clo')]:
+#         theQ |= q
+#
+#     objects = Model.objects.filter(  theQ  ).values()
+#     #print(objects)
+#
+#     # penser a remover les duplicates
+#
+#     #resultString = "{\"html\":\""
+#     #for o in objects:
+#     #    resultString += "<tr><td>"
+#     #    resultString += str(o)
+#     #    resultString += "</td><td style='display:none'><input type='hidden' name='objectId' value='" + str(o.id) + "'/></td>"
+#     #    resultString += "</td></tr>"
+#     #resultString += "\",\"number_of_results\":10,\"total_pages\":10}"
+#
+#     return JsonResponse({'3':3
+#     #        'status': 'success',
+#     #        'message': '<tr><td class=\'success\'>Successful request</td></tr>',
+#     #        'result': resultString
+#         #'result': "{\"html\":\"<tr><td>23</td><td>0</td></tr><tr><td>3</td><td>30</td></tr>\",\"number_of_results\":30,\"total_pages\":2}"
+#     })
 
-    # A layer of security against those Bots that submit a form quickly
-    if verifyBotSearched(get_from_request(request.POST,'_page_loaded_at','isoDate')) < 3:
-        return JsonResponse({'status':'failed','message':'too fast!'})
-
-    try:
-        formNames[formName]
-    except KeyError:
-        return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
-
-    Model = eval(formNames[formName]['class']) #todo: degueu
-    objects = Model.objects.all()
-
-    resultString = "{\"html\":\""
-    for o in objects:
-        resultString += "<tr><td>"
-        resultString += str(o)
-        resultString += "</td><td style='display:none'><input type='hidden' name='objectId' value='" + str(o.id) + "'/></td>"
-        resultString += "</td></tr>"
-    resultString += "\",\"number_of_results\":10,\"total_pages\":10}"
-
-    return JsonResponse({
-        'status': 'success',
-        'message': '<tr><td class=\'success\'>Successful request</td></tr>',
-        'result': resultString
-        #'result': "{\"html\":\"<tr><td>23</td><td>0</td></tr><tr><td>3</td><td>30</td></tr>\",\"number_of_results\":30,\"total_pages\":2}"
-    })
 
 
-#def process_livesearch_resultdiv(request, formId):
-#    return render(request, 'core_forms/livesearch/resultDiv.html', locals())
 
 def verifyBotSearched(time):
     """returns the number of seconds between the loading of the page and the
     form submit"""
-    return (dt.datetime.now() - p.parse(time)).seconds
+    if time is not None:
+        return (dt.datetime.now() - p.parse(time)).seconds
+    else:
+        return None
 
 def get_some_fields(request_dict, formName, isRootForm= False, formId= None):
 
@@ -239,7 +267,7 @@ def post_form(request, formName):
         if not isOk:
             return error
 
-        ModelForm, _, _ = getInfoFromFormConf(formConf)
+        ModelForm, _, _ , _= getInfoFromFormConf(formConf)
 
         form = ModelForm(request.POST) #todo: secu: si plus de fields que prévu? + prendre chaque field et les passer dans clean!!
 
@@ -302,7 +330,7 @@ def removeEndOfString(string, suffix):
 
 def getInfoFromFormConf(formConf):
     conf = formConf['class']().get_conf()
-    return conf['form'], conf['conf'], conf['templates']
+    return conf['form'], conf['conf'], conf['templates'], conf['form'].Meta.model
 
 def getHtmlForm(
         request,
@@ -329,7 +357,7 @@ def getHtmlForm(
     #    conf = formConf['class']().get_conf()
     #    ModelForm, conf, templates = conf['form'], conf['conf'], conf['templates']
 
-    ModelForm, conf, templates = getInfoFromFormConf(formConf)
+    ModelForm, conf, templates, Model = getInfoFromFormConf(formConf)
 
     if templates is None:
         n = removeEndOfString(formConf['class'].__name__,'Conf')
@@ -342,7 +370,7 @@ def getHtmlForm(
     returnEmptyForm = True
     # try to find the object in database from the object_id (if provided)
     if objectId is not None:
-        Model = formConf['class']().get_conf()['form'].Meta.model
+        #Model = formConf['class']().get_conf()['form'].Meta.model
         try:
             #object=Model.objects.using(database).get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
             object=Model.objects.get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??

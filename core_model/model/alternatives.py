@@ -21,15 +21,29 @@ class OtherBehaviour(Behaviour):
                 code='unauthorised'
             )
 
+    def __str__(self):
+        return self.title_en
+
 class Habit(Behaviour):
     label_en = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.label_en
+
 class UseAKindOfEntity(Behaviour):
     entity_with_properties = models.ForeignKey(EntityThatHaveProperties)
+
+    def __str__(self):
+        return str(self.entity_with_properties)
 
 class Alternative(Model):
     """A Behaviour can be an alternative to an other behaviour"""
     from_behaviours = models.ManyToManyField(Behaviour, related_name="alternatives")
     to_behaviour = models.ForeignKey(Behaviour, related_name="is_alternative_to")
     topics = models.ManyToManyField(Topic) #todo: maybe it's not the best way to do
+
+    def __str__(self):
+        return ','.join([str(b) for b in self.from_behaviours]) + ' -> ' + str(self.to_behaviour)
+
+
 
