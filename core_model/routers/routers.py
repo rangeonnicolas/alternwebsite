@@ -34,7 +34,9 @@ class TestsRouter(object):
         Make sure the auth app only appears in the 'auth_db'
         database.
         """
-        return db == self.common_test(app_label,model_name)
+        if db == self.common_test(app_label,model_name):
+            return True
+        return False
 
 
 class DefaultRouter(object):
