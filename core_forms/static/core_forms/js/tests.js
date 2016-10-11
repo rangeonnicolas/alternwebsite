@@ -64,7 +64,7 @@ var nodes = [{
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
                 })
             },{
-                query: {name:["good","morning"],description_en:["hello","world","and",'others']},
+                query: {name:["good","morning"],description_en:["and","hello","world",'others']},
                 response: JSON.stringify({
                     totalMatch: [{id:39, label:"Ciao tutti!"} , {id:290, label: "-"}],
                     singleMatch: []
@@ -115,7 +115,7 @@ var nodes = [{
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
                 })
             },{
-                query: {a:["lk","ljlk","2"]},
+                query: {a:["2","ljlk","lk"]},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: []
@@ -637,20 +637,20 @@ QUnit.test("Test getRequestDictFromFieldGroup",
                     val: '2'
                 }],
             expectedQuery = {
-                'title': ['les','heros','du','75'],
-                'text_content': ['il','etait','1','fois','3petits','cochons','pieds'],
+                'title': ['75','du','heros','les'],
+                'text_content': ['1','3petits','cochons','etait','fois','il','pieds'],
                 'type': [],
                 'position': ['2']
             },
             expectedLengths = {
-                'title': [3,5,2,2],
-                'text_content': [2,5,1,4,7,7,5],
+                'title': [2,2,5,3],
+                'text_content': [1,7,7,5,4,2,5],
                 'type': [],
                 'position': [1]
             };
 
-        assert.deepEqual(getRequestDictFromFieldGroup(fieldsInfo,filterWords)[0],expectedQuery);
-        assert.deepEqual(getRequestDictFromFieldGroup(fieldsInfo,filterWords)[1],expectedLengths);
+        assert.deepEqual(getRequestDictFromFieldGroup(fieldsInfo,normalizeWordList,filterWords)[0],expectedQuery);
+        assert.deepEqual(getRequestDictFromFieldGroup(fieldsInfo,normalizeWordList,filterWords)[1],expectedLengths);
 
     });
 
@@ -663,6 +663,26 @@ QUnit.test("Test arraySum",
         assert.deepEqual(arraySum([0,0,0,-5]),-5);
         assert.deepEqual(arraySum([0,70,0,-5,0,0]),65);
     });
+
+
+QUnit.test("Test normalizeWordList",
+    function(assert) {
+        var strings = [
+            "Good Bye, Good bYE , hello Hello HéLLo",
+            "All the words of these sentence are not in alphabetical order!"
+        ];
+
+        var expected = [
+            [ "bye", "good", "hello" ],
+            [ "all", "alphabetical", "are", "in", "not", "of", "order", "sentence", "the", "these", "words" ]
+        ]
+
+        for(var i in strings){
+            assert.deepEqual(normalizeWordList(strings[i],filterWords),expected[i])
+        }
+
+    });
+
 
 
 QUnit.test("Test filter_by_length",
@@ -727,13 +747,13 @@ QUnit.test("Test findInCache",
 
         var cache=[
             {
-                query: {a:1},
+                query: {a:[1]},
                 response: JSON.stringify({
                     totalMatch: [{id:34, label:"Bonjour à tous!"} , {id:0, label: "Ciao!"}],
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
                 })
             },{
-                query: {a:"hello",b:"world",c:"!"},
+                query: {a:["hello","world"],b:["worlds"],c:["!","%"]},
                 response: JSON.stringify({
                     totalMatch: [{id:39, label:"Ciao tutti!"} , {id:290, label: "-"}],
                     singleMatch: []
@@ -745,7 +765,7 @@ QUnit.test("Test findInCache",
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
                 })
             },{
-                query: {a:"l"},
+                query: {a:["l",'m']},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: []
@@ -754,14 +774,14 @@ QUnit.test("Test findInCache",
         ];
 
         var toFindInCache = [
-            {a:1},
-            {a:"hello",b:"world",c:"!"},
+            {a:[1]},
+            {a:["hello","world"],b:["worlds"],c:["!","%"]},
             {},
-            {a:"l"},
-            {a:34},
-            {b:"world",c:"!"},
-            {a:"hello",b:"world"},
-            {c:"!",b:"world",a:"hello"},
+            {a:["l",'m']},
+            {a:[34]},
+            {b:["world"],c:["!"]},
+            {a:["hello"],b:["world"]},
+            {c:["!","%"],a:["hello","world"],b:["worlds"]},
             null
         ];
 
@@ -923,7 +943,7 @@ QUnit.test("Test search_query", function(assert) {
         $('#foo_topics_0 #id_description_en').val('Hhhhhhhhhhhhh');
         results.push(search_query_wrapper());
 
-        $('#foo_topics_0 #id_name').val('good Morning!!');
+        $('#foo_topics_0 #id_name').val('Morning good !!');
         $('#foo_topics_0 #id_description_en').val('Hello world (and others)');
         results.push(search_query_wrapper());
 
@@ -931,7 +951,7 @@ QUnit.test("Test search_query", function(assert) {
         $('#foo_topics_0 #id_description_en').val('Hello world (and others)');
         results.push(search_query_wrapper());
 
-        $('#foo_topics_0 #id_name').val('  lk  llml ');
+        $('#foo_topics_0 #id_name').val('llml  lk   ');
         $('#foo_topics_0 #id_description_en').val('pp!');
         results.push(search_query_wrapper());
 

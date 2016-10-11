@@ -14,6 +14,8 @@
             return false;
         });
 
+        console.log("Attention je pense que la conf s'aplique aussi au template caché des forms manytomany ");
+
         if (formId in allFormsConf) {
             var formConf = allFormsConf[formId];
             if (formConf != null) {
@@ -34,25 +36,25 @@
                 }
 
                 if ('livesearch' in formConf) {
-/*
+
                     updateLivesearchConf(formId, formName, urlLivesearch);
 
-                    var fieldGroup = getFieldGroup(formId, fieldName, formConf['livesearch']['searchOn']);
+                    var fieldGroup = getFieldGroup(formId, formConf['livesearch']['searchOn']);
 
                     for (var i in fieldGroup) {
 
                         initFieldsForAjax(
-                            ls,
+                            ls[formId],
                             ls_caches,
                             fieldGroup[i],
-                            fieldName,
+                            //fieldName,
                             fieldGroup, //todo: si jamais ce champ n'est pas necessaire alors on peut merger les 2 boucles for
                             $('#' + formId + '_ls_result_div'),
                             formId,
                             'lalalala!!!!'
                         );
                     }
-*/
+
 
 /*
                     // ajout de la zone d'affichage des resultats de la recherche en dessous du formulaire

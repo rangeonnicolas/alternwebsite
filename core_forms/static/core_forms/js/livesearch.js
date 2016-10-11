@@ -20,13 +20,13 @@ function updateLivesearchConf(formId, formName, url){  //todo: formId innulitle 
         //next_page_id: "ls_next_page",
         //previous_page_id: "ls_previous_page",
         slide_speed: "fast",
-        type_delay: 350,
+        type_delay: 1300,
         //select_column_index: 0,
         selected_row: undefined,
     };
 }
 
-                function getFieldGroup(formId, fieldName, searchOn){
+                function getFieldGroup(formId, searchOn){
                     var fieldGroup = [];
                     for (var i in searchOn) {
 
@@ -47,14 +47,17 @@ function pressedEnterKey(event){
     return keycode === 13;
 }
 
-function initFieldsForAjax(ls,queryCaches,queryField, fieldName, fieldGroup, whereToDisplayTheResult, formId, url){
+function initFieldsForAjax(ls,queryCaches,queryField, /*fieldName,*/ fieldGroup, whereToDisplayTheResult, formId, url){
+
+    var fieldName = queryField.attr('name');
 
     // Trigger search when typing is started
     $(queryField).on('keyup', function (event) {
 
         // If enter key is pressed check if the user want to selected hovered row
         if (!pressedEnterKey(event)){
-            search_query(ls,queryCaches,filter_by_lengths,fieldGroup, formId, fieldName, whereToDisplayTheResult,url);
+            search_query(ls,queryCaches,filterLengths,filterLengths2,fieldGroup, formId, fieldName,
+                whereToDisplayTheResult,url);
         }else {
             if(totalLength > 0){
                 /*if ((whereToDisplayTheResult.is(":visible") || whereToDisplayTheResult.is(":animated")) && whereToDisplayTheResult.find("tr").length !== 0) {
@@ -149,7 +152,7 @@ function initFieldsForAjax(ls,queryCaches,queryField, fieldName, fieldGroup, whe
 
         // check if the result is not empty show it
         if (totalLength>0 && (queryField.is(":hidden") || queryField.is(":animated")) && queryField.find("tr").length !== 0) {
-            search_query(ls,caches,filter_by_lengths,fieldGroup, formId, fieldName, whereToDisplayTheResult,url);
+            search_query();
             show_result(whereToDisplayTheResult);
 
         }
@@ -216,7 +219,21 @@ function stringIsAnInteger(s){
     return parseInt(s).toString() == s;
 }
 
-function getRequestDictFromFieldGroup(fieldsInfo, filterWords){
+
+function normalizeWordList(str,filterWords){
+        // Important note:
+        // It is very important that this function returns
+        // an array without any duplicates, and ordered.
+        // Otherwise, the cache search will fail
+        //alert(str);
+        var wordList = normalizeAndSplit(str);
+        wordList = wordList.filter(filterWords);
+        wordList = uniqueArray(wordList);
+        wordList = wordList.sort();
+        return wordList;
+}
+
+function getRequestDictFromFieldGroup(fieldsInfo, normalizeWordList,filterWords){
 
     var fieldValue, fieldName, wordList,
         requestDict = {},
@@ -227,8 +244,7 @@ function getRequestDictFromFieldGroup(fieldsInfo, filterWords){
         fieldName = fieldsInfo[f].name;
         fieldValue = fieldsInfo[f].val;
 
-        wordList = normalizeAndSplit(fieldValue);
-        wordList = wordList.filter(filterWords);
+        wordList = normalizeWordList(fieldValue, filterWords);
 
         fieldsToSearchOn[fieldName] = wordList;
         fieldLengths[fieldName] = wordList.map(s => s.length);
@@ -299,7 +315,7 @@ function search_query(
                 responseFromCache = [null,null],
                 fieldsInfo = extractFieldsInfo(fieldGroup);
 
-            [fieldsToSearchOn,totalLengths] = getRequestDictFromFieldGroup(fieldsInfo, filterWords);
+            [fieldsToSearchOn,totalLengths] = getRequestDictFromFieldGroup(fieldsInfo, normalizeWordList, filterWords);
             singleField[fieldName] = fieldsToSearchOn[fieldName];
 
             foundInCache = findInCache(fieldsToSearchOn, queryCaches.byFieldsToSearchOn);
@@ -392,6 +408,7 @@ function send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisp
             }
 
             // Start search after the type delay
+            console.log("timeout",ls.type_delay);
             ls.timeoutId = setTimeout(send_query_wrapper, ls.type_delay);
 }
 
@@ -540,6 +557,14 @@ function show_footer(formId) {
     result.find("table").removeClass("border_radius");
 }
 
+/////// from : http://www.shamasis.net/2009/09/fast-algorithm-to-find-unique-items-in-javascript-array/
+function uniqueArray(arr) {
+    var o = {}, i, l = arr.length, r = [];
+    for(i=0; i<l;i+=1) o[arr[i]] = arr[i];
+    for(i in o) r.push(o[i]);
+    return r;
+};
+
 //////// from : http://altitudelabs.com/blog/javascript-how-equal-are-2-values/
 function isPrimitive( value ) {
   return (value === void 0 || value === null || typeof value === "number" || typeof value === "boolean" || typeof value === "string");
@@ -564,3 +589,4 @@ function deepEquals( first, second ) {
     }
   }
 }
+

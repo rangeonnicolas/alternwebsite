@@ -57,7 +57,7 @@ ROOT_URLCONF = 'altws.urls'
 
 WSGI_APPLICATION = 'altws.wsgi.application'
 
-DATABASE_ROUTERS = ['core_model.routers.routers.TestsRouter']
+DATABASE_ROUTERS = ['core_model.routers.routers.TestsRouter','core_model.routers.routers.DefaultRouter']
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
