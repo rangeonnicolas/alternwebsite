@@ -36,7 +36,7 @@ class TestsRouter(object):
         """
         if db == self.common_test(app_label,model_name):
             return True
-        return False
+        return None
 
 
 class DefaultRouter(object):
