@@ -127,7 +127,7 @@ if USE_DEFAULT_SETTINGS:
 			'USER': 'django',
 			'PASSWORD': 'mypassword2', #todo : hide from the git repo
 			'HOST': 'localhost',
-			'PORT': '',
+			'PORT': 5433,
 	    },
 		'tests': {
 			'ENGINE': 'django.db.backends.sqlite3',

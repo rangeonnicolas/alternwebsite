@@ -78,7 +78,8 @@ class TopicConf(CoreFormConf):
     form_conf = {
         'livesearch': {
             'searchOn': ['name','description_en'],
-        }
+        },
+        'primaryKey': ['name','position_in_nav_bar']
     }
 
 

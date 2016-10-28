@@ -35,7 +35,7 @@ class CoreFormConf:
 
         if not hasattr(self,'form'):
             self.form = eval(removeEndOfString(self.__class__.__name__ ,'Conf') + 'Form') #todo: uggly
-        return {'form':self.form, 'conf':form_conf, 'templates':None} #todo: remove the None if never used
+        return {'form':self.form, 'conf_str':form_conf, 'templates':None, 'conf': self.form_conf} #todo: remove the None if never used
 
 
 
@@ -110,59 +110,80 @@ def whichDatabase(request_dict):
 
 @csrf_protect
 def process_livesearch(request, formName):
-    return JsonResponse({})
-#
-#     # A layer of security against those Bots that submit a form quickly
-#     loadedAt = get_from_request(request.POST,'_page_loaded_at','isoDate')
-#     if loadedAt is None:
-#         return JsonResponse({'status': 'failed', 'message': 'missing "_page_loaded_at" parameter'})
-#     elif verifyBotSearched(loadedAt) < 3:
-#         return JsonResponse({'status': 'failed', 'message':'too fast!'})
-#
-#     # todo: controler les caracteres non accentues
-#
-#     try:
-#         formConf = formNames[formName]
-#     except KeyError:
-#         return JsonResponse({'errors': 'config {0} doesn\'t exists'.format(formName)})
-#
-#     _,_,_,Model = getInfoFromFormConf(formConf)
-#
-#     fieldsToSearchOn = json.dumps(request.POST.get('fieldsToSearchOn'))
-#     currentField = request.POST.get('currentField')
-#
-#     query = {}
-#     for field in request.POST:
-#         if field not in ['_page_loaded_at','csrfmiddlewaretoken']:
-#             query[field + '__icontains'] = request.POST[field]
-#
-#
-#     theQ = Q()
-#     for q in [Q(name__icontains='clmo'), Q(name__icontains='clo'), Q(name__icontains='clo'), Q(name__icontains='clo')]:
-#         theQ |= q
-#
-#     objects = Model.objects.filter(  theQ  ).values()
-#     #print(objects)
-#
-#     # penser a remover les duplicates
-#
-#     #resultString = "{\"html\":\""
-#     #for o in objects:
-#     #    resultString += "<tr><td>"
-#     #    resultString += str(o)
-#     #    resultString += "</td><td style='display:none'><input type='hidden' name='objectId' value='" + str(o.id) + "'/></td>"
-#     #    resultString += "</td></tr>"
-#     #resultString += "\",\"number_of_results\":10,\"total_pages\":10}"
-#
-#     return JsonResponse({'3':3
-#     #        'status': 'success',
-#     #        'message': '<tr><td class=\'success\'>Successful request</td></tr>',
-#     #        'result': resultString
-#         #'result': "{\"html\":\"<tr><td>23</td><td>0</td></tr><tr><td>3</td><td>30</td></tr>\",\"number_of_results\":30,\"total_pages\":2}"
-#     })
 
+    RESULT_LIMIT = 10
 
+    # A layer of security against those Bots that submit a form quickly
+    loadedAt = get_from_request(request.POST,'_page_loaded_at','isoDate')
+    if loadedAt is None:
+        return JsonResponse({'status': 'failed', 'message': 'missing "_page_loaded_at" parameter'})
+    elif verifyBotSearched(loadedAt) < 3:
+        return JsonResponse({'status': 'failed', 'message':'too fast!'})
 
+    # todo: controler les caracteres non accentues
+
+    try:
+        formConf = formNames[formName]
+    except KeyError:
+        return JsonResponse({'status': 'programming_error', 'message': 'config {0} doesn\'t exists'.format(formName)})
+
+    _,_,_,Model,conf = getInfoFromFormConf(formConf)
+
+    primaryKey = None
+    if 'primaryKey' in conf:
+        primaryKey = conf['primaryKey']
+
+    fieldsToSearchOn = json.loads(request.POST.get('fieldsToSearchOn'))
+    currentField = request.POST.get('currentField')
+
+    projection = ['id']
+    if currentField is not None:
+        projection += [currentField]
+    if primaryKey is not None:
+        projection += primaryKey
+
+    theQ = Q()
+    for field in fieldsToSearchOn:
+        if field not in ['_page_loaded_at','csrfmiddlewaretoken']:
+            for word in fieldsToSearchOn[field]:
+                #print('on ajoute "{}"'.format(word))
+                q = {field + '__icontains' : word}
+                theQ &= Q(**q)
+                #print(theQ)
+    query_set = Model.objects.filter(theQ)
+    query_set_ids = query_set.values('id')
+    objects_all_fields = query_set.values(*projection)[:RESULT_LIMIT]
+    #ids = [o['id'] for o in objects_all_fields]
+
+    objects_curent_field = []
+    if currentField is not None:
+        theQ = Q()
+        for word in fieldsToSearchOn[currentField]:
+            q = {currentField + '__icontains': word}
+            theQ &= Q(**q)
+
+        objects_curent_field = Model.objects.filter(theQ).exclude(pk__in=query_set_ids).values(*projection)[:RESULT_LIMIT]
+
+    print("#" * 20)
+    print(objects_all_fields)
+    print('-------------------')
+    print(objects_curent_field)
+
+    result = list(objects_all_fields)
+    cpt = len(result)
+    print("!!CPT=",cpt)
+    it = objects_all_fields.iterator()
+    print(dir(it))
+    while cpt < RESULT_LIMIT:
+        result += [it.__next__()]
+        print('----------')
+        print(result)
+        print(len(result),cpt)
+        cpt += 1
+
+    #TODO: FAIRE LE UNIT TEST!!!!
+
+    return JsonResponse({'status': 'success', 'result': result})
 
 def verifyBotSearched(time):
     """returns the number of seconds between the loading of the page and the
@@ -330,7 +351,7 @@ def removeEndOfString(string, suffix):
 
 def getInfoFromFormConf(formConf):
     conf = formConf['class']().get_conf()
-    return conf['form'], conf['conf'], conf['templates'], conf['form'].Meta.model
+    return conf['form'], conf['conf_str'], conf['templates'], conf['form'].Meta.model, conf['conf']
 
 def getHtmlForm(
         request,
