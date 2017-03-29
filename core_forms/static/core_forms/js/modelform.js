@@ -49,7 +49,7 @@
                             fieldGroup[i],
                             //fieldName,
                             fieldGroup, //todo: si jamais ce champ n'est pas necessaire alors on peut merger les 2 boucles for
-                            $('#' + formId + '_ls_result_div'),
+                            $('#_ls_result_div'),
                             formId,
                             'lalalala!!!!'
                         );
@@ -413,7 +413,7 @@ console.log(fieldOfParentForm, fieldToReplace);
         function success(res) {
             fieldToReplace.replaceWith(res);
             // set the events of the "add" button
-            var addButton = $('#' + childFormId + "_control").find('.addElemToManyToMany')[0]; //!!todo: tester dans qunit l'existence de la classe addElemToManyToMany
+            var addButton = $('#' + childFormId + "_control").find('.addElemToManyToMany')[0]; //!!todo/tester dans qunit l'existence de la classe addElemToManyToMany
             $(addButton).on('click', {
                     'formName': formName,
                     'formId': childFormId,

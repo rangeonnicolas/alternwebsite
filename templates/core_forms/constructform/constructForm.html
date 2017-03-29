@@ -46,18 +46,22 @@
                     formTree = [],
                     formTreePtrs = {},
                     ls = {},
-                    ls_caches = {byFieldsToSearchOn:[],bySingleField:[]}
+                    ls_caches = {byFieldsToSearchOn:[],bySingleField:[],size:{{ lsCacheSize }}}
             {% endautoescape %}
         </script>
     </head>
     <body>
+
+    <div style="width:500px" id="_ls_result_div">popopo!!!</div>
+
+
 {% endif %}
 
 <div id="{{ formId }}_container" name={% autoescape off %}{{ fieldOfParentForm }}{% endautoescape %}> <!-- todo: what happens when parentofrmid is null? :)-->
     <script class="update_formtree" type="text/javascript">
         {% autoescape off %}
         $(document).ready(function() {
-            updateFormTree({{ formInfo }},{{ parentFormId }},{{ fieldOfParentForm }},{{ inValidationProcess }},'{% url 'core_forms.views.post_form' '' %}',formTreePtrs, formTree {% if qunitTesting %},{{ callbackQunitFunction }}{% endif %});
+            updateFormTree({{ formInfo }},{{ parentFormId }},{{ fieldOfParentForm }},{{ inValidationProcess }},'{% url 'postform' '' %}',formTreePtrs, formTree {% if qunitTesting %},{{ callbackQunitFunction }}{% endif %});
         });
         {% endautoescape %}
     </script>

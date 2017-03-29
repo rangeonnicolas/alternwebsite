@@ -20,6 +20,11 @@ import django
 from django.views.decorators.csrf import csrf_protect
 from django.db.models import Q
 
+
+LS_CACHE_SIZE = 20 #todo: put this somewhere else
+
+
+
 #def formJs(request):
 #    # todo: mettre ça en fichier statique
 #    return render(request,'core_forms/form.js')
@@ -108,39 +113,26 @@ def whichDatabase(request_dict):
     else:
         return 'default'
 
-@csrf_protect
-def process_livesearch(request, formName):
-
-    RESULT_LIMIT = 10
-
-    # A layer of security against those Bots that submit a form quickly
-    loadedAt = get_from_request(request.POST,'_page_loaded_at','isoDate')
+def someSecurityChecks(req):
+    # A layer of security against the Bots that submit a form quickly
+    loadedAt = get_from_request(req,'_page_loaded_at','isoDate')
     if loadedAt is None:
         return JsonResponse({'status': 'failed', 'message': 'missing "_page_loaded_at" parameter'})
     elif verifyBotSearched(loadedAt) < 3:
         return JsonResponse({'status': 'failed', 'message':'too fast!'})
+    return None
 
-    # todo: controler les caracteres non accentues
-
+def getFormConf(formName):
     try:
         formConf = formNames[formName]
     except KeyError:
-        return JsonResponse({'status': 'programming_error', 'message': 'config {0} doesn\'t exists'.format(formName)})
+        return None, None, JsonResponse(
+            {'status': 'programming_error', 'message': 'config {0} doesn\'t exists'.format(formName)})
+    _, _, _, model, conf = getInfoFromFormConf(formConf)
+    return model, conf, None
 
-    _,_,_,Model,conf = getInfoFromFormConf(formConf)
 
-    primaryKey = None
-    if 'primaryKey' in conf:
-        primaryKey = conf['primaryKey']
-
-    fieldsToSearchOn = json.loads(request.POST.get('fieldsToSearchOn'))
-    currentField = request.POST.get('currentField')
-
-    projection = ['id']
-    if currentField is not None:
-        projection += [currentField]
-    if primaryKey is not None:
-        projection += primaryKey
+def queryForAllFIelds(model,fieldsToSearchOn, projection, limit):
 
     theQ = Q()
     for field in fieldsToSearchOn:
@@ -150,40 +142,108 @@ def process_livesearch(request, formName):
                 q = {field + '__icontains' : word}
                 theQ &= Q(**q)
                 #print(theQ)
-    query_set = Model.objects.filter(theQ)
-    query_set_ids = query_set.values('id')
-    objects_all_fields = query_set.values(*projection)[:RESULT_LIMIT]
-    #ids = [o['id'] for o in objects_all_fields]
+    query_set = model.objects.filter(theQ)
+    ids = [e['id'] for e in query_set.values('id')]
+    objects_all_fields = query_set.values(*projection)[:limit]
+    return ids, objects_all_fields
 
-    objects_curent_field = []
+def queryForCurrentField(model,fieldsToSearchOn, currentField, ids, projection, limit):
+
+    objects_in_common = []
+    objects_excluding_already_found = []
     if currentField is not None:
         theQ = Q()
         for word in fieldsToSearchOn[currentField]:
             q = {currentField + '__icontains': word}
             theQ &= Q(**q)
+        objects = model.objects.filter(theQ).values(*projection)[:limit]
+        for o in objects:
+            print(ids)
+            if o['id'] in ids:
+                objects_in_common += [o['id']]
+            else:
+                objects_excluding_already_found += [o]
 
-        objects_curent_field = Model.objects.filter(theQ).exclude(pk__in=query_set_ids).values(*projection)[:RESULT_LIMIT]
+    return objects_excluding_already_found, objects_in_common
 
-    print("#" * 20)
-    print(objects_all_fields)
-    print('-------------------')
-    print(objects_curent_field)
 
-    result = list(objects_all_fields)
-    cpt = len(result)
-    print("!!CPT=",cpt)
-    it = objects_all_fields.iterator()
-    print(dir(it))
-    while cpt < RESULT_LIMIT:
-        result += [it.__next__()]
-        print('----------')
-        print(result)
-        print(len(result),cpt)
-        cpt += 1
+@csrf_protect
+def process_livesearch(request, formName):
+
+    RESULT_LIMIT = 5
+
+    c = someSecurityChecks(request.POST)
+    if c is not None:
+        return c
+
+    # todo: controler les caracteres non accentues
+
+    model, conf, error = getFormConf(formName)
+    if error is not None:
+        return error
+
+    primaryKey = None
+    if 'primaryKey' in conf:
+        primaryKey = conf['primaryKey']
+
+    fieldsToSearchOn = json.loads(request.POST.get('fieldsToSearchOn'))
+    currentField = request.POST.get('currentField')
+
+    err = False
+    if 'livesearch' not in conf:
+        err = True
+    elif 'searchOn' not in conf['livesearch']:
+        err = True
+    if err:
+        return JsonResponse( #todo: to test
+            {'status': 'programming_error', 'message': "Forbidden request. Model '{}' is not allowed".format(model.__name__)})
+    for f in fieldsToSearchOn:
+        if f not in conf['livesearch']['searchOn']:
+            return JsonResponse(
+                {'status': 'programming_error', 'message': "Forbidden request. The field '{}' is not allowed".format(f)})
+
+    # For the well-being of the front-end cache, projection must depend NEITHER on currentField NOR on fieldsToSearchOn
+    projection = ['id']
+    if primaryKey is not None:
+        projection += primaryKey
+    for field in conf['livesearch']['searchOn']:  # todo: to test
+        if field not in projection:
+            projection += [field]
+
+    ids, objects_all_fields = queryForAllFIelds(model,fieldsToSearchOn, projection, RESULT_LIMIT)
+
+    objects_current_field, common_ids = queryForCurrentField(model,fieldsToSearchOn, currentField, ids, projection, RESULT_LIMIT)
+
+    print(len(objects_current_field),len(common_ids))
+
+    #result = list(objects_all_fields)
+    #cpt = len(result)
+    #if cpt < RESULT_LIMIT:
+    #    it = objects_current_field.iterator()
+    #    while cpt < RESULT_LIMIT:
+    #        try:
+    #            next = it.__next__()
+    #            result += [next]
+    #        except StopIteration:
+    #            break
+    #        cpt += 1
+
+    objects_all_fields = list(objects_all_fields)
+    objects_current_field = list(objects_current_field)
+    result = {}
+    if len(objects_all_fields):
+        result['matchAll'] = objects_all_fields
+    if len(objects_current_field):
+        result['matchCurField'] = objects_current_field
+    if len(common_ids):
+        result['common'] = common_ids
 
     #TODO: FAIRE LE UNIT TEST!!!!
+    #todo: si l'un des champs est trop long (champ texte), ne renvoyer que la partie recherchee
 
-    return JsonResponse({'status': 'success', 'result': result})
+    resp = {'status': 'success', 'result': result, 'order': projection}
+
+    return JsonResponse(resp)
 
 def verifyBotSearched(time):
     """returns the number of seconds between the loading of the page and the
@@ -265,6 +325,8 @@ def get_form(request, formName, isRootForm= False, formId= None, firstRootFormCa
         #formTreeUpdatedByClient = False
         inValidationProcess= False
 
+        lsCacheSize = LS_CACHE_SIZE
+
         return constructFormAndRender(request, 'core_forms/constructform/singleForm.html', locals())
     else:
         raise Http404 # or forbidden?
@@ -288,7 +350,7 @@ def post_form(request, formName):
         if not isOk:
             return error
 
-        ModelForm, _, _ , _= getInfoFromFormConf(formConf)
+        ModelForm, _, _ , _,_= getInfoFromFormConf(formConf)
 
         form = ModelForm(request.POST) #todo: secu: si plus de fields que prévu? + prendre chaque field et les passer dans clean!!
 
@@ -332,6 +394,7 @@ def post_form(request, formName):
                 'inValidationProcess': True,
                 'qunitTesting': qunitTesting,
                 'callbackQunitFunction': callbackQunitFunction,
+                'lsCacheSize' : LS_CACHE_SIZE,
                 #'validatedValue': {'objectId': createdObject.id,'fieldOfParentForm': fieldOfParentForm}
             }
 
@@ -378,7 +441,7 @@ def getHtmlForm(
     #    conf = formConf['class']().get_conf()
     #    ModelForm, conf, templates = conf['form'], conf['conf'], conf['templates']
 
-    ModelForm, conf, templates, Model = getInfoFromFormConf(formConf)
+    ModelForm, conf, templates, Model, _ = getInfoFromFormConf(formConf)
 
     if templates is None:
         n = removeEndOfString(formConf['class'].__name__,'Conf')
@@ -393,8 +456,8 @@ def getHtmlForm(
     if objectId is not None:
         #Model = formConf['class']().get_conf()['form'].Meta.model
         try:
-            #object=Model.objects.using(database).get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
-            object=Model.objects.get(id=objectId) #todo!!!!!! cette erreur n'est pas catchée par le except....!! ??
+            #object=Model.objects.using(database).get(id=objectId) #todo!!!!!! cette erreur n'est pas catchee par le except....!! ??
+            object=Model.objects.get(id=objectId) #todo!!!!!! cette erreur n'est pas catchee par le except....!! ??
             returnEmptyForm = False
             #objectIdFound = True
         except:
@@ -534,6 +597,8 @@ def polymorphicForeignKey(database,formId,nbBoxes,objectId,parentFormId,fieldOfP
     checkBoxesAreEditable = (objectId is not None) and not noObjectFound
     inValidationProcess = False
 
+    lsCacheSize = LS_CACHE_SIZE
+
     return constructFormAndRender(request, 'core_forms/constructform/polymorphicForeignKey.html', locals())
 
 def foreignKeyWrapper(request):
@@ -569,6 +634,8 @@ def foreignKey(database,formId,objectId,formName,parentFormId,fieldOfParentForm,
     formInfo = [{'fid': formId, 'fname': formName, 'isEditable': isEditable, 'validatedValue': validatedValue, 'objectBeingModified': objectBeingModified}]
 
     inValidationProcess = False
+
+    lsCacheSize = LS_CACHE_SIZE
 
     return constructFormAndRender(request, 'core_forms/constructform/foreignKey.html', locals())
 
@@ -653,7 +720,15 @@ def constructFormAndRender(request, template, vars):
 
 #################################################################################################################
 from django.core.management import call_command
+import os
+import core_forms
 FIXTURE_OUTPUT = 'coreformsFixture_' #todo: change the directory where it is saved
+
+app_path = os.path.dirname(core_forms.__file__)
+dir = os.path.join(app_path, 'fixtures')
+try: os.mkdir(dir)
+except FileExistsError: pass
+
 
 def save_fixture(request):
     fileFixture = FIXTURE_OUTPUT + dt.datetime.now().isoformat()[:19] + '.json'
@@ -662,13 +737,14 @@ def save_fixture(request):
         if possibleModel.startswith('Test'):
             testModels += ['core_model.' + possibleModel]
 
-    call_command('dumpdata','-o',fileFixture,*testModels,database='default')
+    call_command('dumpdata','-o',os.path.join(dir,fileFixture),*testModels,database='default')
 
-    return JsonResponse({'status':'ok','file': fileFixture})
+    return JsonResponse({'status':'ok','file': fileFixture,'url_to_load':'core_forms/tests/loadfixture?file='+fileFixture})
 
 def load_fixture(request):
 
     fileName = request.GET.get('file')
+    fileName = os.path.join(dir,fileName)
 
     if fileName is None:
         return JsonResponse({'status':'error','message':'Please provide GET parameter "file"'})
@@ -678,6 +754,11 @@ def load_fixture(request):
     call_command('loaddata', fileName, database='tests') # todo: how to catch error?
 
     return JsonResponse({'status':'ok? (not sure)','file': fileName})
+
+# procedure:
+# load the last fixture
+# add objects (with the admin interface for example)
+# save the fixture
 
 #########################################################################################################
 

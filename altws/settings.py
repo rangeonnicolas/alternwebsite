@@ -20,7 +20,7 @@ SECRET_KEY = 'u^8jbesbxnk52&m&(so9bnjzi)e^g2b!(lz-#h%t=c9w1ek@2m'
 print('Hm hm... SECURITY WARNING: keep the secret key used in production secret!')
 # todo: hide this key from the github repo
 
-ALLOWED_HOSTS = ['openalternativa.com','www.openalternativa.com']
+ALLOWED_HOSTS = ['openalternativa.com','www.openalternativa.com','localhost']
 
 # Application definition
 

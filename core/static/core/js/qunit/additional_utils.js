@@ -1,5 +1,25 @@
+    function launch_tests(data,expected_results,assert,func="equal",done=null){
+        if(func == "equal")
+            for(var i in data)
+                assert.equal(data[i],expected_results[i])
+        else if (func == "deepEqual")
+            for(var i in data)
+                assert.deepEqual(data[i],expected_results[i])
+
+        if(done !== null)
+            done()
+    }
+
+        function format_data(f,data){
+            res = [];
+            for(var i in data){
+                res.push(f(data[i],i));
+            }
+            return res
+        }
+
 function check_html(elems, original_jquery_string = "", each_tag_is_unique =
-    true) {
+    true, html_str_to_compare="body") {
     var elem, tag, str, returned, result, child;
     for (var e in elems) {
         elem = elems[e];
@@ -10,16 +30,22 @@ function check_html(elems, original_jquery_string = "", each_tag_is_unique =
         for (var a in elem.attr) {
             str += '[' + a + '="' + elem.attr[a] + '"]'
         }
-        result = $(str);
+
+        if(html_str_to_compare != "body")
+            html_str_to_compare = "<container>" + html_str_to_compare + "</container>"
+        result = $(html_str_to_compare).find(str);
+        //if(result.length==0)
+        //    result = $(html_str_to_compare).filter(str);
+        console.log("$('"+html_str_to_compare+"').filter('"+str+"')");
         if (result.length == 1 | (!each_tag_is_unique & result.length > 1)) {
             returned = check_html(
                 elem.children,
                 str,
-                each_tag_is_unique)
+                each_tag_is_unique, html_str_to_compare)
             if (returned.status == 'error')
                 return returned;
         } else
-        if (($(str).length == 0))
+        if (result.length == 0)
             return ({
                 status: 'error',
                 message: 'No html tag found for the following jquery query:' +
@@ -60,38 +86,61 @@ function getHtmlFixtureFromServer(url, callback=null) {
 }
 
 function get_clone(){
-return function clone(obj) {
-    return $.extend(true, {}, obj)
+    return function clone(obj) {console.log(222222222);
+        if(isArray(obj))
+            return $.extend(true, [], obj)
+        else if(typeof(obj) == "string")
+            return obj
+        else
+            return $.extend(true, {}, obj)
+    }
 }
+
+function isArray(a){
+    return Object.prototype.toString.call( a ) == '[object Array]';
 }
 
 function control_steps(response, status, ajaxObject, current_step, steps,
-    cnt_validated_urls_for_current_step) {
-    if (current_step.val > steps.length)
-        throw Error('We are currently in step ' + current_step.val +
-            ', but this step in not configured in variable "steps"');
-    var urls_of_this_step = steps[current_step.val - 1].urls,
-        control_function = steps[current_step.val - 1].control,
-        after_step_function = steps[current_step.val - 1].whenFinished,
-        url = ajaxObject.url;
-    console.log("step " + current_step.val + ", called: " + url);
-    if (urls_of_this_step.indexOf(url) >= 0) {
-        console.log("this url was expected");
-        cnt_validated_urls_for_current_step.val++;
-        if (control_function)
-            control_function(url, urls_of_this_step, response, status,
-                ajaxObject);
-        if (cnt_validated_urls_for_current_step.val == urls_of_this_step.length) {
-            if (after_step_function)
-                after_step_function(urls_of_this_step);
-            current_step.val++;
-            cnt_validated_urls_for_current_step.val = 0;
-            console.log("All the expected urls are sent, going to step ",current_step.val)
+    cnt_validated_urls_for_current_step,assert) {
+
+    console.log('\n\n--------------------- response received : -------------------------- ');
+    console.log('url: ',ajaxObject.url,'\nresponse: ',response,'\nstatus: ',status,'\najaxObject: ',ajaxObject);
+
+    if(status != "success")
+        assert.ok(false,'Request to server failed. See in the Network console and debug server')
+
+    else{
+
+        if (current_step.val > steps.length){
+            assert.ok(false,'We are currently in step ' + current_step.val +
+                ', but this step in not configured in variable "steps"');
+        }else{
+
+            var urls_of_this_step = steps[current_step.val - 1].urls,
+                control_function = steps[current_step.val - 1].control,
+                after_step_function = steps[current_step.val - 1].whenFinished,
+                url = ajaxObject.url;
+
+            console.log("step " + current_step.val + ", called: " + url);
+            if (urls_of_this_step.indexOf(url) >= 0) {
+                console.log("this url was expected");
+                cnt_validated_urls_for_current_step.val++;
+                if (control_function)
+                    control_function(url, urls_of_this_step, response, status,
+                        ajaxObject);
+                if (cnt_validated_urls_for_current_step.val == urls_of_this_step.length) {
+                    if (after_step_function)
+                        after_step_function(urls_of_this_step);
+                    current_step.val++;
+                    cnt_validated_urls_for_current_step.val = 0;
+                    console.log("All the expected urls are sent, going to step ",current_step.val)
+                }
+            } else {
+                console.log("Becarreful, in step " + current_step.val +
+                    ", this url was called without being expected by the test: " +
+                    url);
+            }
         }
-    } else {
-        console.log("Becarreful, in step " + current_step.val +
-            ", this url was called without being expected by the test: " +
-            url);
     }
 };
 // jQuery Deparam - v0.1.0 - 6/14/2011

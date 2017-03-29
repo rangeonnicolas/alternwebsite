@@ -77,7 +77,7 @@
 
                     {% if ok %}<p>That's done! Thank you!</p>
                     {% else %}
-                    <form action="{% url 'home.views.home' %}" method="post">
+                    <form action="{% url 'home' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="Submit"/>

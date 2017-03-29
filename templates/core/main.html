@@ -5,7 +5,7 @@
     <title>OpenAlternativa{% if title %} - {{ title }}{% endif %}</title><!-- todo: change the title for each page (google SEO)-->
     {% load staticfiles %}
     <link rel="icon" href="{% static 'core/favicon.png' %}" />
-    <link href="{% url 'core.views.get_css' %}" rel="stylesheet" type="text/css">
+    <link href="{% url 'get-css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href='{% static "core/icons/mfg/mfg.css" %}'>
     <script type="text/javascript" src="{% static 'core/js/jquery/jquery-1.11.3.min.js' %}"></script>
     <script src="{% static 'core/paletton/colorize.js' %}"></script><!--todo: temporary. Made to choose the website colors-->
@@ -16,7 +16,7 @@
 <header class="alignCenter">
     <div class="centeredBlock" style="height:100%">
         <a href="/" >
-            <img class="logo" src="{% url 'core.views.get_logo' %}"
+            <img class="logo" src="{% url 'get-logo' %}"
                  alt="OpenAlternativa"></img>
             <!--
             <div style="font-style: normal;font-family:ubuntu"><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><i class="icon-chevron_right temp3" style="font-size:0.9em"></i><span style="vertical-align:top;font-weight:normal"><span class="temp2" style="font-weight:inherit"> Open</span><span class="temp1">A</span><span
@@ -31,7 +31,7 @@
     <nav class="centeredBlock alignCenter">
         {% for t in topics %}{% if t.in_navigation_bar%}<!-- do not delete these comments (they are here to avoid spaces
         between the naviation buttons)
-     --><div class="nbbContainer"><a href="{% url 'core.views.get_topic_by_name_and_id' t.id t.slug %}"
+     --><div class="nbbContainer"><a href="{% url 'get_topic_by_name_and_id' t.id t.slug %}"
             onclick="alert('The content your are about to acess is still in development. A lot of data is missing, and the design is about to be completely reviewed.\n\nThank you!')"><!--
          --><div class="navBarButton">
                 <div style="line-height:1.3em;display:inline-block">{{ t.name }}</div>

@@ -185,7 +185,66 @@ function initFieldsForAjax(ls,queryCaches,queryField, /*fieldName,*/ fieldGroup,
 
 ///////////// Code dedicated to accent removing,
 ///////////// taken from here : http://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
-var Latinise={};Latinise.latin_map={"Á":"A","Ă":"A","Ắ":"A","Ặ":"A","Ằ":"A","Ẳ":"A","Ẵ":"A","Ǎ":"A","Â":"A","Ấ":"A","Ậ":"A","Ầ":"A","Ẩ":"A","Ẫ":"A","Ä":"A","Ǟ":"A","Ȧ":"A","Ǡ":"A","Ạ":"A","Ȁ":"A","À":"A","Ả":"A","Ȃ":"A","Ā":"A","Ą":"A","Å":"A","Ǻ":"A","Ḁ":"A","Ⱥ":"A","Ã":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ḃ":"B","Ḅ":"B","Ɓ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ć":"C","Č":"C","Ç":"C","Ḉ":"C","Ĉ":"C","Ċ":"C","Ƈ":"C","Ȼ":"C","Ď":"D","Ḑ":"D","Ḓ":"D","Ḋ":"D","Ḍ":"D","Ɗ":"D","Ḏ":"D","ǲ":"D","ǅ":"D","Đ":"D","Ƌ":"D","Ǳ":"DZ","Ǆ":"DZ","É":"E","Ĕ":"E","Ě":"E","Ȩ":"E","Ḝ":"E","Ê":"E","Ế":"E","Ệ":"E","Ề":"E","Ể":"E","Ễ":"E","Ḙ":"E","Ë":"E","Ė":"E","Ẹ":"E","Ȅ":"E","È":"E","Ẻ":"E","Ȇ":"E","Ē":"E","Ḗ":"E","Ḕ":"E","Ę":"E","Ɇ":"E","Ẽ":"E","Ḛ":"E","Ꝫ":"ET","Ḟ":"F","Ƒ":"F","Ǵ":"G","Ğ":"G","Ǧ":"G","Ģ":"G","Ĝ":"G","Ġ":"G","Ɠ":"G","Ḡ":"G","Ǥ":"G","Ḫ":"H","Ȟ":"H","Ḩ":"H","Ĥ":"H","Ⱨ":"H","Ḧ":"H","Ḣ":"H","Ḥ":"H","Ħ":"H","Í":"I","Ĭ":"I","Ǐ":"I","Î":"I","Ï":"I","Ḯ":"I","İ":"I","Ị":"I","Ȉ":"I","Ì":"I","Ỉ":"I","Ȋ":"I","Ī":"I","Į":"I","Ɨ":"I","Ĩ":"I","Ḭ":"I","Ꝺ":"D","Ꝼ":"F","Ᵹ":"G","Ꞃ":"R","Ꞅ":"S","Ꞇ":"T","Ꝭ":"IS","Ĵ":"J","Ɉ":"J","Ḱ":"K","Ǩ":"K","Ķ":"K","Ⱪ":"K","Ꝃ":"K","Ḳ":"K","Ƙ":"K","Ḵ":"K","Ꝁ":"K","Ꝅ":"K","Ĺ":"L","Ƚ":"L","Ľ":"L","Ļ":"L","Ḽ":"L","Ḷ":"L","Ḹ":"L","Ⱡ":"L","Ꝉ":"L","Ḻ":"L","Ŀ":"L","Ɫ":"L","ǈ":"L","Ł":"L","Ǉ":"LJ","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ń":"N","Ň":"N","Ņ":"N","Ṋ":"N","Ṅ":"N","Ṇ":"N","Ǹ":"N","Ɲ":"N","Ṉ":"N","Ƞ":"N","ǋ":"N","Ñ":"N","Ǌ":"NJ","Ó":"O","Ŏ":"O","Ǒ":"O","Ô":"O","Ố":"O","Ộ":"O","Ồ":"O","Ổ":"O","Ỗ":"O","Ö":"O","Ȫ":"O","Ȯ":"O","Ȱ":"O","Ọ":"O","Ő":"O","Ȍ":"O","Ò":"O","Ỏ":"O","Ơ":"O","Ớ":"O","Ợ":"O","Ờ":"O","Ở":"O","Ỡ":"O","Ȏ":"O","Ꝋ":"O","Ꝍ":"O","Ō":"O","Ṓ":"O","Ṑ":"O","Ɵ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Õ":"O","Ṍ":"O","Ṏ":"O","Ȭ":"O","Ƣ":"OI","Ꝏ":"OO","Ɛ":"E","Ɔ":"O","Ȣ":"OU","Ṕ":"P","Ṗ":"P","Ꝓ":"P","Ƥ":"P","Ꝕ":"P","Ᵽ":"P","Ꝑ":"P","Ꝙ":"Q","Ꝗ":"Q","Ŕ":"R","Ř":"R","Ŗ":"R","Ṙ":"R","Ṛ":"R","Ṝ":"R","Ȑ":"R","Ȓ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꜿ":"C","Ǝ":"E","Ś":"S","Ṥ":"S","Š":"S","Ṧ":"S","Ş":"S","Ŝ":"S","Ș":"S","Ṡ":"S","Ṣ":"S","Ṩ":"S","Ť":"T","Ţ":"T","Ṱ":"T","Ț":"T","Ⱦ":"T","Ṫ":"T","Ṭ":"T","Ƭ":"T","Ṯ":"T","Ʈ":"T","Ŧ":"T","Ɐ":"A","Ꞁ":"L","Ɯ":"M","Ʌ":"V","Ꜩ":"TZ","Ú":"U","Ŭ":"U","Ǔ":"U","Û":"U","Ṷ":"U","Ü":"U","Ǘ":"U","Ǚ":"U","Ǜ":"U","Ǖ":"U","Ṳ":"U","Ụ":"U","Ű":"U","Ȕ":"U","Ù":"U","Ủ":"U","Ư":"U","Ứ":"U","Ự":"U","Ừ":"U","Ử":"U","Ữ":"U","Ȗ":"U","Ū":"U","Ṻ":"U","Ų":"U","Ů":"U","Ũ":"U","Ṹ":"U","Ṵ":"U","Ꝟ":"V","Ṿ":"V","Ʋ":"V","Ṽ":"V","Ꝡ":"VY","Ẃ":"W","Ŵ":"W","Ẅ":"W","Ẇ":"W","Ẉ":"W","Ẁ":"W","Ⱳ":"W","Ẍ":"X","Ẋ":"X","Ý":"Y","Ŷ":"Y","Ÿ":"Y","Ẏ":"Y","Ỵ":"Y","Ỳ":"Y","Ƴ":"Y","Ỷ":"Y","Ỿ":"Y","Ȳ":"Y","Ɏ":"Y","Ỹ":"Y","Ź":"Z","Ž":"Z","Ẑ":"Z","Ⱬ":"Z","Ż":"Z","Ẓ":"Z","Ȥ":"Z","Ẕ":"Z","Ƶ":"Z","Ĳ":"IJ","Œ":"OE","ᴀ":"A","ᴁ":"AE","ʙ":"B","ᴃ":"B","ᴄ":"C","ᴅ":"D","ᴇ":"E","ꜰ":"F","ɢ":"G","ʛ":"G","ʜ":"H","ɪ":"I","ʁ":"R","ᴊ":"J","ᴋ":"K","ʟ":"L","ᴌ":"L","ᴍ":"M","ɴ":"N","ᴏ":"O","ɶ":"OE","ᴐ":"O","ᴕ":"OU","ᴘ":"P","ʀ":"R","ᴎ":"N","ᴙ":"R","ꜱ":"S","ᴛ":"T","ⱻ":"E","ᴚ":"R","ᴜ":"U","ᴠ":"V","ᴡ":"W","ʏ":"Y","ᴢ":"Z","á":"a","ă":"a","ắ":"a","ặ":"a","ằ":"a","ẳ":"a","ẵ":"a","ǎ":"a","â":"a","ấ":"a","ậ":"a","ầ":"a","ẩ":"a","ẫ":"a","ä":"a","ǟ":"a","ȧ":"a","ǡ":"a","ạ":"a","ȁ":"a","à":"a","ả":"a","ȃ":"a","ā":"a","ą":"a","ᶏ":"a","ẚ":"a","å":"a","ǻ":"a","ḁ":"a","ⱥ":"a","ã":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ḃ":"b","ḅ":"b","ɓ":"b","ḇ":"b","ᵬ":"b","ᶀ":"b","ƀ":"b","ƃ":"b","ɵ":"o","ć":"c","č":"c","ç":"c","ḉ":"c","ĉ":"c","ɕ":"c","ċ":"c","ƈ":"c","ȼ":"c","ď":"d","ḑ":"d","ḓ":"d","ȡ":"d","ḋ":"d","ḍ":"d","ɗ":"d","ᶑ":"d","ḏ":"d","ᵭ":"d","ᶁ":"d","đ":"d","ɖ":"d","ƌ":"d","ı":"i","ȷ":"j","ɟ":"j","ʄ":"j","ǳ":"dz","ǆ":"dz","é":"e","ĕ":"e","ě":"e","ȩ":"e","ḝ":"e","ê":"e","ế":"e","ệ":"e","ề":"e","ể":"e","ễ":"e","ḙ":"e","ë":"e","ė":"e","ẹ":"e","ȅ":"e","è":"e","ẻ":"e","ȇ":"e","ē":"e","ḗ":"e","ḕ":"e","ⱸ":"e","ę":"e","ᶒ":"e","ɇ":"e","ẽ":"e","ḛ":"e","ꝫ":"et","ḟ":"f","ƒ":"f","ᵮ":"f","ᶂ":"f","ǵ":"g","ğ":"g","ǧ":"g","ģ":"g","ĝ":"g","ġ":"g","ɠ":"g","ḡ":"g","ᶃ":"g","ǥ":"g","ḫ":"h","ȟ":"h","ḩ":"h","ĥ":"h","ⱨ":"h","ḧ":"h","ḣ":"h","ḥ":"h","ɦ":"h","ẖ":"h","ħ":"h","ƕ":"hv","í":"i","ĭ":"i","ǐ":"i","î":"i","ï":"i","ḯ":"i","ị":"i","ȉ":"i","ì":"i","ỉ":"i","ȋ":"i","ī":"i","į":"i","ᶖ":"i","ɨ":"i","ĩ":"i","ḭ":"i","ꝺ":"d","ꝼ":"f","ᵹ":"g","ꞃ":"r","ꞅ":"s","ꞇ":"t","ꝭ":"is","ǰ":"j","ĵ":"j","ʝ":"j","ɉ":"j","ḱ":"k","ǩ":"k","ķ":"k","ⱪ":"k","ꝃ":"k","ḳ":"k","ƙ":"k","ḵ":"k","ᶄ":"k","ꝁ":"k","ꝅ":"k","ĺ":"l","ƚ":"l","ɬ":"l","ľ":"l","ļ":"l","ḽ":"l","ȴ":"l","ḷ":"l","ḹ":"l","ⱡ":"l","ꝉ":"l","ḻ":"l","ŀ":"l","ɫ":"l","ᶅ":"l","ɭ":"l","ł":"l","ǉ":"lj","ſ":"s","ẜ":"s","ẛ":"s","ẝ":"s","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ᵯ":"m","ᶆ":"m","ń":"n","ň":"n","ņ":"n","ṋ":"n","ȵ":"n","ṅ":"n","ṇ":"n","ǹ":"n","ɲ":"n","ṉ":"n","ƞ":"n","ᵰ":"n","ᶇ":"n","ɳ":"n","ñ":"n","ǌ":"nj","ó":"o","ŏ":"o","ǒ":"o","ô":"o","ố":"o","ộ":"o","ồ":"o","ổ":"o","ỗ":"o","ö":"o","ȫ":"o","ȯ":"o","ȱ":"o","ọ":"o","ő":"o","ȍ":"o","ò":"o","ỏ":"o","ơ":"o","ớ":"o","ợ":"o","ờ":"o","ở":"o","ỡ":"o","ȏ":"o","ꝋ":"o","ꝍ":"o","ⱺ":"o","ō":"o","ṓ":"o","ṑ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","õ":"o","ṍ":"o","ṏ":"o","ȭ":"o","ƣ":"oi","ꝏ":"oo","ɛ":"e","ᶓ":"e","ɔ":"o","ᶗ":"o","ȣ":"ou","ṕ":"p","ṗ":"p","ꝓ":"p","ƥ":"p","ᵱ":"p","ᶈ":"p","ꝕ":"p","ᵽ":"p","ꝑ":"p","ꝙ":"q","ʠ":"q","ɋ":"q","ꝗ":"q","ŕ":"r","ř":"r","ŗ":"r","ṙ":"r","ṛ":"r","ṝ":"r","ȑ":"r","ɾ":"r","ᵳ":"r","ȓ":"r","ṟ":"r","ɼ":"r","ᵲ":"r","ᶉ":"r","ɍ":"r","ɽ":"r","ↄ":"c","ꜿ":"c","ɘ":"e","ɿ":"r","ś":"s","ṥ":"s","š":"s","ṧ":"s","ş":"s","ŝ":"s","ș":"s","ṡ":"s","ṣ":"s","ṩ":"s","ʂ":"s","ᵴ":"s","ᶊ":"s","ȿ":"s","ɡ":"g","ᴑ":"o","ᴓ":"o","ᴝ":"u","ť":"t","ţ":"t","ṱ":"t","ț":"t","ȶ":"t","ẗ":"t","ⱦ":"t","ṫ":"t","ṭ":"t","ƭ":"t","ṯ":"t","ᵵ":"t","ƫ":"t","ʈ":"t","ŧ":"t","ᵺ":"th","ɐ":"a","ᴂ":"ae","ǝ":"e","ᵷ":"g","ɥ":"h","ʮ":"h","ʯ":"h","ᴉ":"i","ʞ":"k","ꞁ":"l","ɯ":"m","ɰ":"m","ᴔ":"oe","ɹ":"r","ɻ":"r","ɺ":"r","ⱹ":"r","ʇ":"t","ʌ":"v","ʍ":"w","ʎ":"y","ꜩ":"tz","ú":"u","ŭ":"u","ǔ":"u","û":"u","ṷ":"u","ü":"u","ǘ":"u","ǚ":"u","ǜ":"u","ǖ":"u","ṳ":"u","ụ":"u","ű":"u","ȕ":"u","ù":"u","ủ":"u","ư":"u","ứ":"u","ự":"u","ừ":"u","ử":"u","ữ":"u","ȗ":"u","ū":"u","ṻ":"u","ų":"u","ᶙ":"u","ů":"u","ũ":"u","ṹ":"u","ṵ":"u","ᵫ":"ue","ꝸ":"um","ⱴ":"v","ꝟ":"v","ṿ":"v","ʋ":"v","ᶌ":"v","ⱱ":"v","ṽ":"v","ꝡ":"vy","ẃ":"w","ŵ":"w","ẅ":"w","ẇ":"w","ẉ":"w","ẁ":"w","ⱳ":"w","ẘ":"w","ẍ":"x","ẋ":"x","ᶍ":"x","ý":"y","ŷ":"y","ÿ":"y","ẏ":"y","ỵ":"y","ỳ":"y","ƴ":"y","ỷ":"y","ỿ":"y","ȳ":"y","ẙ":"y","ɏ":"y","ỹ":"y","ź":"z","ž":"z","ẑ":"z","ʑ":"z","ⱬ":"z","ż":"z","ẓ":"z","ȥ":"z","ẕ":"z","ᵶ":"z","ᶎ":"z","ʐ":"z","ƶ":"z","ɀ":"z","ﬀ":"ff","ﬃ":"ffi","ﬄ":"ffl","ﬁ":"fi","ﬂ":"fl","ĳ":"ij","œ":"oe","ﬆ":"st","ₐ":"a","ₑ":"e","ᵢ":"i","ⱼ":"j","ₒ":"o","ᵣ":"r","ᵤ":"u","ᵥ":"v","ₓ":"x"};
+var Latinise={};Latinise.latin_map={"Á":"A","Ă":"A","Ắ":"A","Ặ":"A","Ằ":"A","Ẳ":"A","Ẵ":"A","Ǎ":"A","Â":"A","Ấ":"A",
+    "Ậ":"A","Ầ":"A","Ẩ":"A","Ẫ":"A","Ä":"A","Ǟ":"A","Ȧ":"A","Ǡ":"A","Ạ":"A","Ȁ":"A","À":"A","Ả":"A","Ȃ":"A","Ā":"A",
+    "Ą":"A","Å":"A","Ǻ":"A","Ḁ":"A","Ⱥ":"A","Ã":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV",
+    "Ꜻ":"AV","Ꜽ":"AY","Ḃ":"B","Ḅ":"B","Ɓ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ć":"C","Č":"C","Ç":"C","Ḉ":"C","Ĉ":"C","Ċ":"C",
+    "Ƈ":"C","Ȼ":"C","Ď":"D","Ḑ":"D","Ḓ":"D","Ḋ":"D","Ḍ":"D","Ɗ":"D","Ḏ":"D","ǲ":"D","ǅ":"D","Đ":"D","Ƌ":"D",
+    "Ǳ":"DZ","Ǆ":"DZ","É":"E","Ĕ":"E","Ě":"E","Ȩ":"E","Ḝ":"E","Ê":"E","Ế":"E","Ệ":"E","Ề":"E","Ể":"E","Ễ":"E",
+    "Ḙ":"E","Ë":"E","Ė":"E","Ẹ":"E","Ȅ":"E","È":"E","Ẻ":"E","Ȇ":"E","Ē":"E","Ḗ":"E","Ḕ":"E","Ę":"E","Ɇ":"E","Ẽ":"E",
+    "Ḛ":"E","Ꝫ":"ET","Ḟ":"F","Ƒ":"F","Ǵ":"G","Ğ":"G","Ǧ":"G","Ģ":"G","Ĝ":"G","Ġ":"G","Ɠ":"G","Ḡ":"G","Ǥ":"G","Ḫ":"H",
+    "Ȟ":"H","Ḩ":"H","Ĥ":"H","Ⱨ":"H","Ḧ":"H","Ḣ":"H","Ḥ":"H","Ħ":"H","Í":"I","Ĭ":"I","Ǐ":"I","Î":"I","Ï":"I","Ḯ":"I",
+    "İ":"I","Ị":"I","Ȉ":"I","Ì":"I","Ỉ":"I","Ȋ":"I","Ī":"I","Į":"I","Ɨ":"I","Ĩ":"I","Ḭ":"I","Ꝺ":"D","Ꝼ":"F","Ᵹ":"G",
+    "Ꞃ":"R","Ꞅ":"S","Ꞇ":"T","Ꝭ":"IS","Ĵ":"J","Ɉ":"J","Ḱ":"K","Ǩ":"K","Ķ":"K","Ⱪ":"K","Ꝃ":"K","Ḳ":"K","Ƙ":"K","Ḵ":"K",
+    "Ꝁ":"K","Ꝅ":"K","Ĺ":"L","Ƚ":"L","Ľ":"L","Ļ":"L","Ḽ":"L","Ḷ":"L","Ḹ":"L","Ⱡ":"L","Ꝉ":"L","Ḻ":"L","Ŀ":"L","Ɫ":"L",
+    "ǈ":"L","Ł":"L","Ǉ":"LJ","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ń":"N","Ň":"N","Ņ":"N","Ṋ":"N","Ṅ":"N","Ṇ":"N","Ǹ":"N",
+    "Ɲ":"N","Ṉ":"N","Ƞ":"N","ǋ":"N","Ñ":"N","Ǌ":"NJ","Ó":"O","Ŏ":"O","Ǒ":"O","Ô":"O","Ố":"O","Ộ":"O","Ồ":"O",
+    "Ổ":"O","Ỗ":"O","Ö":"O","Ȫ":"O","Ȯ":"O","Ȱ":"O","Ọ":"O","Ő":"O","Ȍ":"O","Ò":"O","Ỏ":"O","Ơ":"O","Ớ":"O","Ợ":"O",
+    "Ờ":"O","Ở":"O","Ỡ":"O","Ȏ":"O","Ꝋ":"O","Ꝍ":"O","Ō":"O","Ṓ":"O","Ṑ":"O","Ɵ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O",
+    "Õ":"O","Ṍ":"O","Ṏ":"O","Ȭ":"O","Ƣ":"OI","Ꝏ":"OO","Ɛ":"E","Ɔ":"O","Ȣ":"OU","Ṕ":"P","Ṗ":"P","Ꝓ":"P","Ƥ":"P",
+    "Ꝕ":"P","Ᵽ":"P","Ꝑ":"P","Ꝙ":"Q","Ꝗ":"Q","Ŕ":"R","Ř":"R","Ŗ":"R","Ṙ":"R","Ṛ":"R","Ṝ":"R","Ȑ":"R","Ȓ":"R","Ṟ":"R",
+    "Ɍ":"R","Ɽ":"R","Ꜿ":"C","Ǝ":"E","Ś":"S","Ṥ":"S","Š":"S","Ṧ":"S","Ş":"S","Ŝ":"S","Ș":"S","Ṡ":"S","Ṣ":"S","Ṩ":"S",
+    "Ť":"T","Ţ":"T","Ṱ":"T","Ț":"T","Ⱦ":"T","Ṫ":"T","Ṭ":"T","Ƭ":"T","Ṯ":"T","Ʈ":"T","Ŧ":"T","Ɐ":"A","Ꞁ":"L","Ɯ":"M",
+    "Ʌ":"V","Ꜩ":"TZ","Ú":"U","Ŭ":"U","Ǔ":"U","Û":"U","Ṷ":"U","Ü":"U","Ǘ":"U","Ǚ":"U","Ǜ":"U","Ǖ":"U","Ṳ":"U","Ụ":"U",
+    "Ű":"U","Ȕ":"U","Ù":"U","Ủ":"U","Ư":"U","Ứ":"U","Ự":"U","Ừ":"U","Ử":"U","Ữ":"U","Ȗ":"U","Ū":"U","Ṻ":"U","Ų":"U",
+    "Ů":"U","Ũ":"U","Ṹ":"U","Ṵ":"U","Ꝟ":"V","Ṿ":"V","Ʋ":"V","Ṽ":"V","Ꝡ":"VY","Ẃ":"W","Ŵ":"W","Ẅ":"W","Ẇ":"W","Ẉ":"W",
+    "Ẁ":"W","Ⱳ":"W","Ẍ":"X","Ẋ":"X","Ý":"Y","Ŷ":"Y","Ÿ":"Y","Ẏ":"Y","Ỵ":"Y","Ỳ":"Y","Ƴ":"Y","Ỷ":"Y","Ỿ":"Y","Ȳ":"Y",
+    "Ɏ":"Y","Ỹ":"Y","Ź":"Z","Ž":"Z","Ẑ":"Z","Ⱬ":"Z","Ż":"Z","Ẓ":"Z","Ȥ":"Z","Ẕ":"Z","Ƶ":"Z","Ĳ":"IJ","Œ":"OE","ᴀ":"A",
+    "ᴁ":"AE","ʙ":"B","ᴃ":"B","ᴄ":"C","ᴅ":"D","ᴇ":"E","ꜰ":"F","ɢ":"G","ʛ":"G","ʜ":"H","ɪ":"I","ʁ":"R","ᴊ":"J","ᴋ":"K",
+    "ʟ":"L","ᴌ":"L","ᴍ":"M","ɴ":"N","ᴏ":"O","ɶ":"OE","ᴐ":"O","ᴕ":"OU","ᴘ":"P","ʀ":"R","ᴎ":"N","ᴙ":"R","ꜱ":"S","ᴛ":"T",
+    "ⱻ":"E","ᴚ":"R","ᴜ":"U","ᴠ":"V","ᴡ":"W","ʏ":"Y","ᴢ":"Z","á":"a","ă":"a","ắ":"a","ặ":"a","ằ":"a","ẳ":"a","ẵ":"a",
+    "ǎ":"a","â":"a","ấ":"a","ậ":"a","ầ":"a","ẩ":"a","ẫ":"a","ä":"a","ǟ":"a","ȧ":"a","ǡ":"a","ạ":"a","ȁ":"a","à":"a",
+    "ả":"a","ȃ":"a","ā":"a","ą":"a","ᶏ":"a","ẚ":"a","å":"a","ǻ":"a","ḁ":"a","ⱥ":"a","ã":"a","ꜳ":"aa","æ":"ae",
+    "ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ḃ":"b","ḅ":"b","ɓ":"b","ḇ":"b","ᵬ":"b","ᶀ":"b",
+    "ƀ":"b","ƃ":"b","ɵ":"o","ć":"c","č":"c","ç":"c","ḉ":"c","ĉ":"c","ɕ":"c","ċ":"c","ƈ":"c","ȼ":"c","ď":"d","ḑ":"d",
+    "ḓ":"d","ȡ":"d","ḋ":"d","ḍ":"d","ɗ":"d","ᶑ":"d","ḏ":"d","ᵭ":"d","ᶁ":"d","đ":"d","ɖ":"d","ƌ":"d","ı":"i","ȷ":"j",
+    "ɟ":"j","ʄ":"j","ǳ":"dz","ǆ":"dz","é":"e","ĕ":"e","ě":"e","ȩ":"e","ḝ":"e","ê":"e","ế":"e","ệ":"e","ề":"e",
+    "ể":"e","ễ":"e","ḙ":"e","ë":"e","ė":"e","ẹ":"e","ȅ":"e","è":"e","ẻ":"e","ȇ":"e","ē":"e","ḗ":"e","ḕ":"e","ⱸ":"e",
+    "ę":"e","ᶒ":"e","ɇ":"e","ẽ":"e","ḛ":"e","ꝫ":"et","ḟ":"f","ƒ":"f","ᵮ":"f","ᶂ":"f","ǵ":"g","ğ":"g","ǧ":"g","ģ":"g",
+    "ĝ":"g","ġ":"g","ɠ":"g","ḡ":"g","ᶃ":"g","ǥ":"g","ḫ":"h","ȟ":"h","ḩ":"h","ĥ":"h","ⱨ":"h","ḧ":"h","ḣ":"h","ḥ":"h",
+    "ɦ":"h","ẖ":"h","ħ":"h","ƕ":"hv","í":"i","ĭ":"i","ǐ":"i","î":"i","ï":"i","ḯ":"i","ị":"i","ȉ":"i","ì":"i","ỉ":"i",
+    "ȋ":"i","ī":"i","į":"i","ᶖ":"i","ɨ":"i","ĩ":"i","ḭ":"i","ꝺ":"d","ꝼ":"f","ᵹ":"g","ꞃ":"r","ꞅ":"s","ꞇ":"t","ꝭ":"is",
+    "ǰ":"j","ĵ":"j","ʝ":"j","ɉ":"j","ḱ":"k","ǩ":"k","ķ":"k","ⱪ":"k","ꝃ":"k","ḳ":"k","ƙ":"k","ḵ":"k","ᶄ":"k","ꝁ":"k",
+    "ꝅ":"k","ĺ":"l","ƚ":"l","ɬ":"l","ľ":"l","ļ":"l","ḽ":"l","ȴ":"l","ḷ":"l","ḹ":"l","ⱡ":"l","ꝉ":"l","ḻ":"l","ŀ":"l",
+    "ɫ":"l","ᶅ":"l","ɭ":"l","ł":"l","ǉ":"lj","ſ":"s","ẜ":"s","ẛ":"s","ẝ":"s","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ᵯ":"m",
+    "ᶆ":"m","ń":"n","ň":"n","ņ":"n","ṋ":"n","ȵ":"n","ṅ":"n","ṇ":"n","ǹ":"n","ɲ":"n","ṉ":"n","ƞ":"n","ᵰ":"n","ᶇ":"n",
+    "ɳ":"n","ñ":"n","ǌ":"nj","ó":"o","ŏ":"o","ǒ":"o","ô":"o","ố":"o","ộ":"o","ồ":"o","ổ":"o","ỗ":"o","ö":"o","ȫ":"o",
+    "ȯ":"o","ȱ":"o","ọ":"o","ő":"o","ȍ":"o","ò":"o","ỏ":"o","ơ":"o","ớ":"o","ợ":"o","ờ":"o","ở":"o","ỡ":"o","ȏ":"o",
+    "ꝋ":"o","ꝍ":"o","ⱺ":"o","ō":"o","ṓ":"o","ṑ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","õ":"o","ṍ":"o","ṏ":"o","ȭ":"o",
+    "ƣ":"oi","ꝏ":"oo","ɛ":"e","ᶓ":"e","ɔ":"o","ᶗ":"o","ȣ":"ou","ṕ":"p","ṗ":"p","ꝓ":"p","ƥ":"p","ᵱ":"p","ᶈ":"p",
+    "ꝕ":"p","ᵽ":"p","ꝑ":"p","ꝙ":"q","ʠ":"q","ɋ":"q","ꝗ":"q","ŕ":"r","ř":"r","ŗ":"r","ṙ":"r","ṛ":"r","ṝ":"r","ȑ":"r",
+    "ɾ":"r","ᵳ":"r","ȓ":"r","ṟ":"r","ɼ":"r","ᵲ":"r","ᶉ":"r","ɍ":"r","ɽ":"r","ↄ":"c","ꜿ":"c","ɘ":"e","ɿ":"r","ś":"s",
+    "ṥ":"s","š":"s","ṧ":"s","ş":"s","ŝ":"s","ș":"s","ṡ":"s","ṣ":"s","ṩ":"s","ʂ":"s","ᵴ":"s","ᶊ":"s","ȿ":"s","ɡ":"g",
+    "ᴑ":"o","ᴓ":"o","ᴝ":"u","ť":"t","ţ":"t","ṱ":"t","ț":"t","ȶ":"t","ẗ":"t","ⱦ":"t","ṫ":"t","ṭ":"t","ƭ":"t","ṯ":"t",
+    "ᵵ":"t","ƫ":"t","ʈ":"t","ŧ":"t","ᵺ":"th","ɐ":"a","ᴂ":"ae","ǝ":"e","ᵷ":"g","ɥ":"h","ʮ":"h","ʯ":"h","ᴉ":"i","ʞ":"k",
+    "ꞁ":"l","ɯ":"m","ɰ":"m","ᴔ":"oe","ɹ":"r","ɻ":"r","ɺ":"r","ⱹ":"r","ʇ":"t","ʌ":"v","ʍ":"w","ʎ":"y","ꜩ":"tz","ú":"u",
+    "ŭ":"u","ǔ":"u","û":"u","ṷ":"u","ü":"u","ǘ":"u","ǚ":"u","ǜ":"u","ǖ":"u","ṳ":"u","ụ":"u","ű":"u","ȕ":"u","ù":"u",
+    "ủ":"u","ư":"u","ứ":"u","ự":"u","ừ":"u","ử":"u","ữ":"u","ȗ":"u","ū":"u","ṻ":"u","ų":"u","ᶙ":"u","ů":"u","ũ":"u",
+    "ṹ":"u","ṵ":"u","ᵫ":"ue","ꝸ":"um","ⱴ":"v","ꝟ":"v","ṿ":"v","ʋ":"v","ᶌ":"v","ⱱ":"v","ṽ":"v","ꝡ":"vy","ẃ":"w","ŵ":"w",
+    "ẅ":"w","ẇ":"w","ẉ":"w","ẁ":"w","ⱳ":"w","ẘ":"w","ẍ":"x","ẋ":"x","ᶍ":"x","ý":"y","ŷ":"y","ÿ":"y","ẏ":"y","ỵ":"y",
+    "ỳ":"y","ƴ":"y","ỷ":"y","ỿ":"y","ȳ":"y","ẙ":"y","ɏ":"y","ỹ":"y","ź":"z","ž":"z","ẑ":"z","ʑ":"z","ⱬ":"z","ż":"z",
+    "ẓ":"z","ȥ":"z","ẕ":"z","ᵶ":"z","ᶎ":"z","ʐ":"z","ƶ":"z","ɀ":"z","ﬀ":"ff","ﬃ":"ffi","ﬄ":"ffl","ﬁ":"fi","ﬂ":"fl",
+    "ĳ":"ij","œ":"oe","ﬆ":"st","ₐ":"a","ₑ":"e","ᵢ":"i","ⱼ":"j","ₒ":"o","ᵣ":"r","ᵤ":"u","ᵥ":"v","ₓ":"x"};
 String.prototype.latinise=function(){return this.replace(/[^A-Za-z0-9\[\] ]/g,function(a){return Latinise.latin_map[a]||a})};
 String.prototype.latinize=String.prototype.latinise;
 String.prototype.isLatin=function(){return this==this.latinise()}
@@ -285,10 +344,10 @@ function extractFieldsInfo(fieldGroup){
             return fieldsInfo;
 }
 
-function findInCache(fieldsToSearchOn, cache){
+function findInCache(key, cache){
     for(var elem in cache)
-        if(deepEquals(cache[elem].query,fieldsToSearchOn))
-            return cache[elem].response;
+        if(deepEquals(cache[elem].query,key))
+            return cache[elem];
     return null;
 }
 
@@ -305,9 +364,10 @@ function search_query(
     fieldName,
     whereToDisplayTheResult,
     url,
-    beingTested = false // when running unit tests
+    beingTested = false, // when running unit tests
+    debug_id = null
     ){
-
+console.log("Penser a desactiver l'autocompletion automatique du navigateur quand on tape dans le champ texte");
             var ind, requestDict, totalLengths, foundInCache,fieldsToSearchOn,totalLengths,
                 isPart1Allowed = false,
                 isPart2Allowed = false,
@@ -319,28 +379,30 @@ function search_query(
             singleField[fieldName] = fieldsToSearchOn[fieldName];
 
             foundInCache = findInCache(fieldsToSearchOn, queryCaches.byFieldsToSearchOn);
-            if(foundInCache == null)
+            if(foundInCache === null)
                 isPart1Allowed = allow_server_request(fieldsToSearchOn,totalLengths);//todo: chelou
             else
                 responseFromCache[0] = foundInCache;
 
 
             foundInCache = findInCache(singleField, queryCaches.bySingleField);
-            if(foundInCache == null)
+            if(foundInCache === null)
                 isPart2Allowed = allow_server_request_singlefield(fieldsToSearchOn[fieldName],totalLengths[fieldName]);//todo: chelou
             else
                 responseFromCache[1] = foundInCache;
 
             construct_and_send_query(
-                ls,isPart1Allowed,isPart2Allowed,responseFromCache,fieldsToSearchOn,singleField,fieldName,formId,
+                ls,queryCaches,isPart1Allowed,isPart2Allowed,responseFromCache,fieldsToSearchOn,singleField,fieldName,formId,
                 whereToDisplayTheResult,url,beingTested);
 
             // this return is only used for unit tests
-            return [responseFromCache,isPart1Allowed,isPart2Allowed,singleField];
+            if(beingTested)
+                return [responseFromCache,isPart1Allowed,isPart2Allowed,singleField];
 }
 
 function construct_and_send_query(
     ls,
+    caches,
     isPart1Allowed,
     isPart2Allowed,
     responseFromCache,
@@ -360,18 +422,24 @@ function construct_and_send_query(
         var query = {
                 'csrfmiddlewaretoken': selectFieldOfForm(formId,'csrfmiddlewaretoken').val(),
                 '_page_loaded_at': selectFieldOfForm(formId,'_page_loaded_at').val() //todo: camelcase ?????
-            };
+            },
+            query_raw = {};
 
-        if(isPart1Allowed)
+        if(isPart1Allowed){
             query['fieldsToSearchOn'] = JSON.stringify(fieldsToSearchOn);
-        else
+            query_raw['fieldsToSearchOn'] = fieldsToSearchOn;
+        }else{
             query['fieldsToSearchOn'] = JSON.stringify(singleField);
+            query_raw['fieldsToSearchOn'] = singleField;
+        }
 
-        if(isPart2Allowed)
+        if(isPart2Allowed){
             query['currentField'] = fieldName;
+            query_raw['currentField'] = fieldName;
+        }
 
         if(!beingTested)
-            send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisplayTheResult, url);
+            send_query_after_timeout(ls,query,query_raw,caches,responseFromCache,formId, whereToDisplayTheResult, url, fieldName);
         sent_to_server = true;
 
                 //if (reset_current_page) {
@@ -384,7 +452,7 @@ function construct_and_send_query(
                 console.log("verifier le comportement ici");
     }else{
         if(!beingTested)
-            on_search_success(null,responseFromCache,whereToDisplayTheResult, formId, url);
+            on_search_success(null,query_raw,responseFromCache,caches,format_result,whereToDisplayTheResult, formId, url,fieldName);
         sent_to_server = false;
     }
 
@@ -393,7 +461,7 @@ function construct_and_send_query(
         return [query,sent_to_server];
 }
 
-function send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisplayTheResult, url){
+function send_query_after_timeout(ls,query,query_raw,caches,responseFromCache,formId, whereToDisplayTheResult, url, fieldName){
             /*
              If a search is in the queue to be executed while another one is coming,
              prevent the last one
@@ -403,16 +471,15 @@ function send_query_after_timeout(ls,query,responseFromCache,formId, whereToDisp
             }
 
             var send_query_wrapper = function(){
-                send_query_to_server(formId, query, responseFromCache, whereToDisplayTheResult, url);
+                send_query_to_server(formId, query, query_raw, on_search_success, caches, responseFromCache, whereToDisplayTheResult, url, fieldName);
                 ls.timeoutId = false;
             }
 
             // Start search after the type delay
-            console.log("timeout",ls.type_delay);
             ls.timeoutId = setTimeout(send_query_wrapper, ls.type_delay);
 }
 
-function send_query_to_server(formId, request, responseFromCache, whereToDisplayTheResult, url) {
+function send_query_to_server(formId, query, query_raw, callback, caches, responseFromCache, whereToDisplayTheResult, url, fieldName) {
                 // Sometimes requests with no search value get through, double check the length to avoid it
                 //if ($.trim(query.val()).length) {
                     // Display loading icon
@@ -421,82 +488,137 @@ function send_query_to_server(formId, request, responseFromCache, whereToDisplay
                     $.ajax({
                         type: "post",
                         url: ls[formId].urlLiveSearch,
-                        data: request,
+                        data: query,
                         dataType: "json",
-                        success:  function(serverResponse){on_search_success(serverResponse,responseFromCache,whereToDisplayTheResult, formId, url)},
+                        success:  function(serverResponse){callback(
+                                                            serverResponse,
+                                                            query_raw,
+                                                            responseFromCache,
+                                                            caches,
+                                                            format_result,
+                                                            report_error_to_server
+                                                            //whereToDisplayTheResult,
+                                                            //formId,
+                                                            //url,
+                                                            //fieldName
+                                                            )},
                         error:    function(){on_search_error(whereToDisplayTheResult, formId, url)},
                         complete: function(){on_search_complete(whereToDisplayTheResult)}
                     });
 }
 
-function on_search_success(response, /* "héhé!!! "*/e , whereToDisplayTheResult, formId, url){
+function on_search_success(response, query, responseFromCache, caches, process_result, report_error, other_args=null){
 
-                               //AJOUT AU CACHE!!!!
-/*
+                        var result = [null,null];
+                        var order = null;
+                        var matchAll = null, matchCurField = null;
+
+                        console.log(109);
+
+                        if(response != null){
                             if (response.status === 'success') {
-                                var resultObj = $.parseJSON(response.result);
 
-                                // set html result and total pages
-                                var tmp = $(whereToDisplayTheResult.find('.whereToAddTheResultContent')).selector; // it looks dirty but I didn't find any other way to do... :(
-                                $(tmp).html(resultObj.html); //todo: security?
+                                order = response.order;
 
+                                var to_add_to_cache = [];
 
-                                 //If the number of results is zero, hide the footer (pagination)
-                                 //also unbind click and select_result handler
+                                if('matchAll' in response.result && response.result.matchAll.length){
+                                    matchAll = response.result.matchAll;
 
-                                if (resultObj.number_of_results === 0) {
-                                    remove_footer(formId,url);
-                                } else {
+                                    console.log(11112222222);
 
-                                     //If total number of pages is 1 there is no point to have navigation / paging
-
-                                    if (resultObj.total_pages > 1) {
-                                        $("#" + formId + '_ajax_navigation').show();
-                                        $("#" + formId + "_ls_last_page_lbl").html(resultObj.total_pages);
-                                        //console.log("#" + formId + "_ls_last_page_lbl");
-                                    } else {
-                                        // Hide paging
-                                        $("#" + formId + '_ajax_navigation').hide();
-                                    }
-
-
-                                     //Display select options based on the total number of results
-                                     //There is no point to have a option with the value of 10 when there is
-                                     //only 5 results
-
-                                    //remove_select_options(resultObj.number_of_results);
-
-                                    //console.log("où là____")
-
-                                    //$($(whereToDisplayTheResult).selector).on("click", "tr",{'formId': formId, 'url': url}, select_result); //todo: degueulasse
-                                    $($(whereToDisplayTheResult).selector + ' tr').each(function(){ //degueulasse
-                                        $(this).click({'formId': formId, 'url': url, 'objectId': 39}, select_result); //todo: degueulasse
-                                    })
-                                    show_footer(formId);
+                                    addToCache(caches.byFieldsToSearchOn,
+                                        caches.size,
+                                        query.fieldsToSearchOn,
+                                        matchAll,
+                                        {order:order}
+                                    );
                                 }
-                            } else {
-                                // There is an error
-                                var tmp = $(whereToDisplayTheResult.find('.whereToAddTheResultContent')).selector; // it looks dirty but I didn't find any other way to do... :(
-                                $(tmp).html(response.message);
 
-                                remove_footer(formId,url);
+                                if('matchCurField' in response.result && response.result.matchCurField.length){
+                                    matchCurField = response.result.matchCurField;
+                                    to_add_to_cache = clone(matchCurField);
+                                }
+
+                                if('common' in response.result && response.result.common.length){
+                                    if(matchCurField === null)
+                                        matchCurField = [];
+                                    for(c in response.result.common)
+                                        for(var a in matchAll)
+                                            if(response.result.common[c] == matchAll[a].id){
+                                                var c = response.result.matchAll[a];
+                                                matchCurField.push(c);
+                                                to_add_to_cache.push(c);
+                                            }
+                                }
+
+                                if(to_add_to_cache.length)
+                                    addToCache(caches.bySingleField,
+                                        caches.size,
+                                        query.currentField,
+                                        to_add_to_cache,
+                                        {order:order}
+                                        );
+
+                            } else {
+                                return report_error(response.message);
                             }
-*/
+                        }
+
+                        if(matchAll === null)
+                            if(responseFromCache[0] != null)
+                                result[0] = responseFromCache[0].response;
+                        else
+                            result[0] = matchAll;
+
+
+                        if(matchCurField === null)
+                            if(responseFromCache[1] != null)
+                                result[1] = responseFromCache[1].response;
+                        else
+                            result[1] = matchCurField
+
+                        //bon euh la boucle suivante est foireuse :)
+                        if(order === null)
+                            if(!responseFromCache[0] === null)
+                                order = responseFromCache[0].metadata.order;
+                            else if (!responseFromCache[1] === null)
+                                order = responseFromCache[1].metadata.order;
+
+                        console.log("result=",result);
+
+                        if(result[0] != null || result[1] != null)
+                            process_result(result,order,other_args);
+
+                        return null
 }
 
+function report_error_to_server(message){
+    //todo: report error to server
+}
 
- function on_search_error(whereToDisplayTheResult, formId, url) { // todo: tester!
+function addToCache(cache, size, query, response, metadata=null){ //todo: to test
+    var search = findInCache(query, cache);
+    if(search === null){
+        cache.push({query: clone(query), response: clone(response), metadata: clone(metadata)});
+        // todo: if there is one cache by entity (rather than one cache by formtree, then 'metadata' is the same for all elements in the cache. it shall then be placed at the root of the cache rather than on each element)
+        if(cache.length > size)
+            cache.shift();
+    }
+}
+
+function on_search_error(whereToDisplayTheResult, formId, url) { // todo: tester!
                             console.log("Bato!");
                             var tmp = $(whereToDisplayTheResult.find('.whereToAddTheResultContent')).selector; // it looks dirty but I didn't find any other way to do... :(
                             $(tmp).html('Something went wront. Please refresh the page.');
                             remove_footer(formId,url);
 }
 
- function on_search_complete(whereToDisplayTheResult) { // todo: tester!
+function on_search_complete(whereToDisplayTheResult) { // todo: tester!
                             /* Because this is a asynchronous request
                              it may add result even after there is no query in the search field */
                             //if ($.trim(search_object.value).length && result.is(":hidden")) {
-                                show_result(whereToDisplayTheResult);
+                                //show_result(whereToDisplayTheResult);
                                 console.log("revoir ici merci");
                             //}
                             //query.removeClass('ajax_loader');
@@ -525,6 +647,48 @@ var select_result = function (ev) {
         ,49
         ,false)
 };
+
+function format_result(resultObj, currentField, order){ //todo: secu injections
+
+console.log("popopo!!!!",resultObj,currentField,order);
+/*
+    var tableTemplate = "<table>{{tcontent}}</table>",
+        rowTemplate = "<tr>{{rcontent}}</tr>",
+        colTemplate = "<td>{{ccontent}}</td>",
+        tcontent = "";
+
+        for(var obj in resultObj){
+            var o = resultObj[obj],
+                fieldList = [],
+                rcontent = "";
+            for(var field in order)
+                fieldList.push(order[field]);
+            if(order.indexOf(currentField) == -1) //attention; maintenant order est obligatoire, contraitrmeent à pk qui ne tl'était pas
+                fieldList.push(currentField)
+
+            for(var field in fieldList){
+                if(! (fieldList[field] in o)){
+                    rcontent += format_template(colTemplate,{ccontent:""});
+                }else{
+                    var val = o[fieldList[field]] + '';
+                    rcontent += format_template(colTemplate,{ccontent:val});
+                }
+            }
+            tcontent += format_template(rowTemplate,{rcontent:rcontent});
+        }
+        return format_template(tableTemplate,{tcontent:tcontent})*/
+}
+
+function format_template(template,vars){
+    for(var varname in vars){
+        if(typeof vars[varname] != "string")
+            throw Error("vars values must be strings")
+        while(-1 != template.search('{{' + varname + '}}')){
+            template = template.replace('{{' + varname + '}}',vars[varname])
+        }
+    }
+    return template;
+}
 
 function show_result(result) {
     result.slideDown(ls.slide_speed);
@@ -555,6 +719,10 @@ function show_footer(formId) {
     footer.show();
     // add border radius to the last row of the result
     result.find("table").removeClass("border_radius");
+}
+
+function clone(obj) {
+    return $.extend(true, {}, obj)
 }
 
 /////// from : http://www.shamasis.net/2009/09/fast-algorithm-to-find-unique-items-in-javascript-array/

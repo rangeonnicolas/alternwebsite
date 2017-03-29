@@ -30,10 +30,10 @@
                         applyFormConfiguration(
                             '{{  formId   }}',
                             '{{ formName }}',
-                            "{% url 'core_forms.views.post_form' '' %}",
-                            "{% url 'core_forms.views.get_form' '' %}",
-                            "{% url 'core_forms.views.process_livesearch' formName %}",
-                    {#        "{% url 'core_forms.views.process_livesearch_resultdiv' formId %}",  #}
+                            "{% url 'postform' '' %}",
+                            "{% url 'getform' '' %}",
+                            "{% url 'processlivesearch' formName %}",
+                    {#        "{% url 'processlivesearchresultdiv' formId %}",  #}
                             formTreePtrs, formTree
                             {% if qunitTesting %}
                             ,{{ callbackQunitFunction }}
@@ -50,14 +50,12 @@
             {% endif %}
         {% endautoescape %}
     </script>
-
     {% if isEditable %}
         {% if objectBeingModified != None %}
         <div id="{{ formId }}_cancel" style="border:1px solid black;background-color:grey;padding:3px;display:inline-block">{# todo: ask confirmation to the user #}
             Annuler modification
         </div>
         {% endif %}
-
         <form id="{{ formId }}" action="" method="post" class="formBox" style="position:relative;background-color:{% if objectBeingModified != None %}yellow{% else %}white{% endif %};">
             {% if not isRootForm %}
             <!--<div id="{{ formId }}_delete" style="float:right;border:1px solid black;background-color:grey;padding:0 3px;display:inline-block">{# todo: ask confirmation to the user #}

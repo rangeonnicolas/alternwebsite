@@ -43,12 +43,158 @@ var nodes = [{
 }]
 
 ,formTrees = [{
-    formTree: '[{"form_id":"foo","form_name":"alternative","children":{"foo_topics_0":{"form_id":"foo_topics_0","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_habit":{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_otherBehaviour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_topics_1":{"form_id":"foo_topics_1","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_2":{"form_id":"foo_topics_2","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_3":{"form_id":"foo_topics_3","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"}},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"parentFormId":null,"fieldOfParentForm":null}]',
-    formTreePtrs: '{"foo":{"form_id":"foo","form_name":"alternative","children":{"foo_topics_0":{"form_id":"foo_topics_0","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_habit":{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_otherBehaviour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_topics_1":{"form_id":"foo_topics_1","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_2":{"form_id":"foo_topics_2","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_3":{"form_id":"foo_topics_3","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"}},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"parentFormId":null,"fieldOfParentForm":null},"foo_topics_0":{"form_id":"foo_topics_0","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_habit":{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_otherBehaviour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_topics_1":{"form_id":"foo_topics_1","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_2":{"form_id":"foo_topics_2","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_3":{"form_id":"foo_topics_3","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"}}'
+    formTree: '[{"form_id":"foo","form_name":"alternative","children":{"foo_topics_0":{"form_id":"foo_topics_0","form'
+        +'_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"obj'
+        +'ectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_habit":{"form_i'
+        +'d":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edited","is_visible'
+        +'":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":'
+        +'"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useA'
+        +'KindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_beh'
+        +'aviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_'
+        +'behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAK'
+        +'indOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionSt'
+        +'atus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm'
+        +'":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behavi'
+        +'our_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfE'
+        +'ntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":'
+        +'"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"tar'
+        +'get_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_us'
+        +'eAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEnt'
+        +'ity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionSt'
+        +'atus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm'
+        +'":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionSt'
+        +'atus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm'
+        +'":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_e'
+        +'dited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviou'
+        +'r","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_otherBehaviour","fo'
+        +'rm_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValu'
+        +'e":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_topics_1":'
+        +'{"form_id":"foo_topics_1","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":'
+        +'true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"f'
+        +'oo_topics_2":{"form_id":"foo_topics_2","form_name":"topic","children":{},"submissionStatus":"being_edited",'
+        +'"is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentForm'
+        +'Id":"foo"},"foo_topics_3":{"form_id":"foo_topics_3","form_name":"topic","children":{},"submissionStatus":"b'
+        +'eing_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics'
+        +'","parentFormId":"foo"}},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectB'
+        +'eingModified":null,"parentFormId":null,"fieldOfParentForm":null}]',
+    formTreePtrs: '{"foo":{"form_id":"foo","form_name":"alternative","children":{"foo_topics_0":{"form_id":"foo_topic'
+        +'s_0","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue"'
+        +':null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_habit'
+        +'":{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edited","'
+        +'is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","pare'
+        +'ntFormId":"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","form_n'
+        +'ame":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"'
+        +'foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children"'
+        +':{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behav'
+        +'iour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"su'
+        +'bmissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOf'
+        +'ParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo'
+        +'_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_u'
+        +'seAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissi'
+        +'onStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParent'
+        +'Form":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_be'
+        +'haviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_use'
+        +'AKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"su'
+        +'bmissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOf'
+        +'ParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"su'
+        +'bmissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOf'
+        +'ParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus'
+        +'":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"t'
+        +'o_behaviour","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_otherBeha'
+        +'viour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"val'
+        +'idatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"foo_'
+        +'topics_1":{"form_id":"foo_topics_1","form_name":"topic","children":{},"submissionStatus":"being_edited","is'
+        +'_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId"'
+        +':"foo"},"foo_topics_2":{"form_id":"foo_topics_2","form_name":"topic","children":{},"submissionStatus":"bein'
+        +'g_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","'
+        +'parentFormId":"foo"},"foo_topics_3":{"form_id":"foo_topics_3","form_name":"topic","children":{},"submission'
+        +'Status":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModified":null,"fieldOfParentFor'
+        +'m":"topics","parentFormId":"foo"}},"submissionStatus":"being_edited","is_visible":true,"validatedValue":nul'
+        +'l,"objectBeingModified":null,"parentFormId":null,"fieldOfParentForm":null},"foo_topics_0":{"form_id":"foo_t'
+        +'opics_0","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedVa'
+        +'lue":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_to_behaviour_h'
+        +'abit":{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"being_edite'
+        +'d","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","'
+        +'parentFormId":"foo"},"foo_to_behaviour_useAKindOfEntity":{"form_id":"foo_to_behaviour_useAKindOfEntity","fo'
+        +'rm_name":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_i'
+        +'d":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","child'
+        +'ren":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_b'
+        +'ehaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{}'
+        +',"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fie'
+        +'ldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},'
+        +'"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behavio'
+        +'ur_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"subm'
+        +'issionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfPa'
+        +'rentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_t'
+        +'o_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour'
+        +'_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{}'
+        +',"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fie'
+        +'ldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}}'
+        +',"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fie'
+        +'ldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionSt'
+        +'atus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm'
+        +'":"to_behaviour","parentFormId":"foo"},"foo_to_behaviour_otherBehaviour":{"form_id":"foo_to_behaviour_other'
+        +'Behaviour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,'
+        +'"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"},"'
+        +'foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_ent'
+        +'ity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_'
+        +'entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_pro'
+        +'perties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_vi'
+        +'sible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFo'
+        +'rmId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity'
+        +'_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_propertie'
+        +'s_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible"'
+        +':false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":'
+        +'"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_'
+        +'properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_'
+        +'target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_vi'
+        +'sible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFo'
+        +'rmId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_vi'
+        +'sible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties",'
+        +'"parentFormId":"foo_to_behaviour_useAKindOfEntity"},"foo_to_behaviour_useAKindOfEntity_entity_with_properti'
+        +'es_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entit'
+        +'y_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"valida'
+        +'tedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behavi'
+        +'our_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_tar'
+        +'get_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_comp'
+        +'any","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedVal'
+        +'ue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_us'
+        +'eAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_en'
+        +'tity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_associ'
+        +'ation","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"valida'
+        +'tedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behavi'
+        +'our_useAKindOfEntity_entity_with_properties"},"foo_topics_1":{"form_id":"foo_topics_1","form_name":"topic",'
+        +'"children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objectBeingModifie'
+        +'d":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_2":{"form_id":"foo_topics_2","form_n'
+        +'ame":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue":null,"objec'
+        +'tBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"},"foo_topics_3":{"form_id":"foo_topi'
+        +'cs_3","form_name":"topic","children":{},"submissionStatus":"being_edited","is_visible":true,"validatedValue'
+        +'":null,"objectBeingModified":null,"fieldOfParentForm":"topics","parentFormId":"foo"}}'
 }, {
-    useAKindOfEntity: '{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useAKindOfEntity","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_target_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","parentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"}',
-    habit: '{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"uneditable_inbase_object","is_visible":true,"validatedValue":65,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"}',
-    otherBehaviour: '{"form_id":"foo_to_behaviour_otherBehaviour","form_name":"otherBehaviour","children":{},"submissionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"}'
+    useAKindOfEntity: '{"form_id":"foo_to_behaviour_useAKindOfEntity","form_name":"useAKindOfEntity","children":{"foo'
+        +'_to_behaviour_useAKindOfEntity_entity_with_properties":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity'
+        +'_with_properties","form_name":"entityThatHaveProperties","children":{"foo_to_behaviour_useAKindOfEntity_ent'
+        +'ity_with_properties_target_entity_product":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_proper'
+        +'ties_target_entity_product","form_name":"product","children":{},"submissionStatus":"being_edited","is_visib'
+        +'le":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormI'
+        +'d":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_wi'
+        +'th_properties_target_entity_company":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_t'
+        +'arget_entity_company","form_name":"company","children":{},"submissionStatus":"being_edited","is_visible":fa'
+        +'lse,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormId":"fo'
+        +'o_to_behaviour_useAKindOfEntity_entity_with_properties"},"foo_to_behaviour_useAKindOfEntity_entity_with_pro'
+        +'perties_target_entity_association":{"form_id":"foo_to_behaviour_useAKindOfEntity_entity_with_properties_tar'
+        +'get_entity_association","form_name":"association","children":{},"submissionStatus":"being_edited","is_visib'
+        +'le":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"target_entity","parentFormI'
+        +'d":"foo_to_behaviour_useAKindOfEntity_entity_with_properties"}},"submissionStatus":"being_edited","is_visib'
+        +'le":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"entity_with_properties","pa'
+        +'rentFormId":"foo_to_behaviour_useAKindOfEntity"}},"submissionStatus":"being_edited","is_visible":false,"val'
+        +'idatedValue":null,"objectBeingModified":null,"fieldOfParentForm":"to_behaviour","parentFormId":"foo"}',
+    habit: '{"form_id":"foo_to_behaviour_habit","form_name":"habit","children":{},"submissionStatus":"uneditable_inba'
+        +'se_object","is_visible":true,"validatedValue":65,"objectBeingModified":null,"fieldOfParentForm":"to_behavio'
+        +'ur","parentFormId":"foo"}',
+    otherBehaviour: '{"form_id":"foo_to_behaviour_otherBehaviour","form_name":"otherBehaviour","children":{},"submiss'
+        +'ionStatus":"being_edited","is_visible":false,"validatedValue":null,"objectBeingModified":null,"fieldOfParen'
+        +'tForm":"to_behaviour","parentFormId":"foo"}'
 }]
 
 ,livesearchConf = [
@@ -62,37 +208,43 @@ var nodes = [{
                 response: JSON.stringify({
                     totalMatch: [{id:34, label:"Bonjour à tous!"} , {id:0, label: "Ciao!"}],
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
-                query: {name:["good","morning"],description_en:["and","hello","world",'others']},
+                query: {name:["good","morning"],description_en:["and","hello",'others',"world"]},
                 response: JSON.stringify({
                     totalMatch: [{id:39, label:"Ciao tutti!"} , {id:290, label: "-"}],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {name:["good","morning"],description_en:[]},
                 response: JSON.stringify({
                     totalMatch: [{id:39, label:"Ciao tutti!"} , {id:290, label: "-"}],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {name:["lk","llml"],description_en:["pp"]},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {name:[],description_en:["hhhhhhhhhhhhh"]},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             }
         ],
     bySingleField:[
@@ -101,29 +253,41 @@ var nodes = [{
                 response: JSON.stringify({
                     totalMatch: [{id:34, label:"Bonjour à tous!"} , {id:0, label: "Ciao!"}],
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {name:["lk","llml"]},
                 response: JSON.stringify({
                     totalMatch: [{id:39, label:"Ciao tutti!"} , {id:290, label: "-"}],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: [{id:10, label:"Poumpoumpow"}]
-                })
+                }),
+                metadata: {order: ['label','id']}
             },{
                 query: {a:["2","ljlk","lk"]},
                 response: JSON.stringify({
                     totalMatch: [],
                     singleMatch: []
-                })
+                }),
+                metadata: {order: ['label','id']}
             }
     ]
 }
 ;
+
+
+
+
+
+
+clone = get_clone();/////////////////////////////////todo!! il semble que sans cet appel, clone est bien là mais ne fait pas reference a la meme fonction...
+
 
 
 
@@ -146,18 +310,26 @@ QUnit.test("constructErrorList", function(assert) {
         errors: ["Not correct", "second error"],
         expected: "<ul class='errorlist'><li>Not correct</li><li>second error</li></ul>"
     }];
-    for (var e in errors) {
-        assert.equal(constructErrorList(errors[e].field, errors[e].errors),
-            errors[e].expected);
+
+    var data = [];
+    var expected_results = [];
+
+    for (var e in errors){
+        data.push(constructErrorList(errors[e].field, errors[e].errors));
+        expected_results.push(errors[e].expected);
     }
+
+    launch_tests(data,expected_results,assert);
+
 });
 
 QUnit.test("needsToBeSubmited", function(assert) {
-    var expected = [false, true, false, false];
-    var clone = get_clone();
-    for (var n in clone(nodes)) {
-        assert.equal(needsToBeSubmited(nodes[n]), expected[n]);
-    }
+    var expected_results = [false, true, false, false];
+    var data = [];
+    for(var i in nodes)
+        data.push(needsToBeSubmited(nodes[i]));
+
+    launch_tests(data,expected_results,assert);
 });
 
 
@@ -240,7 +412,7 @@ QUnit.test("Temp. ", function(assert) {
 
     control_ajax_query = function control_ajax_query(a, b, c) { // redefinition of global function so that control_steps can access local variable such as current_step, etc.
         control_steps(a, b, c, current_step, steps,
-            cnt_validated_urls_for_current_step);
+            cnt_validated_urls_for_current_step,assert);
     }
 
         $(document).ready(function() {
@@ -332,7 +504,6 @@ QUnit.test("Control formTree for polymorphic foreign key. ", function(assert) {
                 created_objects_ids.habit = response.inbase_object;
     }
 
-
     var afterStep2 = function(urls_of_this_step) {
         var t1 = JSON.parse(formTrees[1].useAKindOfEntity),
             t2 = JSON.parse(formTrees[1].habit),
@@ -377,7 +548,7 @@ QUnit.test("Control formTree for polymorphic foreign key. ", function(assert) {
 
     control_ajax_query = function control_ajax_query(a, b, c) { // redefinition of global function so that control_steps can access local variable such as current_step, etc.
         control_steps(a, b, c, current_step, steps,
-            cnt_validated_urls_for_current_step);
+            cnt_validated_urls_for_current_step,assert);
     }
 
     $(document).ready(function() {
@@ -672,14 +843,16 @@ QUnit.test("Test normalizeWordList",
             "All the words of these sentence are not in alphabetical order!"
         ];
 
-        var expected = [
+        var expected_results = [
             [ "bye", "good", "hello" ],
             [ "all", "alphabetical", "are", "in", "not", "of", "order", "sentence", "the", "these", "words" ]
         ]
 
-        for(var i in strings){
-            assert.deepEqual(normalizeWordList(strings[i],filterWords),expected[i])
-        }
+        var data = [];
+        for(var i in strings)
+            data.push(normalizeWordList(strings[i],filterWords));
+
+        launch_tests(data,expected_results,assert,"deepEqual");
 
     });
 
@@ -785,22 +958,82 @@ QUnit.test("Test findInCache",
             null
         ];
 
-        var expectedResponses = [
-            cache[0].response,
-            cache[1].response,
-            cache[2].response,
-            cache[3].response,
-            null,null,null,
-            cache[1].response,
-            null
+        var expected_results = [
+            cache[0],null,
+            cache[1],null,
+            cache[2],null,
+            cache[3],null,
+            null,null,null,null,null,null,
+            cache[1],null,
+            null,null
         ]
 
+        data = [];
         for(var i in toFindInCache){
-            assert.equal(findInCache(toFindInCache[i], cache), expectedResponses[i]);
-            assert.equal(findInCache(toFindInCache[i], []   ), null);
+            data.push(findInCache(toFindInCache[i], cache));
+            data.push(findInCache(toFindInCache[i], []));
         }
+
+        launch_tests(data,expected_results,assert);
     });
 
+
+QUnit.test("Test format_template",
+    function(assert) {
+        var templates = [
+            "Hello {{var1}}, how are you today {{var1}}??",
+            "I'm {{var2}}, thank you {{var3}}\n" +
+            "What about you {{var3}}?"
+        ]
+        var vars = {
+            var1: "Mike",
+            var2: "fine",
+            'var3': "Hanna"
+        }
+        var expected_results = [
+            'Hello Mike, how are you today Mike??',
+            'I\'m fine, thank you Hanna\nWhat about you Hanna?'
+        ]
+
+        data = [];
+        for(var i in templates)
+            data.push(format_template(templates[i], vars))
+
+        launch_tests(data,expected_results,assert);
+    });
+
+QUnit.test("Test format_result",
+    function(assert) {
+        var obj = [
+            {a:1,b:"bb",c:null},
+            {a:3,c:45,d:"hello"}
+        ];
+        var html_controls=[
+            {tag:"table",
+             children:[
+                {tag:"tr",
+                 children:[
+                    {tag:"td"},
+                    {tag:"td"},
+                    {tag:"td"}
+                 ]
+                },
+                {tag:"tr",
+                 children:[
+                    {tag:"td"},
+                    {tag:"td"},
+                    {tag:"td"}
+                 ]
+                }
+             ]
+            }
+        ]
+        //assert.ok();
+        console.log(check_html([html_controls[0]],undefined,false,format_result(obj, 'c', ['a','b'])));
+        assert.equal(format_result(obj, 'c', ['c','b']), "");
+        assert.equal(format_result(obj, 'f', ['l','b']), "");
+        console.log("REFAIRE ICI!!!"); //todo
+    });
 
 
 
@@ -838,20 +1071,20 @@ QUnit.test("Test construct_and_send_query",
 
         var run_tests = function() { // redefinition of global function so that control_steps can access local variable such as current_step, etc.
 
-            var results = [
-                construct_and_send_query({},true,false,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
-                construct_and_send_query({},true,false,null,{a:"hello"}                ,{a:"hello"},"ff","foo",null,null,true),
-                construct_and_send_query({},true,false,null,{}                         ,{}         ,"ff","foo",null,null,true),
-                construct_and_send_query({},true,false,null,null                       ,null       ,"ff","foo",null,null,true),
-                construct_and_send_query({},true,true ,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
-                construct_and_send_query({},false,true,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
-                construct_and_send_query({},false,false,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
+            var data = [
+                construct_and_send_query({},null,true,false,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
+                construct_and_send_query({},null,true,false,null,{a:"hello"}                ,{a:"hello"},"ff","foo",null,null,true),
+                construct_and_send_query({},null,true,false,null,{}                         ,{}         ,"ff","foo",null,null,true),
+                construct_and_send_query({},null,true,false,null,null                       ,null       ,"ff","foo",null,null,true),
+                construct_and_send_query({},null,true,true ,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
+                construct_and_send_query({},null,false,true,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
+                construct_and_send_query({},null,false,false,null,{a:"hello",b:"world",c:"!"},{a:"hello"},"ff","foo",null,null,true),
             ];
 
             var csrfmiddlewaretoken = selectFieldOfForm('foo','csrfmiddlewaretoken').val(),
                 _page_loaded_at = selectFieldOfForm('foo','_page_loaded_at').val();
 
-            var expected = [
+            var expected_results = [
                 [
                     {
                         fieldsToSearchOn: JSON.stringify({a:"hello",b:"world",c:"!"}),
@@ -890,17 +1123,15 @@ QUnit.test("Test construct_and_send_query",
                 ],
             ];
 
-            for(var i in expected){
-                if(typeof(expected[i][0]) !== 'undefined'){
-                    expected[i][0]['csrfmiddlewaretoken'] = csrfmiddlewaretoken;
-                    expected[i][0]['_page_loaded_at'] = _page_loaded_at;
+            for(var i in expected_results){
+                if(typeof(expected_results[i][0]) !== 'undefined'){
+                    expected_results[i][0]['csrfmiddlewaretoken'] = csrfmiddlewaretoken;
+                    expected_results[i][0]['_page_loaded_at'] = _page_loaded_at;
                 }
             }
 
-            for(var i in results)
-                assert.deepEqual(results[i],expected[i]);
+            launch_tests(data,expected_results,assert,"deepEqual",done);
 
-            done();
         }
 
         control_ajax_query = function control_ajax_query(){};
@@ -919,66 +1150,62 @@ QUnit.test("Test search_query", function(assert) {
 
     var afterStep1 = function(urls_of_this_step) {
 
-        var fieldGroup = getFieldGroup('foo_topics_0', 'name', ['name','description_en']);
-        var results = [];
+        var fieldGroup = getFieldGroup('foo_topics_0', ['name','description_en']);
+        var data = [];
 
-        var search_query_wrapper = function(){
-            return search_query({},queryCaches,filterLengths,filterLengths2,fieldGroup,'foo_topics_0',
-                'name',null,null,true)
+        var search_query_wrapper = function(debug_id){
+            return search_query({},clone(queryCaches),filterLengths,filterLengths2,fieldGroup,'foo_topics_0',
+                'name',null,null,true,debug_id)
         }
 
         $('#foo_topics_0 #id_name').val('t');
         $('#foo_topics_0 #id_description_en').val('t');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
         $('#foo_topics_0 #id_name').val('t');
         $('#foo_topics_0 #id_description_en').val('that\'s the description');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
         $('#foo_topics_0 #id_name').val('this is the name');
         $('#foo_topics_0 #id_description_en').val('that\'s the description');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
         $('#foo_topics_0 #id_name').val('g');
         $('#foo_topics_0 #id_description_en').val('Hhhhhhhhhhhhh');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
         $('#foo_topics_0 #id_name').val('Morning good !!');
         $('#foo_topics_0 #id_description_en').val('Hello world (and others)');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper(1));
 
         $('#foo_topics_0 #id_name').val('   1   ');
         $('#foo_topics_0 #id_description_en').val('Hello world (and others)');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
         $('#foo_topics_0 #id_name').val('llml  lk   ');
         $('#foo_topics_0 #id_description_en').val('pp!');
-        results.push(search_query_wrapper());
+        data.push(search_query_wrapper());
 
 
         var c = [
-            queryCaches.byFieldsToSearchOn[4].response,
-            queryCaches.byFieldsToSearchOn[1].response,
-            queryCaches.bySingleField[0].response,
-            queryCaches.byFieldsToSearchOn[4].response,
-            queryCaches.bySingleField[1].response,
+            queryCaches.byFieldsToSearchOn[5],
+            queryCaches.byFieldsToSearchOn[1],
+            queryCaches.bySingleField[0],
+            queryCaches.byFieldsToSearchOn[4],
+            queryCaches.bySingleField[1],
         ];
 
-        var expected = [
+        var expected_results = [
             [[null,null],false,false,{name:[]}],
             [[null,null],true ,false,{name:[]}],
-            [[null,null],true ,true ,{name:['this','is','the','name']}],
+            [[null,null],true ,true ,{name:['is','name','the','this']}],
             [[c[0],null],false,false,{name:[]}],
             [[c[1],null],false,true ,{name:['good','morning']}],
             [[null,c[2]],true ,false,{name:['1']}],
             [[c[3],c[4]],false,false,{name:['lk','llml']}]
         ];
 
-        for(var i in results)
-            assert.deepEqual(results[i],expected[i]);
-
-        done();
-
+        launch_tests(data,expected_results,assert,'deepEqual',done);
     }
 
     /*var controlStep1 = function(url, urls_of_this_step, response, status, ajaxObject) {
@@ -1015,14 +1242,162 @@ QUnit.test("Test search_query", function(assert) {
 });
 
 
+QUnit.test("Test send_query_to_server",
+    function(assert) {
+
+        var done = assert.async(1)
+
+        var control_result = function(response){
+            console.log(response);
+        }
+
+        var run_tests = function() { // redefinition of global function so that control_steps can access local variable such as current_step, etc.
+
+            var csrfmiddlewaretoken = selectFieldOfForm('foo','csrfmiddlewaretoken').val(),
+                _page_loaded_at = selectFieldOfForm('foo','_page_loaded_at').val();
+
+            var request = {csrfmiddlewaretoken:csrfmiddlewaretoken,_page_loaded_at:_page_loaded_at};
+
+            request['fieldsToSearchOn'] = JSON.stringify({"name":[],"description_en":["ever"]});
+            request['currentField'] = "description_en";
+
+            send_query_to_server("foo_topics_0", request, null, control_result, null, null, null, null);
+            // ===>> controler qu'il recoit le message "too fast!"
+
+            setTimeout(function(){send_query_to_server("foo_topics_0", request, null, control_result, null, null, null, null)}, 3000);
+
+            done();
+        }
+
+        control_ajax_query = function control_ajax_query(a,b,c){
+            if(c.url.indexOf("formId=foo_topics") != -1){
+                run_tests();
+            }
+        };
+
+        $(document).ready(function() {
+            getHtmlFixtureFromServer("/coreforms/dev/alternative?qunitTesting=1&callbackQunitFunction=control_ajax_query",function(){});
+        });
 
 
+    });
+
+
+
+QUnit.test("Test on_search_success",
+    function(assert) {
+
+        var control1 = function(result,order,other_args){
+            other_args = other_args.expected;
+            assert.deepEqual(result,other_args.result  ,"t_"+other_args.test_id+"-test of result");
+            assert.deepEqual(order,other_args.order    ,"t_"+other_args.test_id+"-test of order");
+            assert.deepEqual(caches,other_args.caches  ,"t_"+other_args.test_id+"-test of caches");
+        }
+
+        var control2 = function(error_message){
+            assert.ok(true,"the error was correctly handeled!");
+        }
+
+        var a = {a:"l",b:"kkm",label:"lab"};
+        var b = [{id:1,label:'L'},{id:2,label:'L2'}];
+        var c = [{id:10,label:'L10'},{id:20,label:'L20'},{id:30,label:'L30'}];
+        var d = [{id:3,label:'L3'},{id:1,label:'L'},{id:10,label:'L10'},{id:30,label:'L30'}];
+        var e = [{id:10,label:'L10'},{id:30,label:'L30'}];
+        var f = {order:['label']};
+        var g = [{id:10,label:'L10'},{id:20,label:'L20'}];
+        var h = [{id:3,label:'L3'},{id:1,label:'L'},{id:2,label:'L2'}];
+        var orig_caches = {byFieldsToSearchOn:[],bySingleField:[],size:2};
+        var caches = clone(orig_caches);
+
+        var data_raw = [{
+            'response': null,
+            'query': null,
+            'responseFromCache': [queryCaches.byFieldsToSearchOn[0],queryCaches.bySingleField[1]],
+        },{
+            'response': {status:'success', order:['label'], result:{matchAll:clone(b)}},
+            'query': {fieldsToSearchOn:clone(a)},
+            'responseFromCache': [null,queryCaches.bySingleField[1]],
+        },{
+            'response': {status:'success', order:['label'], result:{matchCurField:clone(b)}},
+            'query': {fieldsToSearchOn:clone(a),currentField:"label"},
+            'responseFromCache': [queryCaches.bySingleField[0],null],
+        },{
+            'response': {status:'success', order:['label'], result:{matchAll:clone(c),common:[10,30],matchCurField:[{id:3,label:'L3'},{id:1,label:'L'}]}},
+            'query': {fieldsToSearchOn:clone(a),currentField:"label"},
+            'responseFromCache': [null,null],
+        },{
+            'response': {status:'success', order:['label'], result:{matchAll:clone(c),common:[10,30]}},
+            'query': {fieldsToSearchOn:clone(a),currentField:"label"},
+            'responseFromCache': [null,null],
+        },{
+            'response': {status:'success', order:['label'], result:{matchAll: clone(g),matchCurField:clone(h)}},
+            'query': {fieldsToSearchOn:clone(a),currentField:"label"},
+            'responseFromCache': [null,null],
+        },{
+            'response': {status:'error',message:'failed!'},
+            'query': null,
+            'responseFromCache': null,
+        }];
+
+        var expected_results_raw = [{
+            'result': [queryCaches.byFieldsToSearchOn[0].response, queryCaches.bySingleField[1].response],
+            'order': ['label','id'],
+            'caches': clone(caches),
+            'test_id': 0
+        },{
+            'result': [clone(b), queryCaches.bySingleField[1].response],
+            'order': ['label'],
+            'test_id': 1,
+            'caches': {byFieldsToSearchOn:[{query:clone(a),response:clone(b),metadata:clone(f)}],bySingleField:[],size:2}
+        },{
+            'result': [queryCaches.byFieldsToSearchOn[0].response, clone(b)],
+            'order': ['label'],
+            'test_id': 2,
+            'caches': {byFieldsToSearchOn:[],bySingleField:[{query:'label',response:b,metadata:clone(f)}],size:2}
+        },{
+            'result': [c , d],
+            'order': ['label'],
+            'test_id': 3,
+            'caches': {byFieldsToSearchOn:[{query:clone(a),response:clone(c),metadata:clone(f)}],bySingleField:[{query:'label',response: clone(d),metadata:clone(f)}],size:2}
+        },{
+            'result': [clone(c) , clone(e)],
+            'order': ['label'],
+            'test_id': 4,
+            'caches': {byFieldsToSearchOn:[{query:clone(a),response:clone(c),metadata:clone(f)}],bySingleField:[{query:'label',response: clone(e),metadata:clone(f)}],size:2}
+        },{
+            'result': [[{id:10,label:'L10'},{id:20,label:'L20'}] , [{id:3,label:'L3'},{id:1,label:'L'},{id:2,label:'L2'}]],
+            'order': ['label'],
+            'test_id': 5,
+            'caches': {byFieldsToSearchOn:[{query:clone(a),response:clone(g),metadata:clone(f)}],bySingleField:[{query:'label',response: clone(h),metadata:clone(f)}],size:2}
+        },{
+            'result': null,
+            'order': null,
+            'caches': clone(caches),
+            'test_id': 6
+        },];
+
+        var wrapper = function(d,ind){
+            caches = clone(orig_caches);
+            return on_search_success(
+                d.response,
+                d.query,
+                d.responseFromCache,
+                caches,
+                control1,
+                control2,
+                {expected:expected_results_raw[ind]})
+        }
+
+        assert.expect(3*6+1);
+        var foo = format_data(wrapper,data_raw)
+
+    });
 
 
 QUnit.test("Control livesearch (THE NAME OF THIS TEST IS NOT SO GOOD)", function(assert) {
 
     var afterStep1 = function(urls_of_this_step) {
-        assert.equal(ls.foo_topics_0, JSON.parse(livesearchConf[0]))
+        //assert.equal(ls.foo_topics_0, JSON.parse(livesearchConf[0]))
     }
 
     /*var controlStep1 = function(url, urls_of_this_step, response, status, ajaxObject) {

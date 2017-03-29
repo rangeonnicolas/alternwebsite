@@ -1,5 +1,5 @@
 <script src="{% static 'core_forms/js/jquery-1.11.1.min.js' %}" type="text/javascript"></script>
-<script src="{% url 'core_forms.views.formJs' %}" type="text/javascript"></script>
+<script src="{% url 'formJs' %}" type="text/javascript"></script>
 
     <script type="text/javascript">
         if(allFormsConf==undefined){
@@ -35,15 +35,15 @@
     var data = {
         'formIdStr': '{{  formId   }}',
         'formName':  '{{ formName  }}',
-        'url':       "{% url 'core_forms.views.model_post_form' '' %}",
-        'url2':      "{% url 'core_forms.views.process_livesearch_resultdiv' formId %}"
+        'url':       "{% url 'modelpostform' '' %}",
+        'url2':      "{% url 'processlivesearchresultdiv' formId %}"
     };
     $('#{{ formId }}_modify').on('click',data,function(a){params=a.data;applyFormConfiguration(params['formIdStr'],params['formName'],params['url'],params['url2'])});
     */
     var data = {
         'formIdStr': '{{  formId   }}',
         'formName':  '{{ formName  }}',
-        'url':       "{% url 'core_forms.views.model_post_form' '' %}",
+        'url':       "{% url 'modelpostform' '' %}", //todo: attention, cette url est commentée dans core_forms/urls.py...
         'objectId':  '{{  objectId }}'
     };
     function modify(e){
