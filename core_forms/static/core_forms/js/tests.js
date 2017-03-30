@@ -1,4 +1,11 @@
 'use strict'
+// Url to run these tests : /coreforms/tests/
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////  VARIABLES   //////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 var control_ajax_query;
 var nodes = [{
     form: null,
@@ -281,20 +288,20 @@ var nodes = [{
 }
 ;
 
-
-
-
-
-
 clone = get_clone();/////////////////////////////////todo!! il semble que sans cet appel, clone est bien là mais ne fait pas reference a la meme fonction...
 
 
 
 
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////  UNIT TESTS FOR modelform.js  /////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QUnit.module( "modelform.js unit tests" );
-
-
 
 QUnit.test("constructErrorList", function(assert) {
     var errors = [{
@@ -333,9 +340,11 @@ QUnit.test("needsToBeSubmited", function(assert) {
 });
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////  FUNCTIONAL TESTS FOR modelform.js  ///////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QUnit.module( "modelform.js functional tests (with server queries)" );
-
-
 
 QUnit.test("Temp. ", function(assert) {
 
@@ -778,7 +787,12 @@ QUnit.test("Control 'Modify object' and then 'cancel modifying'", function(
         });
 
 });
-/////////////////////////////////////////////// LIVESEARCH //////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////  UNIT TESTS FOR livesearch.js WITHOUT SERVER QUERIES //////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 QUnit.module( "livesearch.js unit tests" );
 
 QUnit.test("Test normalizeAndSplit function",
@@ -968,7 +982,7 @@ QUnit.test("Test findInCache",
             null,null
         ]
 
-        data = [];
+        var data = [];
         for(var i in toFindInCache){
             data.push(findInCache(toFindInCache[i], cache));
             data.push(findInCache(toFindInCache[i], []));
@@ -995,7 +1009,7 @@ QUnit.test("Test format_template",
             'I\'m fine, thank you Hanna\nWhat about you Hanna?'
         ]
 
-        data = [];
+        var data = [];
         for(var i in templates)
             data.push(format_template(templates[i], vars))
 
@@ -1035,33 +1049,59 @@ QUnit.test("Test format_result",
         console.log("REFAIRE ICI!!!"); //todo
     });
 
+QUnit.test("Test field_is_present",
+    function(assert){
+        var obj = {
+            HELLO : [1,2,3],
+            GOODBYE : []
+        }
+        var inputs = [
+            {field: 'HELLO'  , object: obj},
+            {field: 'GOODBYE', object: obj},
+            {field: 'NOTHING', object: obj},
+        ];
+        var expected = [true,false,false];
+        for(var i in inputs)
+            assert.equal(field_is_present(inputs[i].field, inputs[i].object), expected[i]);
+    }
+)
+
+QUnit.test("Test is_not_empty",
+    function(assert){
+        var inputs = [
+            {obj: null},
+            {obj: []},
+            {obj: [1]},
+        ];
+        var expected = [false,false,true];
+        for(var i in inputs)
+            assert.equal(is_not_empty(inputs[i].obj), expected[i]);
+    }
+)
+
+QUnit.test("Test pick_elements_from_ids",
+    function(assert){
+        var el = [{id:1, field1:4},{id:2, field1: 3},{id:3, field1:49}];
+        var inputs = [
+            {id_list: [],    element_list: el},
+            {id_list: [2,1], element_list: el},
+        ];
+        var expected = [
+            [],
+            [{id:2, field1: 3},{id:1, field1:4}]
+        ];
+        for(var i in inputs)
+            assert.deepEqual(pick_elements_from_ids(inputs[i].id_list,inputs[i].element_list), expected[i]);
+    }
+)
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////  UNIT TESTS FOR livesearch.js WITH SERVER QUERIES /////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 QUnit.module( "livesearch.js unit tests (with server queries)" );
 
 QUnit.test("Test construct_and_send_query",
@@ -1144,8 +1184,6 @@ QUnit.test("Test construct_and_send_query",
     });
 
 
-
-
 QUnit.test("Test search_query", function(assert) {
 
     var afterStep1 = function(urls_of_this_step) {
@@ -1185,7 +1223,6 @@ QUnit.test("Test search_query", function(assert) {
         $('#foo_topics_0 #id_name').val('llml  lk   ');
         $('#foo_topics_0 #id_description_en').val('pp!');
         data.push(search_query_wrapper());
-
 
         var c = [
             queryCaches.byFieldsToSearchOn[5],
@@ -1432,6 +1469,33 @@ QUnit.test("Control livesearch (THE NAME OF THIS TEST IS NOT SO GOOD)", function
     });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

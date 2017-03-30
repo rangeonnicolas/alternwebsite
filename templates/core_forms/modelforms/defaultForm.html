@@ -5,7 +5,7 @@
                     var data = {
                         formId:   "{{  formId   }}",
                         formName:    "{{ formName  }}",
-                        url:         "{% url 'core_forms.views.get_form' '' %}",
+                        url:         "{% url 'getform' '' %}",
                         parentFormId: {{ parentFormId }},
                         fieldOfParentForm: {{ fieldOfParentForm }},
                         whereToAdd:  "{{    formId    }}_container"

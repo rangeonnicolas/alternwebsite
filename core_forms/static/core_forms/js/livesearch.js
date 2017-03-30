@@ -479,7 +479,7 @@ function send_query_after_timeout(ls,query,query_raw,caches,responseFromCache,fo
             ls.timeoutId = setTimeout(send_query_wrapper, ls.type_delay);
 }
 
-function send_query_to_server(formId, query, query_raw, callback, caches, responseFromCache, whereToDisplayTheResult, url, fieldName) {
+function send_query_to_server(formId, query, query_raw, on_search_success, caches, responseFromCache, whereToDisplayTheResult, url, fieldName) {
                 // Sometimes requests with no search value get through, double check the length to avoid it
                 //if ($.trim(query.val()).length) {
                     // Display loading icon
@@ -490,7 +490,7 @@ function send_query_to_server(formId, query, query_raw, callback, caches, respon
                         url: ls[formId].urlLiveSearch,
                         data: query,
                         dataType: "json",
-                        success:  function(serverResponse){callback(
+                        success:  function(serverResponse){on_search_success(
                                                             serverResponse,
                                                             query_raw,
                                                             responseFromCache,
@@ -508,89 +508,48 @@ function send_query_to_server(formId, query, query_raw, callback, caches, respon
 }
 
 function on_search_success(response, query, responseFromCache, caches, process_result, report_error, other_args=null){
-
-                        var result = [null,null];
-                        var order = null;
+                        var fields_order = null;
                         var matchAll = null, matchCurField = null;
-
-                        console.log(109);
 
                         if(response != null){
                             if (response.status === 'success') {
+                                fields_order = response.order;
 
-                                order = response.order;
-
-                                var to_add_to_cache = [];
-
-                                if('matchAll' in response.result && response.result.matchAll.length){
+                                if(field_is_present('matchAll',response.result))
                                     matchAll = response.result.matchAll;
 
-                                    console.log(11112222222);
-
-                                    addToCache(caches.byFieldsToSearchOn,
-                                        caches.size,
-                                        query.fieldsToSearchOn,
-                                        matchAll,
-                                        {order:order}
-                                    );
-                                }
-
-                                if('matchCurField' in response.result && response.result.matchCurField.length){
+                                if(field_is_present('matchCurField',response.result))
                                     matchCurField = response.result.matchCurField;
-                                    to_add_to_cache = clone(matchCurField);
-                                }
 
-                                if('common' in response.result && response.result.common.length){
+                                if(field_is_present('common',response.result)){
+                                    var elements_in_common = pick_elements_from_ids(response.result.common, matchAll);
                                     if(matchCurField === null)
-                                        matchCurField = [];
-                                    for(c in response.result.common)
-                                        for(var a in matchAll)
-                                            if(response.result.common[c] == matchAll[a].id){
-                                                var c = response.result.matchAll[a];
-                                                matchCurField.push(c);
-                                                to_add_to_cache.push(c);
-                                            }
+                                        matchCurField = elements_in_common;
+                                    else
+                                        matchCurField = matchCurField.concat(elements_in_common)
                                 }
 
-                                if(to_add_to_cache.length)
-                                    addToCache(caches.bySingleField,
-                                        caches.size,
-                                        query.currentField,
-                                        to_add_to_cache,
-                                        {order:order}
-                                        );
+                                update_cache(caches,query,matchAll,matchCurField,fields_order);
 
                             } else {
                                 return report_error(response.message);
                             }
                         }
 
-                        if(matchAll === null)
-                            if(responseFromCache[0] != null)
-                                result[0] = responseFromCache[0].response;
-                        else
-                            result[0] = matchAll;
+                        var result = build_result(matchAll,matchCurField,responseFromCache)
 
-
-                        if(matchCurField === null)
-                            if(responseFromCache[1] != null)
-                                result[1] = responseFromCache[1].response;
-                        else
-                            result[1] = matchCurField
-
-                        //bon euh la boucle suivante est foireuse :)
-                        if(order === null)
-                            if(!responseFromCache[0] === null)
-                                order = responseFromCache[0].metadata.order;
-                            else if (!responseFromCache[1] === null)
-                                order = responseFromCache[1].metadata.order;
-
-                        console.log("result=",result);
+                        if(fields_order === null)
+                            if(responseFromCache[0] != null){
+                                fields_order = responseFromCache[0].metadata.order;
+                            }else{ if (responseFromCache[1] != null)
+                                fields_order = responseFromCache[1].metadata.order;
+                            }
 
                         if(result[0] != null || result[1] != null)
-                            process_result(result,order,other_args);
+                            process_result(result,fields_order,other_args);
 
                         return null
+                        // ICI // pour tester: /coreforms/dev/alternative // debuggage via QUnit ok!
 }
 
 function report_error_to_server(message){
@@ -624,6 +583,62 @@ function on_search_complete(whereToDisplayTheResult) { // todo: tester!
                             //query.removeClass('ajax_loader');
 }
 
+function field_is_present(field, object){
+    return (field in object) && (object[field].length > 0)
+}
+
+function is_not_empty(obj){
+    return (obj != null) && (obj.length > 0)
+}
+
+function pick_elements_from_ids(id_list, element_list){
+                                    var result = [];
+                                    for(var id in id_list)
+                                        for(var elem in element_list)
+                                            if(id_list[id] == element_list[elem].id){
+                                                result.push(element_list[elem]);
+                                            }
+                                    return result
+}
+
+// no need to unit-test: it's donc through the test of "on_search_success"
+function update_cache(caches,query,matchAll,matchCurField,fields_order){
+                                if(is_not_empty(matchAll))
+                                    addToCache(caches.byFieldsToSearchOn,
+                                        caches.size,
+                                        query.fieldsToSearchOn,
+                                        matchAll,
+                                        {order:fields_order}
+                                    );
+                                if(is_not_empty(matchCurField))
+                                    addToCache(caches.bySingleField,
+                                        caches.size,
+                                        query.currentField,
+                                        matchCurField,
+                                        {order:fields_order}
+                                    );
+}
+
+// no need to unit-test: it's donc through the test of "on_search_success"
+function build_result(matchAll,matchCurField,responseFromCache){
+                        var result = [null,null];
+
+                        if(matchAll === null){
+                            if(responseFromCache[0] != null)
+                                result[0] = responseFromCache[0].response;
+                        }else{
+                            result[0] = matchAll;
+                        }
+
+                        if(matchCurField === null){
+                            if(responseFromCache[1] != null)
+                                result[1] = responseFromCache[1].response;
+                        }else{
+                            result[1] = matchCurField;
+                        }
+
+                        return result
+}
 
 
 var select_result = function (ev) {
@@ -650,8 +665,8 @@ var select_result = function (ev) {
 
 function format_result(resultObj, currentField, order){ //todo: secu injections
 
-console.log("popopo!!!!",resultObj,currentField,order);
-/*
+    console.log("popopo",resultObj,currentField,order);
+
     var tableTemplate = "<table>{{tcontent}}</table>",
         rowTemplate = "<tr>{{rcontent}}</tr>",
         colTemplate = "<td>{{ccontent}}</td>",
@@ -676,7 +691,7 @@ console.log("popopo!!!!",resultObj,currentField,order);
             }
             tcontent += format_template(rowTemplate,{rcontent:rcontent});
         }
-        return format_template(tableTemplate,{tcontent:tcontent})*/
+        return format_template(tableTemplate,{tcontent:tcontent})
 }
 
 function format_template(template,vars){

@@ -86,7 +86,7 @@ function getHtmlFixtureFromServer(url, callback=null) {
 }
 
 function get_clone(){
-    return function clone(obj) {console.log(222222222);
+    return function clone(obj) {
         if(isArray(obj))
             return $.extend(true, [], obj)
         else if(typeof(obj) == "string")
